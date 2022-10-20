@@ -1,18 +1,18 @@
-import { createApp } from "vue";
-import App from "./App.vue";
+import { createApp } from 'vue';
+import App from './App.vue';
 
-import { setupRouter } from "./router";
-import { setupStore } from "@/stores";
+import { setupRouter } from './router';
+import { setupStore } from '@/stores';
 
-import { registerGlobComp } from "@/components/registerGlobalComp";
-import { setupGlobDirectives } from "./directives";
+import { registerGlobComp } from '@/components/registerGlobalComp';
+import { setupGlobDirectives } from './directives';
 
 // 新增浏览器适配
-import "lib-flexible";
+import 'lib-flexible';
 // 适配PC端 mouse 事件
-import "@vant/touch-emulator";
+import '@vant/touch-emulator';
 
-import "./assets/main.css";
+import './assets/main.css';
 
 async function bootstrap() {
   const app = createApp(App);
@@ -29,6 +29,6 @@ async function bootstrap() {
   // 注册全局组件
   registerGlobComp(app);
 
-  app.mount("#app");
+  app.mount('#app');
 }
 bootstrap();

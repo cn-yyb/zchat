@@ -1,11 +1,11 @@
-import { fileURLToPath, URL } from "node:url";
+import { fileURLToPath, URL } from 'node:url';
 
-import { loadEnv, type ConfigEnv, type UserConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import vueJsx from "@vitejs/plugin-vue-jsx";
+import { loadEnv, type ConfigEnv, type UserConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import vueJsx from '@vitejs/plugin-vue-jsx';
 
-import Components from "unplugin-vue-components/vite";
-import { VantResolver } from "unplugin-vue-components/resolvers";
+import Components from 'unplugin-vue-components/vite';
+import { VantResolver } from 'unplugin-vue-components/resolvers';
 
 // import { resolve } from "path";
 // function pathResolve(dir: string) {
@@ -18,12 +18,12 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
 
   const env = loadEnv(mode, root);
 
-  const isBuild = command === "build";
+  const isBuild = command === 'build';
 
   console.log(isBuild);
 
   return {
-    base: "/",
+    base: '/',
     root,
     server: {
       https: false,
@@ -42,7 +42,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     ],
     resolve: {
       alias: {
-        "@": fileURLToPath(new URL("./src", import.meta.url)),
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
     },
   };

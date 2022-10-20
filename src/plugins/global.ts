@@ -6,7 +6,7 @@
  * @desc: 全局指令，方法，变量，mixin 注册插件
  */
 
-import type { App, Plugin } from "vue";
+import type { App, Plugin } from 'vue';
 
 const globalPlugin: Plugin = {
   install(_app: App) {},
