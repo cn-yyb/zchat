@@ -1,25 +1,24 @@
-<script setup lang="ts">
-  import { Toast } from 'vant';
-
-  Toast('hhhahahah');
-</script>
-
 <template>
-  <div>
-    <div class="test">Vue-Mobile-Start</div>
-    <div>
-      <van-button type="primary">主要按钮</van-button>
-      <van-button type="success">成功按钮</van-button>
-      <van-button type="default">默认按钮</van-button>
-      <van-button type="warning">警告按钮</van-button>
-      <van-button type="danger">危险按钮</van-button>
-    </div>
-  </div>
+  <van-config-provider :theme-vars="themeVars" class="config-provider">
+    <router-view />
+  </van-config-provider>
 </template>
 
+<script setup lang="ts">
+  const themeVars = {
+    rateIconFullColor: '#7978FF',
+    sliderBarHeight: '4px',
+    sliderButtonWidth: '20px',
+    sliderButtonHeight: '20px',
+    sliderActiveBackgroundColor: '#7978FF',
+    buttonPrimaryBorderColor: '#7978FF',
+    buttonPrimaryBackgroundColor: '#7978FF',
+  };
+</script>
+
 <style lang="less" scoped>
-  .test {
-    font-size: 1rem;
-    text-align: center;
+  .config-provider {
+    height: 100%;
+    width: 100%;
   }
 </style>

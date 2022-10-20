@@ -1,13 +1,13 @@
 @import './base.css';
 
 #app {
-  max-width: 1280px;
+  /* max-width: 1280px;
   margin: 0 auto;
-
-  font-weight: normal;
+  font-weight: normal; */
+  height: 100vh;
 }
 
-a,
+/* a,
 .green {
   text-decoration: none;
   color: hsla(160, 100%, 37%, 1);
@@ -18,4 +18,4 @@ a,
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
   }
-}
+} */

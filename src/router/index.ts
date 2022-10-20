@@ -3,7 +3,18 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [],
+  routes: [
+    {
+      name: 'index',
+      path: '/',
+      redirect: '/login',
+    },
+    {
+      name: 'login',
+      path: '/login',
+      component: () => import('@/views/system/Login/index.vue'),
+    },
+  ],
 });
 
 export function setupRouter(app: App) {
