@@ -23,6 +23,7 @@ module.exports = {
     },
   },
   rules: {
+    "prettier/prettier": ["error", { endOfLine: "auto" }],
     "vue/script-setup-uses-vars": "error",
     "@typescript-eslint/ban-ts-ignore": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
