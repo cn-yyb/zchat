@@ -17,7 +17,7 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="less" scoped>
   .test {
     font-size: 1rem;
     text-align: center;
