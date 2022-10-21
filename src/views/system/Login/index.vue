@@ -16,14 +16,14 @@
           <van-cell-group inset>
             <van-field
               autofocus
-              v-model="username"
+              v-model.trim="loginForm.username"
               name="username"
               label="账户"
               placeholder="请输入账户名或邮箱"
               left-icon="user-o"
             />
             <van-field
-              v-model="password"
+              v-model.trim="loginForm.password"
               type="password"
               name="password"
               label="密码"
@@ -31,8 +31,10 @@
               left-icon="shield-o"
             />
           </van-cell-group>
-          <div style="margin: 16px">
-            <van-button block type="primary" native-type="submit"> 提交 </van-button>
+          <div style="margin: var(--van-padding-md)">
+            <van-button block type="primary" native-type="submit" :loading="loading">
+              提交
+            </van-button>
           </div>
         </van-form>
       </div>
@@ -42,13 +44,49 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue';
+  import { reactive, ref } from 'vue';
+  import { Toast } from 'vant';
+  import { useRouter } from 'vue-router';
 
-  const username = ref('');
-  const password = ref('');
-  const onSubmit = (values) => {
+  interface LoginFormType {
+    username: string;
+    password: string;
+  }
+
+  const router = useRouter();
+
+  const loginForm = reactive<LoginFormType>({
+    username: '',
+    password: '',
+  });
+  const loading = ref(false);
+
+  const onSubmit = (values: LoginFormType) => {
     console.log('submit', values);
+    if (!values.username) {
+      Toast('请输入您的账户名或邮箱');
+      return;
+    } else if (!values.password) {
+      Toast('请输入您的密码');
+    } else {
+      submitLoginForm(values);
+    }
   };
+
+  async function submitLoginForm(formValues: LoginFormType) {
+    try {
+      loading.value = true;
+      console.log(formValues);
+      Toast('正在执行登录验证操作~');
+      router.push('/home');
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setTimeout(() => {
+        loading.value = false;
+      }, 2000);
+    }
+  }
 </script>
 
 <style lang="less" scoped>
@@ -84,6 +122,8 @@
             background-image: -webkit-linear-gradient(top, #fff, #fff, #98a8f8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
           }
           .app-logo {
             height: 1.4rem;
@@ -121,5 +161,9 @@
       left: 0;
       right: 0;
     }
+  }
+
+  :deep(.van-cell-group--inset) {
+    border-radius: 4px;
   }
 </style>
