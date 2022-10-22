@@ -5,10 +5,11 @@
     "src/**/*",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "vite.config.ts"
+    "vite.config.ts",
+    "types/**/*"
   ],
   "exclude": [
-    "src/**/__tests__/*"
+    "src/**/__tests__/*",
   ],
   "compilerOptions": {
     "composite": true,
@@ -16,6 +17,9 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "#/*": [
+        "./types/*"
       ]
     },
     "target": "esnext",

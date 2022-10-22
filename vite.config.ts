@@ -20,7 +20,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
 
   const isBuild = command === 'build';
 
-  console.log(isBuild);
+  console.log(isBuild, mode);
 
   return {
     base: '/',
@@ -43,7 +43,11 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
+        '#': fileURLToPath(new URL('./types', import.meta.url)),
       },
+    },
+    define: {
+      'process.env': env,
     },
   };
 };

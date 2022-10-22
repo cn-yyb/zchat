@@ -47,6 +47,7 @@
   import { reactive, ref } from 'vue';
   import { Toast } from 'vant';
   import { useRouter } from 'vue-router';
+  import { userLogin } from '@/api/modules/login';
 
   interface LoginFormType {
     username: string;
@@ -76,9 +77,9 @@
   async function submitLoginForm(formValues: LoginFormType) {
     try {
       loading.value = true;
-      console.log(formValues);
-      Toast('正在执行登录验证操作~');
-      router.push('/home');
+      const userinfo = await userLogin(formValues);
+      console.log(userinfo);
+      false && router.push('/home');
     } catch (error) {
       console.log(error);
     } finally {
