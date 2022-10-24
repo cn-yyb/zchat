@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2022-10-22 11:25:32
  * @Last Modified by: zq
- * @Last Modified time: 2022-10-24 11:40:29
+ * @Last Modified time: 2022-10-24 13:40:24
  * @desc: 请求实例配置文件
  */
 import type { AxiosTransform, CreateAxiosOptions } from './axiosConfig';
@@ -10,7 +10,7 @@ import { VAxios } from './axiosConfig';
 import { merge, clone } from 'lodash-es';
 import { ContentTypeEnum, RequestEnum, ResultEnum } from '@/constants/enums/httpEnum';
 import type { AxiosResponse } from 'axios';
-import type { RequestOptions, Result } from '#/axios';
+import type { ErrorMessageMode, RequestOptions, Result } from '#/axios';
 import { Notify, Dialog, Toast } from 'vant';
 import { isString } from '@/utils/is';
 import { formatRequestDate, joinTimestamp, setObjToUrlParams } from './helper';
@@ -47,15 +47,13 @@ const transform: AxiosTransform = {
     }
     // 错误的时候返回
     const { data } = res;
-    console.log('axios response: ', res);
+
     if (!data) {
       // return '[HTTP] Request has no return value';
       throw new Error('请求出错，请稍后重试');
     }
     //  这里 code，result，message为 后台统一的字段，需要在 types.ts内修改为项目自己的接口返回格式
-    const { code, msg, data: result } = data as any;
-
-    console.log(code, msg, data);
+    const { code, msg, data: result } = data as Result;
 
     // 这里逻辑可以根据项目进行修改
     // const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
@@ -165,7 +163,7 @@ const transform: AxiosTransform = {
    */
   responseInterceptorsCatch: (_axiosInstance: AxiosResponse, error: any) => {
     const { response, code, message, config } = error || {};
-    const errorMessageMode = config?.requestOptions?.errorMessageMode || 'none';
+    const errorMessageMode: ErrorMessageMode = config?.requestOptions?.errorMessageMode || 'none';
     const msg: string = response?.data?.error?.message ?? '';
     const err: string = error?.toString?.() ?? '';
     let errMessage = '';
@@ -179,12 +177,12 @@ const transform: AxiosTransform = {
       }
 
       if (errMessage) {
-        if (errorMessageMode === 'modal') {
+        if (errorMessageMode === 'dialog') {
           Dialog({ title: '错误提示', message: errMessage });
-        } else if (errorMessageMode === 'message') {
-          Notify({ type: 'danger', message: errorMessageMode });
+        } else if (errorMessageMode === 'notify') {
+          Notify({ type: 'danger', message: errMessage });
         } else if (errorMessageMode === 'toast') {
-          Toast({ message: errorMessageMode });
+          Toast({ message: errMessage });
         }
         return Promise.reject(error);
       }

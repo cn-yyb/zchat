@@ -4,8 +4,9 @@ import App from './App.vue';
 import { setupRouter } from './router';
 import { setupStore } from '@/stores';
 
-import { registerGlobComp } from '@/components/registerGlobalComp';
+import { setupGlobPlugin } from './plugins/global';
 import { setupGlobDirectives } from './directives';
+import { registerGlobComp } from '@/components/registerGlobalComp';
 
 // 新增浏览器适配
 import 'lib-flexible';
@@ -22,6 +23,9 @@ async function bootstrap() {
 
   // 配置路由
   setupRouter(app);
+
+  // 挂载全局插件
+  setupGlobPlugin(app);
 
   // 注册全局指令
   setupGlobDirectives(app);
