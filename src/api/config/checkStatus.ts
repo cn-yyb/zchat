@@ -1,10 +1,10 @@
 import type { ErrorMessageMode } from '#/axios';
-import { Notify, Dialog } from 'vant';
+import { Notify, Dialog, Toast } from 'vant';
 
 export function checkStatus(
   status: number,
   msg: string,
-  errorMessageMode: ErrorMessageMode = 'message',
+  errorMessageMode: ErrorMessageMode = 'notify',
 ) {
   let errMessage = '';
 
@@ -61,10 +61,12 @@ export function checkStatus(
   }
 
   if (errMessage) {
-    if (errorMessageMode === 'modal') {
+    if (errorMessageMode === 'dialog') {
       Dialog({ title: '错误提示', message: errMessage });
-    } else if (errorMessageMode === 'message') {
+    } else if (errorMessageMode === 'notify') {
       Notify({ type: 'danger', message: errorMessageMode });
+    } else if (errorMessageMode === 'toast') {
+      Toast({ message: errorMessageMode });
     }
   }
 }

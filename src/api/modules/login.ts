@@ -9,7 +9,7 @@ enum Api {
  */
 export function userLogin(
   params: { username: string; password: string },
-  mode: ErrorMessageMode = 'modal',
+  mode: ErrorMessageMode = 'notify',
 ) {
   return http.post<any>(
     {

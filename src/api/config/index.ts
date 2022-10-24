@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2022-10-22 11:25:32
  * @Last Modified by: zq
- * @Last Modified time: 2022-10-22 15:28:19
+ * @Last Modified time: 2022-10-24 11:40:29
  * @desc: 请求实例配置文件
  */
 import type { AxiosTransform, CreateAxiosOptions } from './axiosConfig';
@@ -11,7 +11,7 @@ import { merge, clone } from 'lodash-es';
 import { ContentTypeEnum, RequestEnum, ResultEnum } from '@/constants/enums/httpEnum';
 import type { AxiosResponse } from 'axios';
 import type { RequestOptions, Result } from '#/axios';
-import { Notify, Dialog } from 'vant';
+import { Notify, Dialog, Toast } from 'vant';
 import { isString } from '@/utils/is';
 import { formatRequestDate, joinTimestamp, setObjToUrlParams } from './helper';
 import { checkStatus } from './checkStatus';
@@ -53,34 +53,37 @@ const transform: AxiosTransform = {
       throw new Error('请求出错，请稍后重试');
     }
     //  这里 code，result，message为 后台统一的字段，需要在 types.ts内修改为项目自己的接口返回格式
-    const { code: errcode, msg: errmsg, data: result } = data as any;
+    const { code, msg, data: result } = data as any;
+
+    console.log(code, msg, data);
 
     // 这里逻辑可以根据项目进行修改
     // const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
-    if (errcode === 0) {
+    if (code === 0) {
       return result;
     }
 
     // 在此处根据自己项目的实际情况对不同的code执行不同的操作
     // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
     let timeoutMsg = '';
-    switch (errcode) {
+    switch (code) {
       case ResultEnum.TIMEOUT:
         timeoutMsg = '登录超时，请重新登录';
         // 。。。 后续返回登录操作
         break;
       default:
-        if (errmsg) {
-          timeoutMsg = errmsg;
+        if (msg) {
+          timeoutMsg = msg;
         }
     }
 
-    // errorMessageMode=‘modal’的时候会显示modal错误弹窗，而不是消息提示，用于一些比较重要的错误
-    // errorMessageMode='none' 一般是调用时明确表示不希望自动弹出错误提示
-    if (options.errorMessageMode === 'modal') {
+    // dialog 弹窗提示，notify 顶部横栏提示， toast 轻提示
+    if (options.errorMessageMode === 'dialog') {
       Dialog({ title: '错误提示', message: timeoutMsg });
-    } else if (options.errorMessageMode === 'message') {
+    } else if (options.errorMessageMode === 'notify') {
       Notify({ type: 'danger', message: timeoutMsg });
+    } else if (options.errorMessageMode === 'toast') {
+      Toast({ type: 'text', message: timeoutMsg });
     }
 
     throw new Error(timeoutMsg || '请求出错，请稍后重试');
@@ -180,6 +183,8 @@ const transform: AxiosTransform = {
           Dialog({ title: '错误提示', message: errMessage });
         } else if (errorMessageMode === 'message') {
           Notify({ type: 'danger', message: errorMessageMode });
+        } else if (errorMessageMode === 'toast') {
+          Toast({ message: errorMessageMode });
         }
         return Promise.reject(error);
       }
@@ -203,7 +208,6 @@ function createAxios(config: CreateAxiosOptions = {}) {
         timeout: 20 * 1000,
         // 基础接口地址
         // baseURL: globSetting.apiUrl,
-
         headers: { 'Content-Type': ContentTypeEnum.JSON },
         // 如果是form-data格式
         // headers: { 'Content-Type': ContentTypeEnum.FORM_URLENCODED },
@@ -222,7 +226,7 @@ function createAxios(config: CreateAxiosOptions = {}) {
           // 格式化提交参数时间
           formatDate: true,
           // 消息提示类型
-          errorMessageMode: 'message',
+          errorMessageMode: 'notify',
           // 接口地址
           apiUrl: import.meta.env.VITE_GLOB_API_URL,
           // 接口拼接地址
@@ -233,11 +237,6 @@ function createAxios(config: CreateAxiosOptions = {}) {
           ignoreCancelToken: true,
           // 是否携带token
           withToken: true,
-          retryRequest: {
-            isOpenRetry: true,
-            count: 5,
-            waitTime: 100,
-          },
         },
       },
       config,

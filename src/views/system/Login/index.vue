@@ -18,8 +18,8 @@
               autofocus
               v-model.trim="loginForm.username"
               name="username"
-              label="账户"
-              placeholder="请输入账户名或邮箱"
+              label="账号"
+              placeholder="请输入账号或邮箱"
               left-icon="user-o"
             />
             <van-field
@@ -45,7 +45,7 @@
 
 <script lang="ts" setup>
   import { reactive, ref } from 'vue';
-  import { Toast } from 'vant';
+  import { Notify } from 'vant';
   import { useRouter } from 'vue-router';
   import { userLogin } from '@/api/modules/login';
 
@@ -63,12 +63,11 @@
   const loading = ref(false);
 
   const onSubmit = (values: LoginFormType) => {
-    console.log('submit', values);
     if (!values.username) {
-      Toast('请输入您的账户名或邮箱');
+      Notify({ type: 'warning', message: '请输入您的账号或邮箱' });
       return;
     } else if (!values.password) {
-      Toast('请输入您的密码');
+      Notify({ type: 'warning', message: '请输入您的密码' });
     } else {
       submitLoginForm(values);
     }
@@ -79,13 +78,14 @@
       loading.value = true;
       const userinfo = await userLogin(formValues);
       console.log(userinfo);
-      false && router.push('/home');
+      Notify({ type: 'success', message: '登录成功！' });
+      router.push('/home');
     } catch (error) {
       console.log(error);
     } finally {
       setTimeout(() => {
         loading.value = false;
-      }, 2000);
+      }, 500);
     }
   }
 </script>
@@ -165,6 +165,7 @@
   }
 
   :deep(.van-cell-group--inset) {
-    border-radius: 4px;
+    // border-radius: 4px;
+    border-radius: var(--van-border-radius-sm);
   }
 </style>

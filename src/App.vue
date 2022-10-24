@@ -5,15 +5,7 @@
 </template>
 
 <script setup lang="ts">
-  const themeVars = {
-    rateIconFullColor: '#7978FF',
-    sliderBarHeight: '4px',
-    sliderButtonWidth: '20px',
-    sliderButtonHeight: '20px',
-    sliderActiveBackgroundColor: '#7978FF',
-    buttonPrimaryBorderColor: '#7978FF',
-    buttonPrimaryBackgroundColor: '#7978FF',
-  };
+  import { themeVars } from '@/constants/modules/theme';
 </script>
 
 <style lang="less" scoped>
