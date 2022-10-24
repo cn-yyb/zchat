@@ -1,8 +1,8 @@
 /*
  * @Author: zq
  * @Date: 2022-10-24 11:36:27
- * @Last Modified by:   zq
- * @Last Modified time: 2022-10-24 11:36:27
+ * @Last Modified by: zq
+ * @Last Modified time: 2022-10-24 11:42:07
  * vant 全局样式配置文件
  */
 
@@ -14,6 +14,6 @@ export const themeVars = {
   sliderActiveBackgroundColor: '#7978FF',
   buttonPrimaryBorderColor: '#7978FF',
   buttonPrimaryBackgroundColor: '#7978FF',
-  // NavBarBackgroundColor: '#7978FF',
-  // NavBarTitleTextColor: '#fff',
+  NavBarBackgroundColor: '#7978FF',
+  NavBarTitleTextColor: '#fff',
 };
