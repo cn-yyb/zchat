@@ -1,7 +1,7 @@
 <template>
   <div class="app-layout">
     <!-- layout hearder => top nav bar & search & other actions -->
-    <layout-header />
+    <layout-header :title="headerTitle" />
 
     <!-- context body & router view -->
     <router-view />
@@ -14,6 +14,26 @@
 <script lang="ts" setup>
   import LayoutHeader from './components/header/index.vue';
   import LayoutFooter from './components/footer/index.vue';
+  import { ref, watch } from 'vue';
+  import { useRouter } from 'vue-router';
+
+  const router = useRouter();
+  const headerTitle = ref('');
+
+  watch(
+    () => router.currentRoute,
+    (currentRoute) => {
+      if (currentRoute.value.meta?.hiddenTitle) {
+        headerTitle.value = '';
+      } else {
+        headerTitle.value = currentRoute.value.meta?.title;
+      }
+    },
+    {
+      immediate: true,
+      deep: true,
+    },
+  );
 </script>
 
 <style lang="" scoped></style>

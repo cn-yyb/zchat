@@ -6,7 +6,8 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "vite.config.ts",
-    "types/**/*"
+    "types/**/*",
+    "package.json"
   ],
   "exclude": [
     "src/**/__tests__/*",

@@ -1,18 +1,33 @@
 <template>
   <div class="layout-footer">
-    <van-tabbar v-model="active" active-color="primary">
-      <van-tabbar-item icon="home-o">标签</van-tabbar-item>
-      <van-tabbar-item icon="search">标签</van-tabbar-item>
-      <van-tabbar-item icon="friends-o">标签</van-tabbar-item>
-      <van-tabbar-item icon="setting-o">标签</van-tabbar-item>
+    <van-tabbar v-model="activeKey" active-color="primary" route>
+      <van-tabbar-item
+        v-for="tabItem of appStore.getTabbarItems"
+        :key="tabItem.key"
+        :icon="tabItem.icon"
+        :name="tabItem.key"
+        :to="tabItem.path"
+        :dot="tabItem.isShowDot"
+        :badge="tabItem.badge"
+      >
+        {{ tabItem.title }}
+      </van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue';
+  import { useAppStore } from '@/stores/modules/app';
+  import useLocalStorage from '@/hooks/component/useLocalStorage';
 
-  const active = ref(0);
+  const appStore = useAppStore();
+  const activeKey = useLocalStorage<string>(
+    'ACTIVE_TABKEY',
+    appStore.getTabbarItems[0].key || '',
+    (value) => {
+      appStore.layout.activeTab = value || appStore.getTabbarItems[0].key || '';
+    },
+  );
 </script>
 
 <style lang="" scoped></style>

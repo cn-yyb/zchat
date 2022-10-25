@@ -14,12 +14,16 @@ import 'lib-flexible';
 import '@vant/touch-emulator';
 
 import './assets/main.css';
+import { initAppConfig } from './events/initAppConfig';
 
 async function bootstrap() {
   const app = createApp(App);
 
   // 配置 pinia store
   setupStore(app);
+
+  // 初始化系统配置
+  initAppConfig(app);
 
   // 配置路由
   setupRouter(app);

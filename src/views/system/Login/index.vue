@@ -46,15 +46,17 @@
 <script lang="ts" setup>
   import { reactive, ref } from 'vue';
   import { Notify } from 'vant';
-  import { useRouter } from 'vue-router';
-  import { userLogin } from '@/api/modules/login';
+  // import { useRouter } from 'vue-router';
+  // import { userLogin } from '@/api/modules/login';
+  import { useUserStore } from '@/stores/modules/user';
 
   interface LoginFormType {
     username: string;
     password: string;
   }
 
-  const router = useRouter();
+  // const router = useRouter();
+  const userStore = useUserStore();
 
   const loginForm = reactive<LoginFormType>({
     username: '',
@@ -76,10 +78,10 @@
   async function submitLoginForm(formValues: LoginFormType) {
     try {
       loading.value = true;
-      const userinfo = await userLogin(formValues);
+      const userinfo = await userStore.loign(formValues);
       console.log(userinfo);
       Notify({ type: 'success', message: '登录成功！' });
-      router.push('/home');
+      // router.push('/home');
     } catch (error) {
       console.log(error);
     } finally {

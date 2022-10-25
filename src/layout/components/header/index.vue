@@ -1,9 +1,15 @@
 <template>
   <div class="layout-header">
-    <van-nav-bar title="标题" />
+    <van-nav-bar :title="title" />
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+  defineProps({
+    title: {
+      type: String,
+    },
+  });
+</script>
 
 <style lang="" scoped></style>
