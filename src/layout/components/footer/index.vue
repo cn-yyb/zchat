@@ -1,6 +1,6 @@
 <template>
   <div class="layout-footer">
-    <van-tabbar v-model="activeKey" active-color="primary" route>
+    <van-tabbar v-model="activeKey" route safe-area-inset-bottom>
       <van-tabbar-item
         v-for="tabItem of appStore.getTabbarItems"
         :key="tabItem.key"

@@ -1,6 +1,6 @@
 <template>
   <div class="layout-header">
-    <van-nav-bar :title="title" />
+    <van-nav-bar :title="title" safe-area-inset-top />
   </div>
 </template>
 

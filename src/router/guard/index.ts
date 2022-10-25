@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2022-10-24 17:40:31
  * @Last Modified by: zq
- * @Last Modified time: 2022-10-25 13:34:37
+ * @Last Modified time: 2022-10-25 17:28:41
  * @Desc： 路由守卫配置文件
  */
 
@@ -69,7 +69,10 @@ function createPermissionGuard(router: Router) {
     }
   });
 }
-
+/**
+ * 修改页面标题
+ * @param router
+ */
 function createTitleFixGuard(router: Router) {
   router.afterEach((to) => {
     document.title = VITE_GLOB_APP_TITLE + (to.meta.title ? `-${to.meta.title}` : '');

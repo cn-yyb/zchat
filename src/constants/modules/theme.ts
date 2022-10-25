@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2022-10-24 11:36:27
  * @Last Modified by: zq
- * @Last Modified time: 2022-10-24 11:42:07
+ * @Last Modified time: 2022-10-25 18:00:35
  * vant 全局样式配置文件
  */
 
@@ -16,4 +16,5 @@ export const themeVars = {
   buttonPrimaryBackgroundColor: '#7978FF',
   NavBarBackgroundColor: '#7978FF',
   NavBarTitleTextColor: '#fff',
+  TabbarItemActiveColor: '#7978FF',
 };
