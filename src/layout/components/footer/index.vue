@@ -25,7 +25,7 @@
     'ACTIVE_TABKEY',
     appStore.getTabbarItems[0].key || '',
     (value) => {
-      appStore.layout.activeTab = value || appStore.getTabbarItems[0].key || '';
+      appStore.layout.activeTab = value;
     },
   );
 </script>
