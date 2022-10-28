@@ -8,6 +8,3 @@
 
 /public/*
 components.d.ts
-
-build/*
-!build/index.js
