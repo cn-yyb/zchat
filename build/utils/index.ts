@@ -13,7 +13,11 @@ export const getConfigFileName = (env: Record<string, any>) => {
     .replace(/\s/g, '');
 };
 
-// Read all environment variable configuration files to process.env
+/**
+ * 处理环境变量格式
+ * @param envConf 环境变量对象
+ * @returns {ViteEnv} ViteEnv
+ */
 export function wrapperEnv(envConf: Recordable): ViteEnv {
   const ret: any = {};
 

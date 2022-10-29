@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2022-10-26 10:56:48
  * @Last Modified by: zq
- * @Last Modified time: 2022-10-29 17:02:20
+ * @Last Modified time: 2022-10-29 17:06:01
  * @desc: 项目信息文件打包配置项
  */
 import { GLOB_CONFIG_FILE_NAME, OUTPUT_DIR } from '../contants';
@@ -37,7 +37,7 @@ function createConfig(params: CreateConfigParams) {
     console.log(colors.cyan(`✨ [${pkg.name}]`) + ` - configuration file is build successfully!`);
     console.log(colors.gray(OUTPUT_DIR + '/' + colors.green(configFileName)) + '\n');
   } catch (error) {
-    console.log(colors.red('configuration file configuration file failed to package:\n' + error));
+    console.log(colors.red('configuration file failed to package:\n' + error));
   }
 }
 
