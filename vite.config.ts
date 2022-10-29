@@ -1,16 +1,34 @@
+/*
+ * @Author: zq
+ * @Date: 2022-10-29 17:00:54
+ * @Last Modified by:   zq
+ * @Last Modified time: 2022-10-29 17:00:54
+ * @desc: vite 项目配置文件
+ */
+
 import { fileURLToPath, URL } from 'node:url';
 
 import { loadEnv, type ConfigEnv, type UserConfig } from 'vite';
-import vue from '@vitejs/plugin-vue';
-import vueJsx from '@vitejs/plugin-vue-jsx';
 
 import Components from 'unplugin-vue-components/vite';
 import { VantResolver } from 'unplugin-vue-components/resolvers';
+
+import { createVitePlugins } from './build/vite/plugins';
+import { wrapperEnv } from './build/utils';
+import dayjs from 'dayjs';
+import pkg from './package.json';
 
 // import { resolve } from "path";
 // function pathResolve(dir: string) {
 //   return resolve(process.cwd(), ".", dir);
 // }
+
+// 获取项目信息
+const { dependencies, devDependencies, name, version } = pkg;
+const __APP_INFO__ = {
+  pkg: { dependencies, devDependencies, name, version },
+  lastBuildTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+};
 
 // https://vitejs.dev/config/
 export default ({ command, mode }: ConfigEnv): UserConfig => {
@@ -20,21 +38,22 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
 
   const isBuild = command === 'build';
 
-  console.log(isBuild, mode);
+  const viteEnv = wrapperEnv(env);
+
+  const { VITE_PORT, VITE_PUBLIC_PATH } = viteEnv;
 
   return {
-    base: '/',
+    base: VITE_PUBLIC_PATH,
     root,
     server: {
       https: false,
       host: true,
-      port: Number(env.VITE_PORT),
+      port: VITE_PORT,
       // proxy: [],
     },
     plugins: [
-      vue(),
-      // JSX 语法支持
-      vueJsx(),
+      // 挂载项目打包插件
+      ...createVitePlugins(viteEnv, isBuild),
       // vant 组件按需导入
       Components({
         resolvers: [VantResolver()],
@@ -48,6 +67,8 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     },
     define: {
       'process.env': env,
+      __INTLIFY_PROD_DEVTOOLS__: false,
+      __APP_INFO__: JSON.stringify(__APP_INFO__),
     },
   };
 };
