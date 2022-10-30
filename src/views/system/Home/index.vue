@@ -1,13 +1,18 @@
 <template>
   <div class="view-home">
     <van-button @click="handleCountAdd" type="primary"
-      >count：{{ counterStore.$state.count }}</van-button
+      ><template #icon>
+        <Icon icon="ant-design:account-book-outlined" />
+      </template>
+      count：{{ counterStore.$state.count }}</van-button
     >
+    <div> </div>
   </div>
 </template>
 
 <script lang="ts" setup>
   import { useCounterStore } from '@/stores/modules/counter';
+  import { Icon } from '@iconify/vue';
 
   const counterStore = useCounterStore();
 
@@ -17,10 +22,9 @@
 <style lang="less" scoped>
   .view-home {
     display: flex;
-    align-items: center;
     justify-content: center;
     color: #7978ff;
-    font-size: 1rem;
+    // font-size: 1rem;
     font-weight: 700;
     font-style: italic;
     padding: 2rem;

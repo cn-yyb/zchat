@@ -1,17 +1,13 @@
 /*
  * @Author: zq
  * @Date: 2022-10-29 17:00:54
- * @Last Modified by:   zq
- * @Last Modified time: 2022-10-29 17:00:54
+ * @Last Modified by: zq
+ * @Last Modified time: 2022-10-30 18:31:00
  * @desc: vite 项目配置文件
  */
 
 import { fileURLToPath, URL } from 'node:url';
-
 import { loadEnv, type ConfigEnv, type UserConfig } from 'vite';
-
-import Components from 'unplugin-vue-components/vite';
-import { VantResolver } from 'unplugin-vue-components/resolvers';
 
 import { createVitePlugins } from './build/vite/plugins';
 import { wrapperEnv } from './build/utils';
@@ -54,10 +50,6 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     plugins: [
       // 挂载项目打包插件
       ...createVitePlugins(viteEnv, isBuild),
-      // vant 组件按需导入
-      Components({
-        resolvers: [VantResolver()],
-      }),
     ],
     resolve: {
       alias: {
