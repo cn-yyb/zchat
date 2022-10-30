@@ -33,7 +33,7 @@
           </van-cell-group>
           <div style="margin: var(--van-padding-md)">
             <van-button block type="primary" native-type="submit" :loading="loading">
-              提交
+              登录
             </van-button>
           </div>
         </van-form>
