@@ -99,3 +99,5 @@ declare module 'vue' {
     | { new (): ComponentPublicInstance<Props> }
     | FunctionalComponent<Props>;
 }
+
+declare module '~icons/*';
