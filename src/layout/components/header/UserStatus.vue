@@ -13,14 +13,18 @@
       />
     </div>
     <div class="user-status-info" @click="$emit('setOnlineStatus')">
-      <div class="user-nickname">一隅北</div>
+      <div class="user-nickname">{{ autoFix('一隅北啊啊啊啊啊啊啊啊') }}</div>
       <div class="user-online-status"><div class="status-dot"></div> 在线</div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+  import useTextOverFlow from '@/hooks/component/useTextOverFlow';
+
   defineEmits(['showSetting', 'setOnlineStatus']);
+
+  const { autoFix } = useTextOverFlow(6);
 </script>
 
 <style lang="less" scoped>
@@ -37,7 +41,7 @@
       margin-left: 6px;
       color: #fff;
       .user-nickname {
-        // font-size: var(--van-font-size-md);
+        font-size: var(--van-font-size-sm);
         height: auto;
       }
       .user-online-status {

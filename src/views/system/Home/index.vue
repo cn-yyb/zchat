@@ -37,8 +37,8 @@
                   style="display: block; padding: 2px"
                 />
                 <div class="user-simple-info">
-                  <div class="user-nickname">吴彦祖</div>
-                  <div class="new-msg">你食饭了没有啊？</div>
+                  <div class="user-nickname van-ellipsis">{{ autoFix('吴彦祖') }}</div>
+                  <div class="new-msg van-ellipsis">{{ autoFix('你食饭了没有啊？', 20) }}</div>
                 </div>
               </div>
             </template>
@@ -56,8 +56,11 @@
 </template>
 
 <script lang="ts" setup>
-  import { getCalendarDate } from '@/utils/calendarDate';
   import { ref } from 'vue';
+  import { getCalendarDate } from '@/utils/calendarDate';
+  import useTextOverFlow from '@/hooks/component/useTextOverFlow';
+
+  const { autoFix } = useTextOverFlow(12);
 
   const chatList = ref<any[]>([]);
   const isLoading = ref(false);
