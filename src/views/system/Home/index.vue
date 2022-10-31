@@ -20,11 +20,7 @@
         error-text="加载失败，请点击重试"
         @load="onLoad"
       >
-        <!-- <van-cell v-for="item in chatList" :key="item" :title="item" /> -->
         <van-swipe-cell v-for="item in chatList" :key="item" :title="item">
-          <!-- <template #left>
-            <van-button square type="primary" text="选择" />
-          </template> -->
           <template #right>
             <van-button class="right-actions-btn" square type="danger" text="删除" />
             <van-button class="right-actions-btn" square type="primary" text="收藏" />

@@ -1,5 +1,5 @@
 <template>
-  <div> Contacts </div>
+  <van-empty description="Contacts 模块未开发" />
 </template>
 
 <script lang="ts" setup></script>

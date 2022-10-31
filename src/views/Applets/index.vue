@@ -1,5 +1,5 @@
 <template>
-  <div> Applets </div>
+  <van-empty description="Applets 模块未开发" />
 </template>
 
 <script lang="ts" setup></script>

@@ -1,5 +1,5 @@
 <template>
-  <div> User & System Settings </div>
+  <van-empty description="User & System Settings 模块未开发" />
 </template>
 
 <script lang="ts" setup></script>
