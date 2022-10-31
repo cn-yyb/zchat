@@ -25,6 +25,7 @@
   import LayoutHeader from './components/header/index.vue';
   import LayoutFooter from './components/footer/index.vue';
   import UserStatus from './components/header/UserStatus.vue';
+  import RouterView from './page/index.vue';
   import { ref, watch } from 'vue';
   import { useRouter } from 'vue-router';
   import Setting from '@/views/Setting/index.vue';
