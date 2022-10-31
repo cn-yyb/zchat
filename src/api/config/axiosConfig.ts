@@ -8,7 +8,7 @@
 import axios, { AxiosError, type AxiosResponse } from 'axios';
 import type { AxiosInstance, AxiosRequestConfig } from 'axios';
 import type { CreateAxiosOptions } from './axiosTransForm';
-import type { RequestOptions, Result } from '#/axios';
+import type { RequestOptions, Result, UploadFileParams } from '#/axios';
 import { cloneDeep } from 'lodash-es';
 import { isFunction } from '@/utils/is';
 import { ContentTypeEnum, RequestEnum } from '@/constants/enums/httpEnum';
@@ -209,6 +209,45 @@ export class VAxios {
           }
           reject(e);
         });
+    });
+  }
+
+  /**
+   * @description:  File Upload
+   */
+  uploadFile<T = any>(config: AxiosRequestConfig, params: UploadFileParams) {
+    const formData = new window.FormData();
+    const customFilename = params.name || 'file';
+
+    if (params.filename) {
+      formData.append(customFilename, params.file, params.filename);
+    } else {
+      formData.append(customFilename, params.file);
+    }
+
+    if (params.data) {
+      Object.keys(params.data).forEach((key) => {
+        const value = params.data![key];
+        if (Array.isArray(value)) {
+          value.forEach((item) => {
+            formData.append(`${key}[]`, item);
+          });
+          return;
+        }
+
+        formData.append(key, params.data![key]);
+      });
+    }
+
+    return this.instance.request<T>({
+      ...config,
+      method: 'POST',
+      data: formData,
+      headers: {
+        'Content-type': ContentTypeEnum.FORM_DATA,
+        // @ts-ignore
+        // ignoreCancelToken: true,
+      },
     });
   }
 }

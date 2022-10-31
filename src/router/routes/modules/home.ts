@@ -16,6 +16,7 @@ const home: AppRouteModule = {
       component: () => import('@/views/system/Home/index.vue'),
       meta: {
         title: 'Home',
+        // hiddenTitle: true,
       },
     },
   ],

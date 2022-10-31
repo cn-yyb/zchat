@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2022-10-24 15:32:49
  * @Last Modified by: zq
- * @Last Modified time: 2022-10-24 16:26:38
+ * @Last Modified time: 2022-10-26 09:34:07
  * @dsec: 获取环境变量
  */
 import type { GlobEnvConfig } from '#/config';

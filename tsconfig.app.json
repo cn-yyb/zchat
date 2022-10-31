@@ -7,7 +7,8 @@
     "src/**/*.vue",
     "vite.config.ts",
     "types/**/*",
-    "package.json"
+    "package.json",
+    "build/**/*"
   ],
   "exclude": [
     "src/**/__tests__/*",

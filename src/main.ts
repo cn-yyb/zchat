@@ -16,6 +16,11 @@ import '@vant/touch-emulator';
 import './assets/main.css';
 import { initAppConfig } from './events/initAppConfig';
 
+// dayjs 语言配置（后续会进行国际化统一管理）
+import dayjs_cn from 'dayjs/locale/zh-cn';
+import dayjs from 'dayjs';
+dayjs.locale(dayjs_cn);
+
 async function bootstrap() {
   const app = createApp(App);
 

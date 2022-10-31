@@ -33,29 +33,27 @@
           </van-cell-group>
           <div style="margin: var(--van-padding-md)">
             <van-button block type="primary" native-type="submit" :loading="loading">
-              提交
+              登录
             </van-button>
           </div>
         </van-form>
       </div>
     </div>
-    <div class="copyright-info">Copyright © 2011-2022 xx All Rights Reserved.</div>
+    <copyright />
   </div>
 </template>
 
 <script lang="ts" setup>
   import { reactive, ref } from 'vue';
   import { Notify } from 'vant';
-  // import { useRouter } from 'vue-router';
-  // import { userLogin } from '@/api/modules/login';
   import { useUserStore } from '@/stores/modules/user';
+  import copyright from '@/layout/components/copyright/index.vue';
 
   interface LoginFormType {
     username: string;
     password: string;
   }
 
-  // const router = useRouter();
   const userStore = useUserStore();
 
   const loginForm = reactive<LoginFormType>({
@@ -153,16 +151,6 @@
       .login-form {
         margin: 1rem 0 1.4rem;
       }
-    }
-
-    .copyright-info {
-      text-align: center;
-      position: fixed;
-      font-size: 12px;
-      color: #fff;
-      bottom: 4px;
-      left: 0;
-      right: 0;
     }
   }
 

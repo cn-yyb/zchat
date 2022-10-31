@@ -15,6 +15,7 @@ import { Notify, Dialog, Toast } from 'vant';
 import { isString } from '@/utils/is';
 import { formatRequestDate, joinTimestamp, setObjToUrlParams } from './helper';
 import { checkStatus } from './checkStatus';
+import { useUserStore } from '@/stores/modules/user';
 
 // 数据处理中间件 & 拦截器
 const transform: AxiosTransform = {
@@ -113,7 +114,10 @@ const transform: AxiosTransform = {
     } else {
       if (!isString(params)) {
         formatDate && formatRequestDate(params);
-        if (Reflect.has(config, 'data') && config.data && Object.keys(config.data).length > 0) {
+        if (
+          (Reflect.has(config, 'data') && config.data && Object.keys(config.data).length > 0) ||
+          config.headers?.['Content-Type'] === ContentTypeEnum.FORM_DATA
+        ) {
           config.data = data;
           config.params = params;
         } else {
@@ -139,15 +143,17 @@ const transform: AxiosTransform = {
   /**
    * @description: 请求拦截器处理
    */
-  requestInterceptors: (config, _options) => {
+  requestInterceptors: (config, options) => {
     // 请求之前处理config
-    // const token = getToken();
-    // if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
-    //   // jwt token
-    //   (config as Recordable).headers.Authorization = options.authenticationScheme
-    //     ? `${options.authenticationScheme} ${token}`
-    //     : token;
-    // }
+    const userStore = useUserStore();
+    // 绑定 token
+    const token = userStore.getToken;
+    if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
+      // jwt token
+      (config as Recordable).headers.Authorization = options.authenticationScheme
+        ? `${options.authenticationScheme} ${token}`
+        : token;
+    }
     return config;
   },
 
