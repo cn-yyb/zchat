@@ -1,6 +1,6 @@
 <template>
   <div class="user-status">
-    <div class="user-avatar">
+    <div class="user-avatar" :class="{ 'notice-dot': hasDot }">
       <van-image
         round
         width="0.8rem"
@@ -13,7 +13,7 @@
       />
     </div>
     <div class="user-status-info" @click="$emit('setOnlineStatus')">
-      <div class="user-nickname">{{ autoFix('一隅北啊啊啊啊啊啊啊啊') }}</div>
+      <div class="user-nickname">{{ autoFix('一隅北') }}</div>
       <div class="user-online-status"><div class="status-dot"></div> 在线</div>
     </div>
   </div>
@@ -21,6 +21,13 @@
 
 <script lang="ts" setup>
   import useTextOverFlow from '@/hooks/component/useTextOverFlow';
+
+  defineProps({
+    hasDot: {
+      type: Boolean,
+      default: false,
+    },
+  });
 
   defineEmits(['showSetting', 'setOnlineStatus']);
 
@@ -36,6 +43,17 @@
       padding: 2px;
       background-color: #fff;
       border-radius: 50%;
+      &.notice-dot::after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 0.25rem;
+        height: 0.25rem;
+        border-radius: 50%;
+        background-color: #f74c32;
+      }
     }
     .user-status-info {
       margin-left: 6px;
