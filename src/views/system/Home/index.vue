@@ -6,7 +6,6 @@
       </template>
       count：{{ counterStore.$state.count }}</van-button
     >
-    <div> </div>
   </div>
 </template>
 

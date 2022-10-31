@@ -46,8 +46,6 @@
 <script lang="ts" setup>
   import { reactive, ref } from 'vue';
   import { Notify } from 'vant';
-  // import { useRouter } from 'vue-router';
-  // import { userLogin } from '@/api/modules/login';
   import { useUserStore } from '@/stores/modules/user';
 
   interface LoginFormType {
@@ -55,7 +53,6 @@
     password: string;
   }
 
-  // const router = useRouter();
   const userStore = useUserStore();
 
   const loginForm = reactive<LoginFormType>({
