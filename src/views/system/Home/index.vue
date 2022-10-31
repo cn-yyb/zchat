@@ -22,8 +22,8 @@
       >
         <van-swipe-cell v-for="item in chatList" :key="item" :title="item">
           <template #right>
+            <van-button class="right-actions-btn" square type="warning" text="置顶" />
             <van-button class="right-actions-btn" square type="danger" text="删除" />
-            <van-button class="right-actions-btn" square type="primary" text="收藏" />
           </template>
           <van-cell :border="true">
             <template #title>
@@ -34,7 +34,7 @@
                   height="1.2rem"
                   fit="cover"
                   src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
-                  style="display: block"
+                  style="display: block; padding: 2px"
                 />
                 <div class="user-simple-info">
                   <div class="user-nickname">吴彦祖</div>

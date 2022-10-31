@@ -9,16 +9,19 @@
         position="center"
         src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
         style="display: block"
+        @click="$emit('showSetting')"
       />
     </div>
-    <div class="user-status-info">
+    <div class="user-status-info" @click="$emit('setOnlineStatus')">
       <div class="user-nickname">一隅北</div>
       <div class="user-online-status"><div class="status-dot"></div> 在线</div>
     </div>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+  defineEmits(['showSetting', 'setOnlineStatus']);
+</script>
 
 <style lang="less" scoped>
   .user-status {
