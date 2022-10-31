@@ -39,7 +39,7 @@
         </van-form>
       </div>
     </div>
-    <div class="copyright-info">Copyright © 2011-2022 xx All Rights Reserved.</div>
+    <copyright />
   </div>
 </template>
 
@@ -47,6 +47,7 @@
   import { reactive, ref } from 'vue';
   import { Notify } from 'vant';
   import { useUserStore } from '@/stores/modules/user';
+  import copyright from '@/layout/components/copyright/index.vue';
 
   interface LoginFormType {
     username: string;
@@ -150,16 +151,6 @@
       .login-form {
         margin: 1rem 0 1.4rem;
       }
-    }
-
-    .copyright-info {
-      text-align: center;
-      position: fixed;
-      font-size: 12px;
-      color: #fff;
-      bottom: 4px;
-      left: 0;
-      right: 0;
     }
   }
 

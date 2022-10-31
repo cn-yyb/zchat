@@ -42,7 +42,11 @@
                 </div>
               </div>
             </template>
-            <template #value> {{ getCalendarDate() }} </template>
+            <template #value>
+              <span class="date-info">
+                {{ getCalendarDate() }}
+              </span>
+            </template>
           </van-cell>
         </van-swipe-cell>
       </van-list>
@@ -116,6 +120,11 @@
 
     .right-actions-btn {
       height: 100%;
+    }
+
+    .date-info {
+      font-size: var(--van-font-size-sm);
+      color: #ccc;
     }
   }
 </style>

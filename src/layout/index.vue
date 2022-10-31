@@ -1,7 +1,11 @@
 <template>
   <div class="app-layout">
     <!-- layout hearder => top nav bar & search & other actions -->
-    <layout-header :title="headerTitle" />
+    <layout-header :title="headerTitle">
+      <template #left>
+        <user-status />
+      </template>
+    </layout-header>
 
     <!-- context body & router view -->
     <router-view />
@@ -14,6 +18,7 @@
 <script lang="ts" setup>
   import LayoutHeader from './components/header/index.vue';
   import LayoutFooter from './components/footer/index.vue';
+  import UserStatus from './components/header/UserStatus.vue';
   import { ref, watch } from 'vue';
   import { useRouter } from 'vue-router';
 

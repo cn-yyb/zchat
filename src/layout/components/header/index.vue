@@ -1,6 +1,16 @@
 <template>
   <div class="layout-header">
-    <van-nav-bar :title="title" safe-area-inset-top />
+    <van-nav-bar safe-area-inset-top>
+      <template #title>
+        <slot name="title">{{ title }}</slot>
+      </template>
+      <template #left>
+        <slot name="left"></slot>
+      </template>
+      <template #right>
+        <slot name="right"></slot>
+      </template>
+    </van-nav-bar>
   </div>
 </template>
 
