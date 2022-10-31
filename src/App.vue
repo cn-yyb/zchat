@@ -1,11 +1,11 @@
 <template>
-  <van-config-provider :theme-vars="themeVars" class="config-provider">
+  <van-config-provider :theme-vars="THEME_VARS" class="config-provider">
     <router-view />
   </van-config-provider>
 </template>
 
 <script setup lang="ts">
-  import { themeVars } from '@/constants/modules/theme';
+  import { THEME_VARS } from '@/constants/modules/theme';
 </script>
 
 <style lang="less" scoped>

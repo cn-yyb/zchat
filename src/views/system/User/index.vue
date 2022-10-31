@@ -1,5 +1,5 @@
 <template>
-  <van-empty description="Applets 模块未开发" />
+  <van-empty description="User 模块未开发" />
 </template>
 
 <script lang="ts" setup></script>

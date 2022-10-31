@@ -2,19 +2,21 @@
  * @Author: zq
  * @Date: 2022-10-24 11:36:27
  * @Last Modified by: zq
- * @Last Modified time: 2022-10-25 18:00:35
- * vant 全局样式配置文件
+ * @Last Modified time: 2022-10-31 16:25:51
+ * vant 全局样式配置文件 (后续新增主题设置,将维护到 pinia中)
  */
 
-export const themeVars = {
-  rateIconFullColor: '#7978FF',
+export const PRIMARY_COLOR = '#7978FF';
+
+export const THEME_VARS = {
+  rateIconFullColor: PRIMARY_COLOR,
   sliderBarHeight: '4px',
   sliderButtonWidth: '20px',
   sliderButtonHeight: '20px',
-  sliderActiveBackgroundColor: '#7978FF',
-  buttonPrimaryBorderColor: '#7978FF',
-  buttonPrimaryBackgroundColor: '#7978FF',
-  NavBarBackgroundColor: '#7978FF',
+  sliderActiveBackgroundColor: PRIMARY_COLOR,
+  buttonPrimaryBorderColor: PRIMARY_COLOR,
+  buttonPrimaryBackgroundColor: PRIMARY_COLOR,
+  NavBarBackgroundColor: PRIMARY_COLOR,
   NavBarTitleTextColor: '#fff',
-  TabbarItemActiveColor: '#7978FF',
+  TabbarItemActiveColor: PRIMARY_COLOR,
 };
