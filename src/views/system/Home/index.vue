@@ -25,7 +25,7 @@
             <van-button class="right-actions-btn" square type="warning" text="置顶" />
             <van-button class="right-actions-btn" square type="danger" text="删除" />
           </template>
-          <van-cell :border="true">
+          <van-cell :border="true" size="large">
             <template #title>
               <div class="left-container">
                 <van-image
@@ -34,11 +34,11 @@
                   height="1.2rem"
                   fit="cover"
                   src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
-                  style="display: block; padding: 2px"
+                  class="user-avatar"
                 />
                 <div class="user-simple-info">
-                  <div class="user-nickname van-ellipsis">{{ autoFix('吴彦祖') }}</div>
-                  <div class="new-msg van-ellipsis">{{ autoFix('你食饭了没有啊？', 20) }}</div>
+                  <div class="user-nickname">{{ '吴彦祖' }}</div>
+                  <div class="new-msg">{{ '你食饭了没有啊？' }}</div>
                 </div>
               </div>
             </template>
@@ -58,9 +58,6 @@
 <script lang="ts" setup name="HomePage">
   import { ref } from 'vue';
   import { getCalendarDate } from '@/utils/calendarDate';
-  import useTextOverFlow from '@/hooks/component/useTextOverFlow';
-
-  const { autoFix } = useTextOverFlow(12);
 
   const chatList = ref<any[]>([]);
   const isLoading = ref(false);
@@ -98,25 +95,39 @@
 </script>
 
 <style lang="less" scoped>
+  .text-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .home-view {
     padding-bottom: 50px;
 
     .left-container {
       display: flex;
       align-items: center;
+      .user-avatar {
+        // display: block;
+        padding: 2px;
+        flex-shrink: 0;
+      }
 
       .user-simple-info {
         flex: 1;
         height: 100%;
         margin-left: 6px;
+        overflow: hidden;
         .user-nickname {
           font-size: var(--van-font-size-lg);
           color: #222;
           font-weight: 500;
+          .text-overflow();
         }
         .new-msg {
           font-size: var(--van-font-size-sm);
           color: #999;
+          .text-overflow();
         }
       }
     }
@@ -129,5 +140,14 @@
       font-size: var(--van-font-size-sm);
       color: #ccc;
     }
+  }
+
+  :deep(.van-cell__title) {
+    overflow: hidden;
+  }
+
+  :deep(.van-cell__value) {
+    flex: none;
+    margin-left: 10px;
   }
 </style>

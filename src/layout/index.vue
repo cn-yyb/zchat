@@ -17,7 +17,7 @@
     <layout-footer />
 
     <!-- setting page -->
-    <setting ref="settingCompRef" />
+    <user-setting ref="settingCompRef" />
   </div>
 </template>
 
@@ -28,9 +28,9 @@
   import RouterView from './page/index.vue';
   import { ref, watch } from 'vue';
   import { useRouter } from 'vue-router';
-  import Setting from '@/views/Setting/index.vue';
+  import UserSetting from '@/views/system/User/index.vue';
 
-  const settingCompRef = ref<InstanceType<typeof Setting> | null>(null);
+  const settingCompRef = ref<InstanceType<typeof UserSetting> | null>(null);
 
   const showSetting = () => {
     settingCompRef.value?.showSettingPopup();
