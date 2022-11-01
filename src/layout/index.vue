@@ -1,9 +1,10 @@
 <template>
   <div class="app-layout">
     <!-- layout hearder => top nav bar & search & other actions -->
-    <layout-header :title="headerTitle">
+    <layout-header :title="headerTitle" v-if="!$route.meta?.isHiddenNavBar">
       <template #left>
-        <user-status @show-setting="showSetting" />
+        <user-status @show-setting="showSetting" v-if="!$route.meta?.isShowBackBtn" />
+        <van-icon v-else name="arrow-left" size="large" color="#fff" @click="$router.back()" />
       </template>
       <template #right>
         <van-icon name="plus" class="nav-bar-icon" />

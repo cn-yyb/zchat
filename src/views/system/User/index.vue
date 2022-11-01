@@ -70,7 +70,7 @@
 <script lang="ts" setup>
   import { ref } from 'vue';
   import Icon from '@/components/Icon/index.vue';
-  const isShow = ref(true);
+  const isShow = ref(false);
 
   const showSettingPopup = () => (isShow.value = true);
 
@@ -96,9 +96,15 @@
     overflow: hidden;
     .user-base-info {
       display: flex;
+      padding: 18px 0;
+      // border: 1px solid #eee;
+      border-radius: 6px;
+      box-shadow: 0px 0px 1px 1px rgb(0 0 0 / 8%);
       .user-avatar {
-        margin-left: 0.4rem;
+        margin-left: 0.25rem;
         flex-shrink: 0;
+        padding: 4px;
+        border: 1px solid #eee;
       }
 
       .user-bio-info {
@@ -128,7 +134,9 @@
     .action-list {
       flex: 1;
       overflow: auto;
-      margin-top: 20px;
+      margin-top: 10px;
+      box-shadow: 0px 0px 1px 1px rgb(0 0 0 / 8%);
+      border-radius: 6px;
     }
   }
 
@@ -147,7 +155,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      font-size: 0.6rem;
+      font-size: 0.5rem;
       user-select: none;
       cursor: pointer;
       .nav-icon {

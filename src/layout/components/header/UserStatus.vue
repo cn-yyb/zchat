@@ -39,6 +39,7 @@
     display: flex;
     height: 1.2rem;
     align-items: center;
+    transition: all 0.5s;
     .user-avatar {
       padding: 2px;
       background-color: #fff;

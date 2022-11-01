@@ -1,25 +1,21 @@
-import { Layout } from '@/router/constant';
+/*
+ * @Author: zq
+ * @Date: 2022-11-01 17:16:42
+ * @Last Modified by: zq
+ * @Last Modified time: 2022-11-01 17:26:52
+ */
+import { RootRouteComp } from '@/router/constant';
 import type { AppRouteModule } from '@/router/types';
 
-const home: AppRouteModule = {
-  name: 'HomeModule',
-  path: '/home',
-  redirect: '/home',
-  component: Layout,
+const chats: AppRouteModule = {
+  name: 'ChatsModule',
+  path: '/chats',
+  component: RootRouteComp,
+  redirect: '/private',
   meta: {
-    title: 'Home',
+    title: 'chats',
   },
   children: [
-    {
-      path: '',
-      name: 'HomePage',
-      component: () => import('@/views/system/Home/index.vue'),
-      meta: {
-        title: 'Home',
-        // hiddenTitle: true,
-        isKeepAlive: true,
-      },
-    },
     {
       path: 'private',
       name: 'PrivateChat',
@@ -27,7 +23,6 @@ const home: AppRouteModule = {
       meta: {
         title: 'PrivateChat',
         isKeepAlive: true,
-        isShowBackBtn: true,
       },
     },
     {
@@ -37,10 +32,9 @@ const home: AppRouteModule = {
       meta: {
         title: 'GroupChat',
         isKeepAlive: true,
-        isShowBackBtn: true,
       },
     },
   ],
 };
 
-export default home;
+export default chats;

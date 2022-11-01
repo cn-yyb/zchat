@@ -19,13 +19,14 @@
         finished-text="已经到底了 T_T"
         error-text="加载失败，请点击重试"
         @load="onLoad"
+        class="chat-list"
       >
         <van-swipe-cell v-for="item in chatList" :key="item" :title="item">
           <template #right>
             <van-button class="right-actions-btn" square type="warning" text="置顶" />
             <van-button class="right-actions-btn" square type="danger" text="删除" />
           </template>
-          <van-cell :border="true" size="large">
+          <van-cell :border="true" size="large" :to="`/home/private?uid=${item}&type=0`">
             <template #title>
               <div class="left-container">
                 <van-image
@@ -104,6 +105,16 @@
   .home-view {
     padding-bottom: 50px;
 
+    .chat-list {
+      :deep(.van-cell__value) {
+        flex: none;
+        margin-left: 10px;
+      }
+      :deep(.van-cell__title) {
+        overflow: hidden;
+      }
+    }
+
     .left-container {
       display: flex;
       align-items: center;
@@ -140,14 +151,5 @@
       font-size: var(--van-font-size-sm);
       color: #ccc;
     }
-  }
-
-  :deep(.van-cell__title) {
-    overflow: hidden;
-  }
-
-  :deep(.van-cell__value) {
-    flex: none;
-    margin-left: 10px;
   }
 </style>
