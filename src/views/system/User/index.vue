@@ -24,16 +24,52 @@
           >
         </div>
       </div>
-      <div class="action-list"></div>
+      <div class="action-list">
+        <van-cell-group>
+          <van-cell size="large" is-link to="/">
+            <template #title>
+              <Icon icon="iconoir:user" height="0.5rem" />&nbsp; 个人信息
+            </template>
+          </van-cell>
+          <van-cell size="large" is-link to="/">
+            <template #title>
+              <Icon icon="iconoir:heart" height="0.5rem" />&nbsp; 我的收藏
+            </template>
+          </van-cell>
+          <van-cell size="large" is-link to="/">
+            <template #title>
+              <Icon icon="iconoir:folder" height="0.5rem" />&nbsp; 我的文件
+            </template>
+          </van-cell>
+          <van-cell size="large" title="主题设置" is-link to="/">
+            <template #title>
+              <Icon icon="iconoir:discord" height="0.5rem" />&nbsp; 主题设置
+            </template>
+          </van-cell>
+          <van-cell size="large" title="退出登录" is-link to="/">
+            <template #title>
+              <Icon icon="iconoir:log-out" height="0.5rem" />&nbsp; 退出登录
+            </template>
+          </van-cell>
+        </van-cell-group>
+      </div>
     </div>
-    <div class="bottom-tabbar"></div>
+    <div class="bottom-tabbar">
+      <div class="nav-item" @click="() => {}">
+        <van-icon name="setting-o" class="nav-icon" />
+        <div class="nav-title"> 设置 </div>
+      </div>
+      <div class="nav-item" @click="() => {}">
+        <van-icon name="info-o" class="nav-icon" />
+        <div class="nav-title"> 关于 </div>
+      </div>
+    </div>
   </van-popup>
 </template>
 
 <script lang="ts" setup>
   import { ref } from 'vue';
   import Icon from '@/components/Icon/index.vue';
-
   const isShow = ref(true);
 
   const showSettingPopup = () => (isShow.value = true);
@@ -53,10 +89,15 @@
   .user-setting {
     margin-top: 1.2rem;
     padding: 0.2rem;
-    background-color: #eee;
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 1.4rem);
+    padding-bottom: 1.4rem;
+    overflow: hidden;
     .user-base-info {
       display: flex;
       .user-avatar {
+        margin-left: 0.4rem;
         flex-shrink: 0;
       }
 
@@ -81,6 +122,46 @@
 
           .text-overflow();
         }
+      }
+    }
+
+    .action-list {
+      flex: 1;
+      overflow: auto;
+      margin-top: 20px;
+    }
+  }
+
+  .bottom-tabbar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1.4rem;
+    display: flex;
+    background-color: #fff;
+    border-top: 1px solid #eee;
+    .nav-item {
+      box-sizing: border-box;
+      width: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.6rem;
+      user-select: none;
+      cursor: pointer;
+      .nav-icon {
+        flex: 1;
+        display: flex;
+        align-items: center;
+      }
+      .nav-title {
+        font-weight: 500;
+        font-size: 0.3rem;
+      }
+
+      &:active {
+        background-color: #f2f3f5;
       }
     }
   }
