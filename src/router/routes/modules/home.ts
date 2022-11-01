@@ -17,6 +17,7 @@ const home: AppRouteModule = {
       meta: {
         title: 'Home',
         // hiddenTitle: true,
+        isKeepAlive: true,
       },
     },
   ],

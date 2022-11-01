@@ -16,6 +16,7 @@ const contacts: AppRouteModule = {
       component: () => import('@/views/Contacts/index.vue'),
       meta: {
         title: 'Contacts',
+        isKeepAlive: true,
       },
     },
   ],

@@ -55,7 +55,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="HomePage">
   import { ref } from 'vue';
   import { getCalendarDate } from '@/utils/calendarDate';
   import useTextOverFlow from '@/hooks/component/useTextOverFlow';

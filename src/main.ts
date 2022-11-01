@@ -27,9 +27,6 @@ async function bootstrap() {
   // 配置 pinia store
   setupStore(app);
 
-  // 初始化系统配置
-  initAppConfig(app);
-
   // 配置路由
   setupRouter(app);
 
@@ -41,6 +38,9 @@ async function bootstrap() {
 
   // 注册全局组件
   registerGlobComp(app);
+
+  // 初始化系统配置
+  initAppConfig(app);
 
   app.mount('#app');
 }

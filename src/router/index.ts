@@ -2,6 +2,7 @@ import type { App } from 'vue';
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
 import { setupRouterGuard } from './guard';
 import { basicRoutes } from './routes';
+import { useRouteCacheStore } from '@/stores/modules/routeCache';
 
 export * from './routes';
 export * from './constant';
@@ -20,4 +21,8 @@ export function setupRouter(app: App) {
   app.use(router);
   // 挂载路由守卫
   setupRouterGuard(router);
+
+  const routeCacheStore = useRouteCacheStore();
+  // 初始化路由缓存白名单
+  routeCacheStore.initCacheList(router);
 }

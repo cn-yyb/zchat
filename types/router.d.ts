@@ -12,5 +12,7 @@ declare module 'vue-router' {
     menuCode?: string | string[];
     // 是否隐藏头部导航区的标题
     hiddenTitle?: boolean;
+    // 是否缓存当前路由组件
+    isKeepAlive?: boolean;
   }
 }
