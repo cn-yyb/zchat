@@ -24,7 +24,7 @@
     },
   });
 
-  const { autoFix } = useTextOverFlow(6);
+  const { autoFix } = useTextOverFlow(16);
 </script>
 
 <style lang="" scoped></style>
