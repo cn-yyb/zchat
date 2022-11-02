@@ -2,9 +2,9 @@
   <div class="app-layout">
     <!-- layout hearder => top nav bar & search & other actions -->
     <van-sticky>
-      <layout-header :title="headerTitle" v-if="!$route.meta?.isHiddenNavBar">
+      <layout-header :title="headerTitle" v-if="!$route.meta?.hiddenNavBar">
         <template #left>
-          <user-status @show-setting="showSetting" v-if="!$route.meta?.isShowBackBtn" />
+          <user-status @show-setting="showSetting" v-if="!$route.meta?.showBackBtn" />
           <van-icon v-else name="arrow-left" size="large" color="#fff" @click="$router.back()" />
           <user-status
             v-if="$route.name === 'PrivateChat'"
@@ -64,8 +64,12 @@
 </script>
 
 <style lang="less" scoped>
-  .nav-bar-icon {
-    color: #fff;
-    font-size: 0.5rem;
+  .app-layout {
+    .nav-bar-icon {
+      color: #fff;
+      font-size: 0.5rem;
+    }
+    height: 100%;
+    width: 100%;
   }
 </style>

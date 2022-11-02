@@ -15,8 +15,10 @@ declare module 'vue-router' {
     // 是否缓存当前路由组件
     isKeepAlive?: boolean;
     // 是否显示返回按钮
-    isShowBackBtn?: boolean;
+    showBackBtn?: boolean;
     // 是否隐藏顶部navbar
-    isHiddenNavBar?: boolean;
+    hiddenNavBar?: boolean;
+    // 是否隐藏底部导航栏
+    hiddenTabbar?: boolean;
   }
 }

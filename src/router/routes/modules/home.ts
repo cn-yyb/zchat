@@ -27,7 +27,7 @@ const home: AppRouteModule = {
       meta: {
         title: 'PrivateChat',
         isKeepAlive: true,
-        isShowBackBtn: true,
+        showBackBtn: true,
         hiddenTitle: true,
       },
     },
@@ -38,7 +38,7 @@ const home: AppRouteModule = {
       meta: {
         title: 'GroupChat',
         isKeepAlive: true,
-        isShowBackBtn: true,
+        showBackBtn: true,
         hiddenTitle: true,
       },
     },
