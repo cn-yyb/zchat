@@ -2,7 +2,6 @@
   <RouterView>
     <template #default="{ Component, route }">
       <transition name="fade" mode="out-in" appear>
-        <!-- v-if="!route.meta?.ignoreKeepAlive" -->
         <keep-alive :include="cacheList">
           <component :name="route.name" :is="Component" :key="route.fullPath" />
         </keep-alive>
@@ -31,10 +30,10 @@
 
   .fade-enter-from {
     transform: translateX(-20px);
-    opacity: 0;
+    opacity: 1;
   }
   .fade-leave-to {
     transform: translateX(20px);
-    opacity: 0;
+    opacity: 0.5;
   }
 </style>

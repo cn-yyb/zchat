@@ -16,5 +16,7 @@ declare module 'vue-router' {
     isKeepAlive?: boolean;
     // 是否显示返回按钮
     isShowBackBtn?: boolean;
+    // 是否隐藏顶部navbar
+    isHiddenNavBar?: boolean;
   }
 }
