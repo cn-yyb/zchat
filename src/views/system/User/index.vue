@@ -46,7 +46,7 @@
               <Icon icon="iconoir:discord" height="0.5rem" />&nbsp; 主题设置
             </template>
           </van-cell>
-          <van-cell size="large" title="退出登录" is-link to="/">
+          <van-cell size="large" title="退出登录" @click="handleLogout">
             <template #title>
               <Icon icon="iconoir:log-out" height="0.5rem" />&nbsp; 退出登录
             </template>
@@ -70,9 +70,32 @@
 <script lang="ts" setup>
   import { ref } from 'vue';
   import Icon from '@/components/Icon/index.vue';
+  import { useUserStore } from '@/stores/modules/user';
+  import { Dialog } from 'vant';
+
+  const useStore = useUserStore();
+
   const isShow = ref(false);
 
   const showSettingPopup = () => (isShow.value = true);
+
+  const handleLogout = () => {
+    Dialog.confirm({
+      title: '是否退出登录?',
+      beforeClose: (action) =>
+        new Promise((resolve) => {
+          if (action === 'confirm') {
+            setTimeout(() => {
+              useStore.logout();
+              resolve(true);
+            }, 1000);
+          } else {
+            // 拦截取消操作
+            resolve(false);
+          }
+        }),
+    });
+  };
 
   defineExpose({
     showSettingPopup,
