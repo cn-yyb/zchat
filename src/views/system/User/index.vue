@@ -97,9 +97,9 @@
     .user-base-info {
       display: flex;
       padding: 18px 0;
-      // border: 1px solid #eee;
       border-radius: 6px;
-      box-shadow: 0px 0px 1px 1px rgb(0 0 0 / 8%);
+      border: 1px solid rgb(0 0 0 / 8%);
+      box-shadow: 0px 0px 8px 1px rgb(0 0 0 / 8%);
       .user-avatar {
         margin-left: 0.25rem;
         flex-shrink: 0;
@@ -135,8 +135,9 @@
       flex: 1;
       overflow: auto;
       margin-top: 10px;
-      box-shadow: 0px 0px 1px 1px rgb(0 0 0 / 8%);
       border-radius: 6px;
+      border: 1px solid rgb(0 0 0 / 8%);
+      box-shadow: 0px 0px 8px 1px rgb(0 0 0 / 8%);
     }
   }
 
