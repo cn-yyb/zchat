@@ -161,7 +161,7 @@
 
       .self-record {
         display: flex;
-        justify-content: end;
+        justify-content: flex-end;
         padding: 8px;
 
         .user-avatar {
