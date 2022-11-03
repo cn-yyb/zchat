@@ -91,7 +91,7 @@
             }, 1000);
           } else {
             // 拦截取消操作
-            resolve(false);
+            resolve(true);
           }
         }),
     });

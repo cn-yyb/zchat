@@ -1,6 +1,10 @@
 <template>
   <div class="private-chat-page">
     <div class="chat-record" ref="chatRef">
+      <div class="history-loading" v-if="isLoading || isEnd">
+        <van-loading v-if="isLoading && !isEnd" size="0.5rem" />
+        <span v-if="isEnd">已获取全部历史记录</span>
+      </div>
       <template v-for="chatRecord of chatRecordList" :key="chatRecord.created_date">
         <div class="chat-record-item">
           <template v-if="chatRecord.isSelf">
@@ -42,20 +46,13 @@
     <!-- <van-empty description="PrivateChat 模块未开发" /> -->
     <div class="send-area">
       <van-cell-group>
-        <van-field
-          size="large"
-          v-model.trim="sendMsg"
-          clearable
-          autofocus
-          @keydown.enter="handleSend"
-        >
+        <van-field v-model="sendMsg" size="large" clearable autofocus @keydown.enter="handleSend">
           <template #button>
             <van-button
               round
               size="small"
               color="linear-gradient(to right, #be99ff, #7978ff)"
               style="width: 1.6rem"
-              :disabled="!sendMsg"
               @click="handleSend"
             >
               <template #icon>
@@ -70,20 +67,28 @@
 </template>
 
 <script lang="ts" setup name="PrivateChat">
-  import { nextTick, onMounted, ref } from 'vue';
+  import { nextTick, onMounted, onUnmounted, ref } from 'vue';
   import Icon from '@/components/Icon/index.vue';
   import { getChatMockData, type ChatRecordItem } from './mockData';
+  import { toFormateUrls } from '@/utils/url';
 
   const sendMsg = ref<string>('');
   const chatRecordList = ref<ChatRecordItem[]>([]);
   const chatRef = ref<HTMLDivElement | null>(null);
+  const isLoading = ref(false);
+  const isEnd = ref(false);
+  const valveRef = ref(true);
+
+  const requestCount = ref(0);
+
   chatRecordList.value = getChatMockData();
 
   const handleSend = () => {
+    console.log(sendMsg.value);
     chatRecordList.value.push({
       nickname: 'xx',
       avatar: '',
-      content: sendMsg.value,
+      content: toFormateUrls(sendMsg.value, undefined, 'word-break: break-all;'),
       created_date: new Date().toLocaleTimeString(),
       isSelf: true,
       isEndTime: false,
@@ -94,8 +99,37 @@
     });
   };
 
+  function chatRefSrcollEvent(e: Event) {
+    const target = e.target as HTMLDivElement;
+    if (target.scrollTop === 0 && valveRef.value && !isEnd.value) {
+      valveRef.value = false;
+      isLoading.value = true;
+      // 尝试获取历史数据...
+      setTimeout(() => {
+        chatRecordList.value = [...getChatMockData().slice(0, 5), ...chatRecordList.value];
+        // 状态处理
+        isLoading.value = false;
+
+        requestCount.value++;
+        requestCount.value === 4 && (isEnd.value = true);
+        // 重新打开阀门
+        valveRef.value = true;
+
+        nextTick(() => {
+          chatRef.value!.scrollTop = 0;
+        });
+      }, 2000);
+    }
+  }
+
   onMounted(() => {
     chatRef.value!.scrollTop = chatRef.value!.scrollHeight;
+    // 监听消息区域滚动事件
+    chatRef.value?.addEventListener('scroll', chatRefSrcollEvent);
+  });
+
+  onUnmounted(() => {
+    chatRef.value?.removeEventListener('scroll', chatRefSrcollEvent);
   });
 </script>
 
@@ -116,6 +150,15 @@
     .chat-record {
       flex: 1;
       overflow-y: auto;
+
+      .history-loading {
+        margin: 8px 0;
+        text-align: center;
+        font-size: var(--van-font-size-xs);
+        color: #999;
+        height: 0.5rem;
+      }
+
       .self-record {
         display: flex;
         justify-content: end;
@@ -129,15 +172,14 @@
         }
 
         .chat-record-content {
-          display: flex;
-          align-items: center;
           padding: 6px;
           margin-left: 1.4133rem;
           border-radius: 4px;
           background-color: #7978ff;
           color: #fff;
           font-size: var(--van-font-size-md);
-          word-break: break-all;
+          word-wrap: break-word;
+          white-space: pre-wrap;
         }
       }
 
@@ -152,15 +194,14 @@
         }
 
         .chat-record-content {
-          display: flex;
-          align-items: center;
           padding: 6px;
           margin-right: 1.4133rem;
           border-radius: 4px;
           background-color: #fff;
           color: #222;
           font-size: var(--van-font-size-md);
-          word-break: break-all;
+          word-wrap: break-word;
+          white-space: pre-wrap;
         }
       }
 

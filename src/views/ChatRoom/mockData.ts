@@ -2,9 +2,10 @@
  * @Author: zq
  * @Date: 2022-11-02 15:46:28
  * @Last Modified by: zq
- * @Last Modified time: 2022-11-02 16:45:40
+ * @Last Modified time: 2022-11-03 12:05:11
  */
 import { getCalendarDate } from '@/utils/calendarDate';
+import { toFormateUrls } from '@/utils/url';
 import dayjs from 'dayjs';
 
 export interface ChatRecordItem {
@@ -38,7 +39,11 @@ export function getChatMockData(): ChatRecordItem[] {
       created_date: getCalendarDate(dayjs(+new Date() + i * 20000).format('YYYY-MM-DD HH:mm:ss')),
       isEndTime: i % 5 === 0,
       isSelf: i % 3 === 0,
-      content: chatContent[Math.floor(Math.random() * 10)],
+      content: toFormateUrls(
+        chatContent[Math.floor(Math.random() * 10)],
+        undefined,
+        'word-break: break-all;',
+      ),
     }));
 }
 
