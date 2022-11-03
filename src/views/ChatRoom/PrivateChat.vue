@@ -46,7 +46,7 @@
     <!-- <van-empty description="PrivateChat 模块未开发" /> -->
     <div class="send-area">
       <van-cell-group>
-        <van-field v-model="sendMsg" size="large" clearable autofocus @keydown.enter="handleSend">
+        <van-field ref="sendInputRef" v-model.trim="sendMsg" type="textarea" rows="1" autosize>
           <template #button>
             <van-button
               round
@@ -71,7 +71,9 @@
   import Icon from '@/components/Icon/index.vue';
   import { getChatMockData, type ChatRecordItem } from './mockData';
   import { toFormateUrls } from '@/utils/url';
+  import type { FieldInstance } from 'vant';
 
+  const sendInputRef = ref<FieldInstance | null>(null);
   const sendMsg = ref<string>('');
   const chatRecordList = ref<ChatRecordItem[]>([]);
   const chatRef = ref<HTMLDivElement | null>(null);
@@ -84,6 +86,9 @@
   chatRecordList.value = getChatMockData();
 
   const handleSend = () => {
+    if (!sendMsg.value) {
+      return;
+    }
     console.log(sendMsg.value);
     chatRecordList.value.push({
       nickname: 'xx',
@@ -96,6 +101,7 @@
     sendMsg.value = '';
     nextTick(() => {
       chatRef.value!.scrollTop = chatRef.value!.scrollHeight;
+      sendInputRef.value?.focus();
     });
   };
 
@@ -161,7 +167,7 @@
 
       .self-record {
         display: flex;
-        justify-content: end;
+        justify-content: flex-end;
         padding: 8px;
 
         .user-avatar {
@@ -180,7 +186,7 @@
           background-color: #7978ff;
           color: #fff;
           font-size: var(--van-font-size-md);
-          word-wrap: break-word;
+          word-break: break-all;
           white-space: pre-wrap;
         }
       }
@@ -204,7 +210,7 @@
           background-color: #fff;
           color: #222;
           font-size: var(--van-font-size-md);
-          word-wrap: break-word;
+          word-break: break-all;
           white-space: pre-wrap;
         }
       }
@@ -220,12 +226,16 @@
     .send-area {
       background-color: #fff;
       flex-shrink: 0;
-      :deep(.van-field__body) {
-        background-color: @default-bgc;
-        border-radius: var(--van-field-text-area-min-height);
-      }
       :deep(.van-field__control) {
+        border-radius: 4px;
         padding-left: 0.4rem;
+        line-height: 0.88rem;
+        min-height: 0.88rem;
+        max-height: 1.6rem;
+        background-color: @default-bgc;
+      }
+      :deep(.van-field__button) {
+        align-self: flex-end;
       }
     }
   }

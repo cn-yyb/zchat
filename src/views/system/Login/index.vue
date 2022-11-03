@@ -112,7 +112,7 @@
     .login-container {
       .login-header {
         text-align: center;
-        padding: 1.8rem 0 1.2rem;
+        padding: 1.2rem 0 1.2rem;
         .login-logo-title {
           display: flex;
           align-items: center;
