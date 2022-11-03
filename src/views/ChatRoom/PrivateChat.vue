@@ -9,7 +9,7 @@
         <div class="chat-record-item">
           <template v-if="chatRecord.isSelf">
             <div class="self-record">
-              <div class="chat-record-content" v-html="chatRecord.content"> </div>
+              <div class="chat-record-content"><span v-html="chatRecord.content"></span></div>
               <van-image
                 round
                 fit="cover"
@@ -33,7 +33,7 @@
                 :src="chatRecord.avatar"
                 class="user-avatar"
               />
-              <div class="chat-record-content" v-html="chatRecord.content"></div>
+              <div class="chat-record-content"><span v-html="chatRecord.content"></span></div>
             </div>
 
             <template v-if="chatRecord.isEndTime">
@@ -172,6 +172,8 @@
         }
 
         .chat-record-content {
+          display: flex;
+          align-items: center;
           padding: 6px;
           margin-left: 1.4133rem;
           border-radius: 4px;
@@ -194,6 +196,8 @@
         }
 
         .chat-record-content {
+          display: flex;
+          align-items: center;
           padding: 6px;
           margin-right: 1.4133rem;
           border-radius: 4px;
