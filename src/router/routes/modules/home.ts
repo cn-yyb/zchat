@@ -17,6 +17,29 @@ const home: AppRouteModule = {
       meta: {
         title: 'Home',
         // hiddenTitle: true,
+        isKeepAlive: true,
+      },
+    },
+    {
+      path: 'private',
+      name: 'PrivateChat',
+      component: () => import('@/views/ChatRoom/PrivateChat.vue'),
+      meta: {
+        title: 'PrivateChat',
+        isKeepAlive: true,
+        showBackBtn: true,
+        hiddenTitle: true,
+      },
+    },
+    {
+      path: 'group',
+      name: 'GroupChat',
+      component: () => import('@/views/ChatRoom/GroupChat.vue'),
+      meta: {
+        title: 'GroupChat',
+        isKeepAlive: true,
+        showBackBtn: true,
+        hiddenTitle: true,
       },
     },
   ],

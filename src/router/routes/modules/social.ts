@@ -16,6 +16,7 @@ const social: AppRouteModule = {
       component: () => import('@/views/Social/index.vue'),
       meta: {
         title: 'Social',
+        isKeepAlive: true,
       },
     },
   ],

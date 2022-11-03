@@ -1,14 +1,22 @@
 <template>
   <div class="app-layout">
     <!-- layout hearder => top nav bar & search & other actions -->
-    <layout-header :title="headerTitle">
-      <template #left>
-        <user-status @show-setting="showSetting" />
-      </template>
-      <template #right>
-        <van-icon name="plus" class="nav-bar-icon" />
-      </template>
-    </layout-header>
+    <van-sticky>
+      <layout-header :title="headerTitle" v-if="!$route.meta?.hiddenNavBar">
+        <template #left>
+          <user-status @show-setting="showSetting" v-if="!$route.meta?.showBackBtn" />
+          <van-icon v-else name="arrow-left" size="large" color="#fff" @click="$router.back()" />
+          <user-status
+            v-if="$route.name === 'PrivateChat'"
+            is-hidden-avatar
+            :user-status="{ nickname: '张三', status: '离线' }"
+          />
+        </template>
+        <template #right>
+          <van-icon name="plus" class="nav-bar-icon" />
+        </template>
+      </layout-header>
+    </van-sticky>
 
     <!-- context body & router view -->
     <router-view />
@@ -17,7 +25,7 @@
     <layout-footer />
 
     <!-- setting page -->
-    <setting ref="settingCompRef" />
+    <user-setting ref="settingCompRef" />
   </div>
 </template>
 
@@ -28,9 +36,9 @@
   import RouterView from './page/index.vue';
   import { ref, watch } from 'vue';
   import { useRouter } from 'vue-router';
-  import Setting from '@/views/Setting/index.vue';
+  import UserSetting from '@/views/system/User/index.vue';
 
-  const settingCompRef = ref<InstanceType<typeof Setting> | null>(null);
+  const settingCompRef = ref<InstanceType<typeof UserSetting> | null>(null);
 
   const showSetting = () => {
     settingCompRef.value?.showSettingPopup();
@@ -56,8 +64,12 @@
 </script>
 
 <style lang="less" scoped>
-  .nav-bar-icon {
-    color: #fff;
-    font-size: 0.5rem;
+  .app-layout {
+    .nav-bar-icon {
+      color: #fff;
+      font-size: 0.5rem;
+    }
+    height: 100%;
+    width: 100%;
   }
 </style>

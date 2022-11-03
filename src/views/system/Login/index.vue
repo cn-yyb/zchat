@@ -21,6 +21,8 @@
               label="账号"
               placeholder="请输入账号或邮箱"
               left-icon="user-o"
+              autocomplete="username"
+              label-width="1.2rem"
             />
             <van-field
               v-model.trim="loginForm.password"
@@ -29,6 +31,8 @@
               label="密码"
               placeholder="请输入密码"
               left-icon="shield-o"
+              autocomplete="current-password"
+              label-width="1.2rem"
             />
           </van-cell-group>
           <div style="margin: var(--van-padding-md)">

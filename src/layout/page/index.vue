@@ -2,15 +2,21 @@
   <RouterView>
     <template #default="{ Component, route }">
       <transition name="fade" mode="out-in" appear>
-        <keep-alive v-if="!route.meta?.ignoreKeepAlive">
-          <component :is="Component" :key="route.fullPath" />
+        <keep-alive :include="cacheList">
+          <component :name="route.name" :is="Component" :key="route.fullPath" />
         </keep-alive>
-        <component v-else :is="Component" :key="route.fullPath" />
+        <!-- <component v-else :is="Component" :key="route.fullPath" /> -->
       </transition>
     </template>
   </RouterView>
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+  import { useRouteCacheStore } from '@/stores/modules/routeCache';
+
+  const routeCacheStore = useRouteCacheStore();
+
+  const cacheList = routeCacheStore.getCacheList;
+</script>
 
 <style lang="less" scoped>
   .fade-enter-active {
@@ -24,10 +30,10 @@
 
   .fade-enter-from {
     transform: translateX(-20px);
-    opacity: 0;
+    opacity: 1;
   }
   .fade-leave-to {
     transform: translateX(20px);
-    opacity: 0;
+    opacity: 0.5;
   }
 </style>
