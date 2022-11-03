@@ -16,6 +16,7 @@ const applets: AppRouteModule = {
       component: () => import('@/views/Applets/index.vue'),
       meta: {
         title: 'Applets',
+        isKeepAlive: true,
       },
     },
   ],

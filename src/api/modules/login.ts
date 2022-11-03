@@ -11,6 +11,9 @@ export function userLogin(
   params: { username: string; password: string },
   mode: ErrorMessageMode = 'notify',
 ) {
+  return Promise.resolve({
+    token: Date.now(),
+  });
   return http.post<any>(
     {
       url: Api.LOGIN,

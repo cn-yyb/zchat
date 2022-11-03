@@ -1,6 +1,6 @@
 <template>
   <div class="user-status">
-    <div class="user-avatar" :class="{ 'notice-dot': hasDot }">
+    <div class="user-avatar" :class="{ 'notice-dot': hasDot }" v-if="!isHiddenAvatar">
       <van-image
         round
         width="0.8rem"
@@ -13,19 +13,36 @@
       />
     </div>
     <div class="user-status-info" @click="$emit('setOnlineStatus')">
-      <div class="user-nickname">{{ autoFix('一隅北') }}</div>
-      <div class="user-online-status"><div class="status-dot"></div> 在线</div>
+      <div class="user-nickname">{{ autoFix(userStatus.nickname) }}</div>
+      <div class="user-online-status"><div class="status-dot"></div> {{ userStatus.status }}</div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
   import useTextOverFlow from '@/hooks/component/useTextOverFlow';
+  import type { PropType } from 'vue';
+
+  type UserStatus = {
+    nickname: string;
+    status: string;
+  };
 
   defineProps({
     hasDot: {
       type: Boolean,
       default: false,
+    },
+    isHiddenAvatar: {
+      type: Boolean,
+      default: false,
+    },
+    userStatus: {
+      type: Object as PropType<UserStatus>,
+      default: () => ({
+        nickname: '一隅北',
+        status: '在线',
+      }),
     },
   });
 
@@ -39,6 +56,7 @@
     display: flex;
     height: 1.2rem;
     align-items: center;
+    transition: all 0.5s;
     .user-avatar {
       padding: 2px;
       background-color: #fff;
@@ -59,7 +77,7 @@
       margin-left: 6px;
       color: #fff;
       .user-nickname {
-        font-size: var(--van-font-size-sm);
+        font-size: var(--van-font-size-md);
         height: auto;
       }
       .user-online-status {
