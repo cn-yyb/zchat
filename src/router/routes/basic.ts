@@ -26,6 +26,15 @@ export const LoginRoute: AppRouteRecordRaw = {
   },
 };
 
+export const RegisterRoute: AppRouteRecordRaw = {
+  path: '/register',
+  name: 'Register',
+  component: () => import('@/views/system/Register/index.vue'),
+  meta: {
+    title: '注册',
+  },
+};
+
 export const NotFoundRoute: AppRouteRecordRaw = {
   name: 'NotFound',
   path: '/:path(.*)*',
@@ -35,4 +44,4 @@ export const NotFoundRoute: AppRouteRecordRaw = {
   },
 };
 
-export const basicRouteList = [RootRoute, LoginRoute, NotFoundRoute];
+export const basicRouteList = [RootRoute, LoginRoute, NotFoundRoute, RegisterRoute];

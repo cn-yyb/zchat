@@ -3,7 +3,7 @@
     <div class="chat-record" ref="chatRef">
       <div class="history-loading" v-if="isLoading || isEnd">
         <van-loading v-if="isLoading && !isEnd" size="0.5rem" />
-        <span v-if="isEnd">已获取全部历史记录</span>
+        <span v-if="isEnd">已获取全部聊天记录</span>
       </div>
       <template v-for="chatRecord of chatRecordList" :key="chatRecord.created_date">
         <div class="chat-record-item">

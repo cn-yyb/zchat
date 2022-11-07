@@ -1,7 +1,7 @@
 <template>
   <div class="login-page">
     <div class="top-bar">
-      <div class="register-btn">注册</div>
+      <div class="register-btn" @click="$router.push('/register')">注册</div>
     </div>
     <div class="login-container">
       <div class="login-header">
@@ -83,7 +83,6 @@
       const userinfo = await userStore.loign(formValues);
       console.log(userinfo);
       Notify({ type: 'success', message: '登录成功！' });
-      // router.push('/home');
     } catch (error) {
       console.log(error);
     } finally {
@@ -97,11 +96,11 @@
 <style lang="less" scoped>
   .login-page {
     height: 100%;
-    background-color: #98a8f8;
+    background-color: var(--theme-bg-color);
     .top-bar {
       height: 1rem;
       display: flex;
-      justify-content: end;
+      justify-content: flex-end;
       align-items: center;
       padding: 0 16px;
       color: #fff;

@@ -11,11 +11,9 @@ import { hasCacheToken } from '@/stores/auth';
 import type { Router } from 'vue-router';
 import { useUserStore } from '@/stores/modules/user';
 import { getAppEnvConfig } from '@/utils/env';
+import { WHITE_LIST } from '../constant';
 
 const { VITE_GLOB_APP_TITLE } = getAppEnvConfig();
-
-// 路由白名单
-export const WHITE_LIST = ['/login', '/404'];
 
 // 挂载路由守卫函数
 export function setupRouterGuard(router: Router) {
