@@ -151,7 +151,13 @@
     flex-direction: column;
     padding-top: var(--van-nav-bar-height);
     padding-bottom: 1.3333rem;
+
     background-color: @default-bgc;
+    // background-image: url(http://192.168.1.3/openfs/2022/picture/t9cP2em1AM7hpFjXU2sNs.jpg);
+    // background-repeat: no-repeat;
+    // background-position: center;
+    // background-attachment: fixed;
+    // background-size: cover;
 
     .chat-record {
       flex: 1;

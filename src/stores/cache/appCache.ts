@@ -16,4 +16,4 @@ export const getAppSettingCache = (): Nullable<AppState> =>
 export const setAppSettingCache = (appSetting: AppState) =>
   appCacheStorage.set(CACHE_KEYS.APP_SETTING, JSON.stringify(appSetting));
 
-export const removeAppSettingCache = () => appCacheStorage.get(CACHE_KEYS.APP_SETTING);
+export const removeAppSettingCache = () => appCacheStorage.remove(CACHE_KEYS.APP_SETTING);
