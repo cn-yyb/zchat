@@ -1,5 +1,5 @@
 <template>
-  <div class="contacts-page" ref="contactsPageRef">
+  <div class="contacts-page" id="__sroll-box" ref="contactsPageRef">
     <contacts-page-header />
     <van-tabs v-model:active="active" :color="PRIMARY_COLOR">
       <van-tab title="好友" name="contact-list">
@@ -36,6 +36,7 @@
         group-chat <br />
       </van-tab>
     </van-tabs>
+    <BackTop target="#__sroll-box" />
   </div>
 </template>
 
@@ -44,6 +45,7 @@
   import { PRIMARY_COLOR } from '@/constants/modules/theme';
   import ContactsPageHeader from './components/ContactsPageHeader.vue';
   import ContactList from './components/ContactList.vue';
+  import BackTop from '@/components/BackTop/index.vue';
   import { useEventListener } from '@vant/use';
 
   const active = ref('contact-list');
