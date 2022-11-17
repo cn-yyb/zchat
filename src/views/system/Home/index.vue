@@ -1,5 +1,7 @@
 <template>
   <div class="home-view">
+    <!-- home page header -->
+    <home-page-header />
     <!--  notice bar  -->
     <van-notice-bar mode="closeable">xxx 新功能已经推出！</van-notice-bar>
     <!-- search componet  -->
@@ -59,6 +61,7 @@
 <script lang="ts" setup name="HomePage">
   import { ref } from 'vue';
   import { getCalendarDate } from '@/utils/calendarDate';
+  import HomePageHeader from './components/HomePageHeader.vue';
 
   const chatList = ref<any[]>([]);
   const isLoading = ref(false);
