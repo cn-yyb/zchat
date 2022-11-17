@@ -1,6 +1,21 @@
 <template>
   <div class="layout-header">
-    <van-sticky>
+    <template v-if="sticky">
+      <van-sticky>
+        <van-nav-bar safe-area-inset-top>
+          <template #title>
+            <slot name="title">{{ autoFix(title) }}</slot>
+          </template>
+          <template #left>
+            <slot name="left"></slot>
+          </template>
+          <template #right>
+            <slot name="right"></slot>
+          </template>
+        </van-nav-bar>
+      </van-sticky>
+    </template>
+    <template v-else>
       <van-nav-bar safe-area-inset-top>
         <template #title>
           <slot name="title">{{ autoFix(title) }}</slot>
@@ -12,7 +27,7 @@
           <slot name="right"></slot>
         </template>
       </van-nav-bar>
-    </van-sticky>
+    </template>
   </div>
 </template>
 
@@ -23,6 +38,10 @@
     title: {
       type: String,
       default: '',
+    },
+    sticky: {
+      type: Boolean,
+      default: true,
     },
   });
 

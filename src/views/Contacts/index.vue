@@ -1,9 +1,9 @@
 <template>
-  <div class="contacts-page">
-    1221
-    <!-- <van-tabs v-model:active="active" sticky offset-top="1.22667rem" :color="PRIMARY_COLOR">
-      <van-tab title="好友" name="friend-list">
-        <friend-list />
+  <div class="contacts-page" ref="contactsPageRef">
+    <contacts-page-header />
+    <van-tabs v-model:active="active" :color="PRIMARY_COLOR">
+      <van-tab title="好友" name="contact-list">
+        <contact-list />
       </van-tab>
       <van-tab title="分组" name="groupings"> groupings </van-tab>
       <van-tab title="群聊" name="group-chat">
@@ -35,16 +35,35 @@
         group-chat <br />
         group-chat <br />
       </van-tab>
-    </van-tabs> -->
+    </van-tabs>
   </div>
 </template>
 
 <script lang="ts" setup name="ContactsPage">
-  // import { PRIMARY_COLOR } from '@/constants/modules/theme';
-  // import { ref } from 'vue';
-  // import FriendList from './components/friendList.vue';
+  import { onActivated, ref } from 'vue';
+  import { PRIMARY_COLOR } from '@/constants/modules/theme';
+  import ContactsPageHeader from './components/ContactsPageHeader.vue';
+  import ContactList from './components/ContactList.vue';
+  import { useEventListener } from '@vant/use';
 
-  // const active = ref('friend-list');
+  const active = ref('contact-list');
+  const contactsPageRef = ref<HTMLDivElement | null>(null);
+  const scrollTopRef = ref<number>(0);
+
+  // 容器滚动事件监听, 返回后回到原位
+  useEventListener(
+    'scroll',
+    (e: any) => {
+      scrollTopRef.value = e.target?.scrollTop;
+    },
+    {
+      target: contactsPageRef as any,
+    },
+  );
+
+  onActivated(() => {
+    contactsPageRef.value!.scrollTop = scrollTopRef.value;
+  });
 </script>
 
 <style lang="less" scoped>
@@ -54,7 +73,6 @@
     bottom: 0;
     left: 0;
     right: 0;
-    padding-top: var(--van-nav-bar-height);
     padding-bottom: 1.3333rem;
     overflow: auto;
   }
