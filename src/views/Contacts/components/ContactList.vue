@@ -1,5 +1,5 @@
 <template>
-  <div class="friend-list">
+  <div class="contact-list">
     <van-pull-refresh v-model="loading" @refresh="onRefresh">
       <van-index-bar :sticky="false">
         <template v-for="item of renderItems" :key="item">
@@ -30,7 +30,7 @@
 </script>
 
 <style lang="less" scoped>
-  .friend-list {
+  .contact-list {
     // background-color: #eee;
   }
 </style>

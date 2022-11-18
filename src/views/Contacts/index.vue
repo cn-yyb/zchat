@@ -78,8 +78,4 @@
     padding-bottom: 1.3333rem;
     overflow: auto;
   }
-  // :deep(.van-index-anchor) {
-  //   // 解决初始高亮项位置偏移问题
-  //   left: 0 !important;
-  // }
 </style>

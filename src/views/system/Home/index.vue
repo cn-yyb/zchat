@@ -1,5 +1,5 @@
 <template>
-  <div class="home-view">
+  <div class="home-view" id="scroll_home_view">
     <!-- home page header -->
     <home-page-header />
     <!--  notice bar  -->
@@ -55,6 +55,7 @@
       </van-list>
       <van-empty v-if="isEmpty" description="暂时没有新消息" />
     </van-pull-refresh>
+    <back-top target="#scroll_home_view" />
   </div>
 </template>
 
@@ -62,6 +63,7 @@
   import { ref } from 'vue';
   import { getCalendarDate } from '@/utils/calendarDate';
   import HomePageHeader from './components/HomePageHeader.vue';
+  import BackTop from '@/components/BackTop/index.vue';
 
   const chatList = ref<any[]>([]);
   const isLoading = ref(false);
@@ -106,7 +108,13 @@
   }
 
   .home-view {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     padding-bottom: 50px;
+    overflow: auto;
 
     .chat-list {
       :deep(.van-cell__value) {

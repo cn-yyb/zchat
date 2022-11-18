@@ -11,12 +11,12 @@
 </template>
 
 <script lang="ts" setup>
-  import { onBeforeUnmount, onMounted, ref } from 'vue';
+  import { nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref } from 'vue';
 
   const props = defineProps({
     maxScrollTop: {
       type: Number,
-      default: 1200,
+      default: 1600,
     },
     target: {
       type: String,
@@ -29,41 +29,53 @@
 
   const isShow = ref(false);
 
-  const handleBackTop = () => {
-    const el = document.querySelector(props.target);
+  const handleBackTop = async () => {
+    const el = document.querySelector(props.target) as HTMLDivElement;
+    // el.style['scrollBehavior'] = 'smooth';
     el && (el!.scrollTop = 0);
+    // el.style['scrollBehavior'] = 'auto';
   };
 
   function scrollEventCallBack(e) {
-    isShow.value = e.target?.scrollTop > props.maxScrollTop;
+    isShow.value = e.target.scrollTop > props.maxScrollTop;
   }
 
   onMounted(() => {
     const el = document.querySelector(props.target);
-    el?.classList.add('add-transition');
     el?.addEventListener('scroll', scrollEventCallBack);
   });
 
   onBeforeUnmount(() => {
     document.querySelector(props.target)?.removeEventListener('scroll', scrollEventCallBack);
   });
+
+  onActivated(async () => {
+    await nextTick();
+    const el = document.querySelector(props.target) as HTMLDivElement;
+    el.style['scrollBehavior'] = 'smooth';
+  });
+
+  onDeactivated(() => {
+    const el = document.querySelector(props.target) as HTMLDivElement;
+    el.style['scrollBehavior'] = 'auto';
+  });
 </script>
 
 <style lang="less" scoped>
   .back-top {
+    width: 1.3rem;
+    height: 1.3rem;
     position: fixed;
     bottom: 2rem;
     right: 1rem;
-    z-index: auto;
-    width: 1.3rem;
-    height: 1.3rem;
-    border-radius: 50%;
     color: #fff;
-    transform: rotate(180deg);
     background-color: var(--theme-primary-color);
-    z-index: 100;
-    transition: opacity 0.5s;
+    box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.25);
+    border-radius: 50%;
+    transform: rotate(180deg);
     opacity: 1;
+    transition: opacity 0.5s;
+    z-index: 100;
     .inner {
       position: relative;
       top: 50%;
@@ -74,9 +86,5 @@
 
   .btn-hidden {
     opacity: 0;
-  }
-
-  :global(.add-transition) {
-    transition: all 0.5s ease-out;
   }
 </style>
