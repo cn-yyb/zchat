@@ -7,4 +7,4 @@
 
 <script lang="ts" setup name="AppletsPage"></script>
 
-<style lang="" scoped></style>
+<style lang="less" scoped></style>
