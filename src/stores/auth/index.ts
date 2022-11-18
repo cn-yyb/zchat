@@ -14,6 +14,6 @@ export const getCacheToken = () => tokenCacheStorage.get(CACHE_KEYS.TOKEN_KEY);
 
 export const setCacheToken = (token: string) => tokenCacheStorage.set(CACHE_KEYS.TOKEN_KEY, token);
 
-export const removeCacheToken = () => tokenCacheStorage.get(CACHE_KEYS.TOKEN_KEY);
+export const removeCacheToken = () => tokenCacheStorage.remove(CACHE_KEYS.TOKEN_KEY);
 
 export const hasCacheToken = () => !!getCacheToken();

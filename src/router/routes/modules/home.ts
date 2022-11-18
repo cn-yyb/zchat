@@ -16,7 +16,6 @@ const home: AppRouteModule = {
       component: () => import('@/views/system/Home/index.vue'),
       meta: {
         title: 'Home',
-        // hiddenTitle: true,
         isKeepAlive: true,
       },
     },
@@ -27,8 +26,6 @@ const home: AppRouteModule = {
       meta: {
         title: 'PrivateChat',
         isKeepAlive: true,
-        showBackBtn: true,
-        hiddenTitle: true,
       },
     },
     {
@@ -38,8 +35,6 @@ const home: AppRouteModule = {
       meta: {
         title: 'GroupChat',
         isKeepAlive: true,
-        showBackBtn: true,
-        hiddenTitle: true,
       },
     },
   ],

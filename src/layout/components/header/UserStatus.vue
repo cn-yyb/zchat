@@ -14,18 +14,26 @@
     </div>
     <div class="user-status-info" @click="$emit('setOnlineStatus')">
       <div class="user-nickname">{{ autoFix(userStatus.nickname) }}</div>
-      <div class="user-online-status"><div class="status-dot"></div> {{ userStatus.status }}</div>
+      <div class="user-online-status"
+        ><div
+          class="status-dot"
+          :style="{ backgroundColor: UserStatusText[userStatus.status]['color'] }"
+        ></div>
+        {{ UserStatusText[userStatus.status]['text'] }}</div
+      >
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
   import useTextOverFlow from '@/hooks/component/useTextOverFlow';
+  import { UserStatusEnum } from '@/constants/enums/userEnum';
+  import { UserStatusText } from '@/constants/modules/user';
   import type { PropType } from 'vue';
 
-  type UserStatus = {
+  type UserStatusInfo = {
     nickname: string;
-    status: string;
+    status: UserStatusEnum;
   };
 
   defineProps({
@@ -38,10 +46,10 @@
       default: false,
     },
     userStatus: {
-      type: Object as PropType<UserStatus>,
+      type: Object as PropType<UserStatusInfo>,
       default: () => ({
         nickname: '一隅北',
-        status: '在线',
+        status: UserStatusEnum.ONLINE,
       }),
     },
   });
@@ -90,7 +98,7 @@
       .status-dot {
         height: var(--van-font-size-xs);
         width: var(--van-font-size-xs);
-        background-color: #24e58a;
+        background-color: #aaa;
         border-radius: 50%;
         margin: 0 4px;
       }

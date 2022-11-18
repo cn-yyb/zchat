@@ -6,7 +6,7 @@
  * @desc: 路由常量
  */
 // 权限路由白名单
-export const WHITE_LIST = ['/login', '/404'];
+export const WHITE_LIST = ['/login', '/404', '/register'];
 
 export const Layout = () => import('@/layout/index.vue');
 

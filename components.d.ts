@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    BackTop: typeof import('./src/components/BackTop/index.vue')['default']
     Icon: typeof import('./src/components/Icon/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -16,19 +17,23 @@ declare module '@vue/runtime-core' {
     VanConfigProvider: typeof import('vant/es')['ConfigProvider']
     VanEmpty: typeof import('vant/es')['Empty']
     VanField: typeof import('vant/es')['Field']
-    VanForm: typeof import('vant/es')['Form']
     VanIcon: typeof import('vant/es')['Icon']
     VanImage: typeof import('vant/es')['Image']
+    VanIndexAnchor: typeof import('vant/es')['IndexAnchor']
+    VanIndexBar: typeof import('vant/es')['IndexBar']
     VanList: typeof import('vant/es')['List']
     VanLoading: typeof import('vant/es')['Loading']
     VanNavBar: typeof import('vant/es')['NavBar']
     VanNoticeBar: typeof import('vant/es')['NoticeBar']
+    VanPopover: typeof import('vant/es')['Popover']
     VanPopup: typeof import('vant/es')['Popup']
     VanPullRefresh: typeof import('vant/es')['PullRefresh']
     VanSearch: typeof import('vant/es')['Search']
     VanSticky: typeof import('vant/es')['Sticky']
     VanSwipeCell: typeof import('vant/es')['SwipeCell']
+    VanTab: typeof import('vant/es')['Tab']
     VanTabbar: typeof import('vant/es')['Tabbar']
     VanTabbarItem: typeof import('vant/es')['TabbarItem']
+    VanTabs: typeof import('vant/es')['Tabs']
   }
 }

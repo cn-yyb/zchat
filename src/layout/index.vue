@@ -2,18 +2,14 @@
   <div class="app-layout">
     <!-- layout hearder => top nav bar & search & other actions -->
     <van-sticky>
-      <layout-header :title="headerTitle" v-if="!$route.meta?.hiddenNavBar">
+      <layout-header :title="headerTitle" v-if="$route.meta?.showNavBar">
         <template #left>
-          <user-status @show-setting="showSetting" v-if="!$route.meta?.showBackBtn" />
-          <van-icon v-else name="arrow-left" size="large" color="#fff" @click="$router.back()" />
-          <user-status
-            v-if="$route.name === 'PrivateChat'"
-            is-hidden-avatar
-            :user-status="{ nickname: '张三', status: '离线' }"
+          <van-icon
+            v-if="!$route.meta.hiddenBackBtn"
+            name="arrow-left"
+            class="nav-bar-icon"
+            @click="$router.back()"
           />
-        </template>
-        <template #right>
-          <van-icon name="plus" class="nav-bar-icon" />
         </template>
       </layout-header>
     </van-sticky>
@@ -22,7 +18,7 @@
     <router-view />
 
     <!-- layout footer => bottom nav bar & copyright -->
-    <layout-footer />
+    <layout-footer v-if="!$route.meta.hiddenTabbar" />
 
     <!-- setting page -->
     <user-setting ref="settingCompRef" />
@@ -32,17 +28,12 @@
 <script lang="ts" setup>
   import LayoutHeader from './components/header/index.vue';
   import LayoutFooter from './components/footer/index.vue';
-  import UserStatus from './components/header/UserStatus.vue';
   import RouterView from './page/index.vue';
   import { ref, watch } from 'vue';
   import { useRouter } from 'vue-router';
   import UserSetting from '@/views/system/User/index.vue';
 
   const settingCompRef = ref<InstanceType<typeof UserSetting> | null>(null);
-
-  const showSetting = () => {
-    settingCompRef.value?.showSettingPopup();
-  };
 
   const router = useRouter();
   const headerTitle = ref('');

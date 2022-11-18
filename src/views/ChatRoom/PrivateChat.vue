@@ -1,9 +1,11 @@
 <template>
   <div class="private-chat-page">
+    <!-- chatrom page header -->
+    <chat-rom-page-header />
     <div class="chat-record" ref="chatRef">
       <div class="history-loading" v-if="isLoading || isEnd">
         <van-loading v-if="isLoading && !isEnd" size="0.5rem" />
-        <span v-if="isEnd">已获取全部历史记录</span>
+        <span v-if="isEnd">已获取全部聊天记录</span>
       </div>
       <template v-for="chatRecord of chatRecordList" :key="chatRecord.created_date">
         <div class="chat-record-item">
@@ -56,7 +58,7 @@
               @click="handleSend"
             >
               <template #icon>
-                <Icon icon="iconoir:send-diagonal" width="0.45rem" />
+                <icon icon="iconoir:send-diagonal" width="0.45rem" />
               </template>
             </van-button>
           </template>
@@ -72,6 +74,7 @@
   import { getChatMockData, type ChatRecordItem } from './mockData';
   import { toFormateUrls } from '@/utils/url';
   import type { FieldInstance } from 'vant';
+  import ChatRomPageHeader from './components/ChatRomPageHeader.vue';
 
   const sendInputRef = ref<FieldInstance | null>(null);
   const sendMsg = ref<string>('');
@@ -149,9 +152,14 @@
     right: 0;
     display: flex;
     flex-direction: column;
-    padding-top: var(--van-nav-bar-height);
     padding-bottom: 1.3333rem;
+
     background-color: @default-bgc;
+    // background-image: url(http://192.168.1.3/openfs/2022/picture/t9cP2em1AM7hpFjXU2sNs.jpg);
+    // background-repeat: no-repeat;
+    // background-position: center;
+    // background-attachment: fixed;
+    // background-size: cover;
 
     .chat-record {
       flex: 1;

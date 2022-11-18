@@ -1,46 +1,48 @@
 <template>
   <div class="login-page">
     <div class="top-bar">
-      <div class="register-btn">注册</div>
+      <div class="register-btn" @click="$router.push('/register')">注册</div>
     </div>
     <div class="login-container">
-      <div class="login-header">
-        <div class="login-logo-title">
-          <!-- <div class="app-logo"></div> -->
-          <div class="app-title">ZChat.</div>
-        </div>
-        <div class="app-desc">This is xxxx.</div>
-      </div>
-      <div class="login-form">
-        <van-form @submit="onSubmit">
-          <van-cell-group inset>
-            <van-field
-              autofocus
-              v-model.trim="loginForm.username"
-              name="username"
-              label="账号"
-              placeholder="请输入账号或邮箱"
-              left-icon="user-o"
-              autocomplete="username"
-              label-width="1.2rem"
-            />
-            <van-field
-              v-model.trim="loginForm.password"
-              type="password"
-              name="password"
-              label="密码"
-              placeholder="请输入密码"
-              left-icon="shield-o"
-              autocomplete="current-password"
-              label-width="1.2rem"
-            />
-          </van-cell-group>
-          <div style="margin: var(--van-padding-md)">
-            <van-button block type="primary" native-type="submit" :loading="loading">
-              登录
-            </van-button>
+      <div class="login-container-inner">
+        <div class="login-header">
+          <div class="login-logo-title">
+            <!-- <div class="app-logo"></div> -->
+            <div class="app-title">ZChat.</div>
           </div>
-        </van-form>
+          <div class="app-desc">This is xxxx.</div>
+        </div>
+        <div class="login-form">
+          <van-form @submit="onSubmit">
+            <van-cell-group inset>
+              <van-field
+                autofocus
+                v-model.trim="loginForm.username"
+                name="username"
+                label="账号"
+                placeholder="请输入账号或邮箱"
+                left-icon="user-o"
+                autocomplete="username"
+                label-width="1.2rem"
+              />
+              <van-field
+                v-model.trim="loginForm.password"
+                type="password"
+                name="password"
+                label="密码"
+                placeholder="请输入密码"
+                left-icon="shield-o"
+                autocomplete="current-password"
+                label-width="1.2rem"
+              />
+            </van-cell-group>
+            <div style="margin: var(--van-padding-md)">
+              <van-button block type="primary" native-type="submit" :loading="loading">
+                登录
+              </van-button>
+            </div>
+          </van-form>
+        </div>
       </div>
     </div>
     <copyright />
@@ -83,7 +85,6 @@
       const userinfo = await userStore.loign(formValues);
       console.log(userinfo);
       Notify({ type: 'success', message: '登录成功！' });
-      // router.push('/home');
     } catch (error) {
       console.log(error);
     } finally {
@@ -97,11 +98,11 @@
 <style lang="less" scoped>
   .login-page {
     height: 100%;
-    background-color: #98a8f8;
+    background-color: var(--theme-bg-color);
     .top-bar {
       height: 1rem;
       display: flex;
-      justify-content: end;
+      justify-content: flex-end;
       align-items: center;
       padding: 0 16px;
       color: #fff;
@@ -110,50 +111,56 @@
       }
     }
     .login-container {
-      .login-header {
-        text-align: center;
-        padding: 1.2rem 0 1.2rem;
-        .login-logo-title {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          .app-title {
-            font-size: 1.4rem;
-            font-size: 700;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans',
-              Arial, sans-serif;
-            font-style: italic;
-            // color: #fff;
-            background-image: -webkit-linear-gradient(top, #fff, #fff, #98a8f8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            color: transparent;
-          }
-          .app-logo {
-            height: 1.4rem;
-            width: 1.4rem;
-            background-color: #fff;
-            margin-right: 0.5rem;
-            border-radius: 10px;
+      // text-align: center;
+      display: flex;
+      justify-content: center;
+      .login-container-inner {
+        width: 500px;
+        .login-header {
+          text-align: center;
+          padding: 1.2rem 0 1.2rem;
+          .login-logo-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .app-title {
+              font-size: 1.4rem;
+              font-size: 700;
+              font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans',
+                Arial, sans-serif;
+              font-style: italic;
+              // color: #fff;
+              background-image: -webkit-linear-gradient(top, #fff, #fff, #98a8f8);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+              color: transparent;
+            }
+            .app-logo {
+              height: 1.4rem;
+              width: 1.4rem;
+              background-color: #fff;
+              margin-right: 0.5rem;
+              border-radius: 10px;
 
-            font-size: 1rem;
-            font-size: 700;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans',
-              Arial, sans-serif;
-            color: #98a8f8;
-            text-align: center;
-            line-height: 1.4rem;
+              font-size: 1rem;
+              font-size: 700;
+              font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans',
+                Arial, sans-serif;
+              color: #98a8f8;
+              text-align: center;
+              line-height: 1.4rem;
+            }
+          }
+          .app-desc {
+            font-style: italic;
+            font-size: 14px;
+            color: #eee;
           }
         }
-        .app-desc {
-          font-style: italic;
-          font-size: 14px;
-          color: #eee;
+        .login-form {
+          margin: 1rem 0 1.4rem;
         }
-      }
-      .login-form {
-        margin: 1rem 0 1.4rem;
       }
     }
   }

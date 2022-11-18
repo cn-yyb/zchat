@@ -36,6 +36,12 @@
   --section-gap: 160px;
 }
 
+/* 自定义项目全局杨样式变量 */
+:root{
+  --theme-bg-color: #98a8f8;
+  --theme-primary-color: #7978ff;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--vt-c-black);
