@@ -1,18 +1,16 @@
 <template>
   <div class="app-layout">
     <!-- layout hearder => top nav bar & search & other actions -->
-    <van-sticky>
-      <layout-header :title="headerTitle" v-if="$route.meta?.showNavBar">
-        <template #left>
-          <van-icon
-            v-if="!$route.meta.hiddenBackBtn"
-            name="arrow-left"
-            class="nav-bar-icon"
-            @click="$router.back()"
-          />
-        </template>
-      </layout-header>
-    </van-sticky>
+    <layout-header :title="headerTitle" v-if="$route.meta?.showNavBar">
+      <template #left>
+        <van-icon
+          v-if="!$route.meta.hiddenBackBtn"
+          name="arrow-left"
+          class="nav-bar-icon"
+          @click="$router.back()"
+        />
+      </template>
+    </layout-header>
 
     <!-- context body & router view -->
     <router-view />
