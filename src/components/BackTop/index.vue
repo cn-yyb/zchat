@@ -6,7 +6,7 @@
     }"
     :style="{ backgroundColor: color }"
   >
-    <van-icon name="down" size="0.6rem" class="inner" @click="handleBackTop" />
+    <van-icon name="down" size="0.6rem" class="inner-icon" @click="handleBackTop" />
   </div>
 </template>
 
@@ -52,12 +52,12 @@
   onActivated(async () => {
     await nextTick();
     const el = document.querySelector(props.target) as HTMLDivElement;
-    el.style['scrollBehavior'] = 'smooth';
+    el && (el.style['scrollBehavior'] = 'smooth');
   });
 
   onDeactivated(() => {
     const el = document.querySelector(props.target) as HTMLDivElement;
-    el.style['scrollBehavior'] = 'auto';
+    el && (el.style['scrollBehavior'] = 'auto');
   });
 </script>
 
@@ -76,7 +76,7 @@
     opacity: 1;
     transition: opacity 0.5s;
     z-index: 100;
-    .inner {
+    .inner-icon {
       position: relative;
       top: 50%;
       left: 50%;

@@ -82,8 +82,11 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{js,ts,jsx,tsx,vue,scss,less,styl,html,d.ts}": [
+    "src/**/*.{js,ts,jsx,tsx,vue,styl,html,d.ts}": [
       "eslint --fix",
+      "prettier --write"
+    ],
+    "src/**/*.{scss,less,css}": [
       "prettier --write"
     ],
     "{!(package)*.json,*.code-snippets,.!(browserslist)*rc}": [
