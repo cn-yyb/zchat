@@ -1,10 +1,12 @@
 <template>
   <div class="social-page">
-    <layout-header title="Social" />
+    <social-page-header />
     <van-empty description="Social 模块未开发" />
   </div>
 </template>
 
-<script lang="ts" setup name="SocialPage"></script>
+<script lang="ts" setup name="SocialPage">
+  import SocialPageHeader from './components/SocialPageHeader.vue';
+</script>
 
-<style lang="" scoped></style>
+<style lang="less" scoped></style>
