@@ -28,7 +28,7 @@
             <van-button class="right-actions-btn" square type="warning" text="置顶" />
             <van-button class="right-actions-btn" square type="danger" text="删除" />
           </template>
-          <van-cell :border="true" size="large" :to="`/home/private?uid=${item}&type=0`">
+          <van-cell border clickable size="large" :to="`/home/private?uid=${item}&type=0`">
             <template #title>
               <div class="left-container">
                 <van-image
@@ -41,7 +41,7 @@
                 />
                 <div class="user-simple-info">
                   <div class="user-nickname">{{ '吴彦祖' }}</div>
-                  <div class="new-msg">{{ '你食饭了没有啊？' }}</div>
+                  <div class="new-msg">{{ '[离线] 你食饭了没有啊？' }}</div>
                 </div>
               </div>
             </template>
@@ -161,6 +161,11 @@
     .date-info {
       font-size: var(--van-font-size-sm);
       color: #ccc;
+    }
+
+    .deactive-status {
+      -webkit-filter: grayscale(80%);
+      filter: grayscale(80%);
     }
   }
 </style>

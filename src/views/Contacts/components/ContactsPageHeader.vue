@@ -37,9 +37,10 @@
 
   const showPopover = ref(false);
   const actions: PopoverAction[] = [
-    { text: '创建群聊', icon: 'comment-o' },
     { text: '加好友/群', icon: 'friends-o' },
-    { text: '通知管理', icon: 'volume-o' },
+    // { text: '分组管理', icon: 'smile-comment-o' },
+    // { text: '群管理', icon: 'volume-o' },
+    { text: '消息通知', icon: 'volume-o' },
   ];
 
   const onSelect = (action: PopoverAction) => Toast(action.text);
