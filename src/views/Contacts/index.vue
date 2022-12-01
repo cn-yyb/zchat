@@ -18,7 +18,7 @@
         <chat-group />
       </van-tab>
     </van-tabs>
-    <BackTop target="#__sroll-box" />
+    <v-back-top target="#__sroll-box" />
   </div>
 </template>
 
@@ -28,7 +28,6 @@
   import { useEventListener } from '@vant/use';
   import ContactsPageHeader from './components/ContactsPageHeader.vue';
   import ContactList from './components/ContactList.vue';
-  import BackTop from '@/components/BackTop/index.vue';
   import ContactGroup from './components/ContactGroup.vue';
   import ChatGroup from './components/ChatGroup.vue';
 
