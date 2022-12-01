@@ -11,7 +11,7 @@
   />
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="Icon">
   import { Icon } from '@iconify/vue';
   import type { StyleValue, PropType } from 'vue';
 

@@ -1,4 +1,3 @@
-import { ConfigProvider } from 'vant';
 import type { App } from 'vue';
 
 // Toast
@@ -13,8 +12,15 @@ import 'vant/es/notify/style';
 // ImagePreview
 import 'vant/es/image-preview/style';
 
-const components = [ConfigProvider];
+// self grobal components
+import BackTop from '@/components/BackTop/index.vue';
+import Icon from '@/components/Icon/index.vue';
+
+const components = [];
 
 export function registerGlobComp(app: App) {
   components.forEach((v) => app.use(v));
+
+  app.component('VBackTop', BackTop);
+  app.component('VIcon', Icon);
 }

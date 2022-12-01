@@ -55,7 +55,7 @@
       </van-list>
       <van-empty v-if="isEmpty" description="暂时没有新消息" />
     </van-pull-refresh>
-    <back-top target="#scroll_home_view" />
+    <v-back-top target="#scroll_home_view" />
   </div>
 </template>
 
@@ -63,7 +63,6 @@
   import { ref } from 'vue';
   import { getCalendarDate } from '@/utils/calendarDate';
   import HomePageHeader from './components/HomePageHeader.vue';
-  import BackTop from '@/components/BackTop/index.vue';
 
   const chatList = ref<any[]>([]);
   const isLoading = ref(false);
