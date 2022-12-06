@@ -5,7 +5,7 @@
         <template v-for="item of renderItems" :key="item">
           <van-index-anchor :index="item" />
           <!-- <van-cell v-for="itemText of 6" :title="`${item}-${itemText}`" :key="itemText" /> -->
-          <van-cell border clickable v-for="userItem in 4" :key="userItem">
+          <van-cell border clickable v-for="userItem in 3" :key="userItem">
             <template #title>
               <div class="left-container">
                 <van-image
@@ -60,6 +60,7 @@
   }
   .contact-list {
     // background-color: #eee;
+    padding-bottom: 1.3333rem;
   }
 
   .left-container {

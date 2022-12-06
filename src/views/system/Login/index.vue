@@ -37,7 +37,7 @@
               />
             </van-cell-group>
             <div style="margin: var(--van-padding-md)">
-              <van-button block type="primary" native-type="submit" :loading="loading">
+              <van-button round block type="primary" native-type="submit" :loading="loading">
                 登录
               </van-button>
             </div>
@@ -165,8 +165,7 @@
     }
   }
 
-  :deep(.van-cell-group--inset) {
-    // border-radius: 4px;
-    border-radius: var(--van-border-radius-sm);
-  }
+  // :deep(.van-cell-group--inset) {
+  // border-radius: var(--van-border-radius-sm);
+  // }
 </style>
