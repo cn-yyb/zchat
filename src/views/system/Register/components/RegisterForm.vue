@@ -72,7 +72,7 @@
         is-link
         readonly
         name="datetimePicker"
-        label="出生年月"
+        label="生日"
         @click="showPicker = true"
       />
       <van-field name="gender" label="性别">

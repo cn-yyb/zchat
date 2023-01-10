@@ -2,12 +2,18 @@
  * @Author: zq
  * @Date: 2022-12-02 09:56:06
  * @Last Modified by: zq
- * @Last Modified time: 2022-12-02 16:36:09
+ * @Last Modified time: 2023-01-04 16:01:31
  * 创建 websocket服务
  */
 
 import { HeartCheck } from './helper';
 import { WS_CONFIG } from './setting';
+import type { WSMsgType } from './type';
+import dayjs from 'dayjs';
+
+export * from './type';
+export * from './helper';
+export * from './setting';
 
 export interface WSConfig {
   url?: string;
@@ -17,44 +23,47 @@ export interface WSConfig {
 export class WebSocketChannel {
   readonly heartCheck = new HeartCheck();
   private client: WebSocket | null = null;
-  config: WSConfig;
+  config: WSConfig = {
+    url: WS_CONFIG.URL,
+  };
   isConnected = false;
   reconnectCount = 0;
+
   get instance() {
     return this.client;
   }
 
   constructor(config: WSConfig = {}) {
-    this.config = Object.assign(
-      {
-        url: WS_CONFIG.URL,
-      },
-      config,
-    );
+    this.config = Object.assign(this.config, config);
   }
 
   initWebSocket() {
-    this.client = null;
-    return new Promise<any>((resolve, _reject) => {
+    return new Promise<any>((resolve, reject) => {
       // 初始化 websocket 实例
       this.client = new WebSocket(this.config.url!, this.config.protocols);
 
       // 初始化事件监听
       this.client.onopen = (e) => {
         this.onWebSocketOpen(e);
-        resolve('websocket connet success!');
+        resolve('websocket conneted successfully!');
       };
 
       // this.client.addEventListener('message', this.onWebSocketMessage);
 
-      this.client.onclose = (e) => this.onWebSocketClose(e);
+      this.client.onclose = (e) => {
+        reject(e);
+        this.onWebSocketClose(e);
+      };
 
-      this.client.onerror = (e) => this.onWebSocketError(e);
+      this.client.onerror = (e) => {
+        reject(e);
+        this.onWebSocketError(e);
+      };
     });
   }
 
   private onWebSocketOpen(_e: Event) {
-    console.warn('websocke is connected!');
+    console.warn('websocket is connected!');
     this.isConnected = true;
     this.reconnectCount = 0;
     this.client?.send(HeartCheck.createHeartMsg());
@@ -73,6 +82,7 @@ export class WebSocketChannel {
     this.isConnected = false;
     //被动断开，重新连接
     if (e.code === 1006) {
+      this.destory();
       if (this.reconnectCount < 3) {
         setTimeout(() => {
           console.log('websocket reconnecting...', this.reconnectCount);
@@ -91,7 +101,8 @@ export class WebSocketChannel {
     console.log('websocket connect error:', e);
   }
 
-  sendMsg(msg: any) {
+  sendMsg(msg: WSMsgType) {
+    msg.data ??= dayjs().format('YYYY-MM-DD HH:mm:ss');
     switch (this.client?.readyState) {
       //CONNECTING：值为0，表示正在连接。
       case WebSocket.CONNECTING:
@@ -123,6 +134,15 @@ export class WebSocketChannel {
     this.isConnected = false;
     this.reconnectCount = 0;
     this.client?.close();
-    this.heartCheck.clear();
+    this.heartCheck?.clear();
+    this.client = null;
+  }
+
+  destory() {
+    this.client!.onclose = null;
+    this.client!.onerror = null;
+    this.client!.onmessage = null;
+    this.client!.onopen = null;
+    this.client = null;
   }
 }

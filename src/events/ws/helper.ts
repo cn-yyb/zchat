@@ -13,7 +13,7 @@ export class HeartCheck {
 
   static createHeartMsg(): string {
     return JSON.stringify({
-      event: SERVER_EVENTS.S_PING,
+      event: SERVER_EVENTS.PING,
       data: 'heart check',
       time: new Date().toLocaleString(),
     });

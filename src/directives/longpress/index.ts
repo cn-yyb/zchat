@@ -9,7 +9,7 @@
 import type { App, Directive, DirectiveBinding } from 'vue';
 import { isFunction } from '@/utils/is';
 
-export interface CustomDirectiveBinding extends DirectiveBinding {
+export interface LongPressDirectiveBinding extends DirectiveBinding {
   value: {
     longPressCb?: Function;
     timeout?: number;
@@ -17,7 +17,7 @@ export interface CustomDirectiveBinding extends DirectiveBinding {
 }
 
 const LongPressDirective: Directive = {
-  mounted(el: Element, binding: CustomDirectiveBinding) {
+  mounted(el: Element, binding: LongPressDirectiveBinding) {
     // console.log(el, binding.value);
     const value = binding.value;
     if (!isFunction(value.longPressCb)) {
