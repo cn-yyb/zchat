@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2023-01-10 17:00:14
  * @Last Modified by: zq
- * @Last Modified time: 2023-01-11 14:06:33
+ * @Last Modified time: 2023-01-11 14:55:11
  */
 import { cdn } from 'vite-plugin-cdn2';
 
@@ -53,6 +53,11 @@ export function cdnImportPlugin(isBuild: boolean) {
           createCdnUrl('vant@3.6.4/lib/vant.min.js'),
           createCdnUrl('vant@3.6.4/lib/index.css'),
         ],
+      },
+      {
+        name: 'axios',
+        global: 'axios',
+        spare: [createCdnUrl('axios@1.1.3/dist/axios.min.js')],
       },
     ],
     logInfo: 'info',
