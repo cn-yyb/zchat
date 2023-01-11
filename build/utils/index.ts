@@ -2,6 +2,21 @@ import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
 
+export function isDevMode(mode: string): boolean {
+  return mode === 'development';
+}
+
+export function isProdMode(mode: string): boolean {
+  return mode === 'production';
+}
+
+/**
+ * Whether to generate package preview
+ */
+export function isReportMode(): boolean {
+  return process.env.REPORT === 'true';
+}
+
 /**
  * 生成配置文件对象名称
  * @param env 环境变量对象

@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2022-10-24 15:32:49
  * @Last Modified by: zq
- * @Last Modified time: 2022-10-26 09:34:07
+ * @Last Modified time: 2023-01-11 17:23:06
  * @dsec: 获取环境变量
  */
 import type { GlobEnvConfig } from '#/config';
@@ -91,4 +91,11 @@ export function isDevMode(): boolean {
  */
 export function isProdMode(): boolean {
   return import.meta.env.PROD;
+}
+
+/**
+ * Whether to generate package preview
+ */
+export function isReportMode(): boolean {
+  return process.env.REPORT === 'true';
 }

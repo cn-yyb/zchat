@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2022-10-26 10:53:43
  * @Last Modified by: zq
- * @Last Modified time: 2023-01-11 14:06:23
+ * @Last Modified time: 2023-01-11 17:26:10
  * @ vite 插件主体配置文件
  */
 
@@ -14,6 +14,9 @@ import VueSetupExtend from 'vite-plugin-vue-setup-extend';
 import { configHtmlPlugin } from './html';
 import { autoImportPlugins } from './autoImport';
 import { cdnImportPlugin } from './cdnImport';
+import { visualizerPlugin } from './visualizer';
+
+import { isReportMode } from '../../utils';
 
 export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
   const vitePlugins: (PluginOption | PluginOption[])[] = [
@@ -28,6 +31,11 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
 
   // vite-plugin-html
   vitePlugins.push(configHtmlPlugin(viteEnv, isBuild));
+
+  if (isReportMode()) {
+    // 打包分析视图插件
+    vitePlugins.push(visualizerPlugin());
+  }
 
   // cdn 自动导入 (置于最后)
   vitePlugins.push(cdnImportPlugin(isBuild));
