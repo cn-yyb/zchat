@@ -7,8 +7,6 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    BackTop: typeof import('./src/components/BackTop/index.vue')['default']
-    Icon: typeof import('./src/components/Icon/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     VanButton: typeof import('vant/es')['Button']
@@ -44,5 +42,7 @@ declare module '@vue/runtime-core' {
     VanTabbar: typeof import('vant/es')['Tabbar']
     VanTabbarItem: typeof import('vant/es')['TabbarItem']
     VanTabs: typeof import('vant/es')['Tabs']
+    VBackTop: typeof import('./src/components/BackTop/VBackTop.vue')['default']
+    VIcon: typeof import('./src/components/Icon/VIcon.vue')['default']
   }
 }

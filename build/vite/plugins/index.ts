@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2022-10-26 10:53:43
  * @Last Modified by: zq
- * @Last Modified time: 2023-01-11 11:35:03
+ * @Last Modified time: 2023-01-11 14:06:23
  * @ vite 插件主体配置文件
  */
 
@@ -30,7 +30,7 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
   vitePlugins.push(configHtmlPlugin(viteEnv, isBuild));
 
   // cdn 自动导入 (置于最后)
-  vitePlugins.push(cdnImportPlugin());
+  vitePlugins.push(cdnImportPlugin(isBuild));
 
   return vitePlugins;
 }

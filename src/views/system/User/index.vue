@@ -19,7 +19,7 @@
         <div class="user-bio-info">
           <div class="user-nickname">一隅北 <van-icon name="medal-o" /></div>
           <div class="user-bio">
-            <Icon icon="carbon:edit" />
+            <v-icon icon="carbon:edit" />
             长路漫漫，唯剑作伴。</div
           >
         </div>
@@ -28,27 +28,27 @@
         <van-cell-group>
           <van-cell size="large" is-link to="/">
             <template #title>
-              <Icon icon="iconoir:user" height="0.5rem" />&nbsp; 个人信息
+              <v-icon icon="iconoir:user" height="0.5rem" />&nbsp; 个人信息
             </template>
           </van-cell>
           <van-cell size="large" is-link to="/">
             <template #title>
-              <Icon icon="iconoir:heart" height="0.5rem" />&nbsp; 我的收藏
+              <v-icon icon="iconoir:heart" height="0.5rem" />&nbsp; 我的收藏
             </template>
           </van-cell>
           <van-cell size="large" is-link to="/">
             <template #title>
-              <Icon icon="iconoir:folder" height="0.5rem" />&nbsp; 我的文件
+              <v-icon icon="iconoir:folder" height="0.5rem" />&nbsp; 我的文件
             </template>
           </van-cell>
           <van-cell size="large" title="主题设置" is-link to="/">
             <template #title>
-              <Icon icon="iconoir:discord" height="0.5rem" />&nbsp; 主题设置
+              <v-icon icon="iconoir:discord" height="0.5rem" />&nbsp; 主题设置
             </template>
           </van-cell>
           <van-cell size="large" title="退出登录" @click="handleLogout">
             <template #title>
-              <Icon icon="iconoir:log-out" height="0.5rem" />&nbsp; 退出登录
+              <v-icon icon="iconoir:log-out" height="0.5rem" />&nbsp; 退出登录
             </template>
           </van-cell>
         </van-cell-group>
@@ -69,7 +69,6 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue';
-  import Icon from '@/components/Icon/index.vue';
   import { useUserStore } from '@/stores/modules/user';
   import { Dialog } from 'vant';
 

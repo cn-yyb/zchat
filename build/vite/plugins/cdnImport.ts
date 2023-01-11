@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2023-01-10 17:00:14
  * @Last Modified by: zq
- * @Last Modified time: 2023-01-11 11:34:40
+ * @Last Modified time: 2023-01-11 14:06:33
  */
 import { cdn } from 'vite-plugin-cdn2';
 
@@ -12,9 +12,9 @@ export function createCdnUrl(cdnPath: string): string {
   return `${CDN_BASE_URL}${cdnPath}`;
 }
 
-export function cdnImportPlugin() {
+export function cdnImportPlugin(isBuild: boolean) {
   return cdn({
-    isProduction: true,
+    isProduction: isBuild,
     modules: [
       {
         name: 'vue',

@@ -58,7 +58,7 @@
               @click="handleSend"
             >
               <template #icon>
-                <icon icon="iconoir:send-diagonal" width="0.45rem" />
+                <v-icon icon="iconoir:send-diagonal" width="0.45rem" />
               </template>
             </van-button>
           </template>
@@ -70,7 +70,6 @@
 
 <script lang="ts" setup name="PrivateChat">
   import { nextTick, onMounted, onUnmounted, ref } from 'vue';
-  import Icon from '@/components/Icon/index.vue';
   import { getChatMockData, type ChatRecordItem } from './mockData';
   import { toFormateUrls } from '@/utils/url';
   import type { FieldInstance } from 'vant';

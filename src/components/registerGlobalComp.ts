@@ -13,8 +13,8 @@ import 'vant/es/notify/style';
 import 'vant/es/image-preview/style';
 
 // self grobal components
-import BackTop from '@/components/BackTop/index.vue';
-import Icon from '@/components/Icon/index.vue';
+import BackTop from '@/components/BackTop/VBackTop.vue';
+import Icon from '@/components/Icon/VIcon.vue';
 
 const components = [];
 
