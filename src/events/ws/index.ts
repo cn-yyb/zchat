@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2022-12-02 09:56:06
  * @Last Modified by: zq
- * @Last Modified time: 2023-01-04 16:01:31
+ * @Last Modified time: 2023-01-12 16:10:38
  * 创建 websocket服务
  */
 
@@ -102,7 +102,7 @@ export class WebSocketChannel {
   }
 
   sendMsg(msg: WSMsgType) {
-    msg.data ??= dayjs().format('YYYY-MM-DD HH:mm:ss');
+    msg.time ??= dayjs().format('YYYY-MM-DD HH:mm:ss');
     switch (this.client?.readyState) {
       //CONNECTING：值为0，表示正在连接。
       case WebSocket.CONNECTING:
