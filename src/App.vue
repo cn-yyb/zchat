@@ -26,6 +26,16 @@
     });
   });
 
+  onMounted(() => {
+    const winh = document.body.clientHeight;
+    window.localStorage.setItem('curwinh', winh + '');
+
+    window.onresize = function () {
+      const newh = window.localStorage.getItem('curwinh');
+      document.getElementById('app')!.style.height = newh + 'px';
+    };
+  });
+
   onUnmounted(() => {
     channel.close();
   });

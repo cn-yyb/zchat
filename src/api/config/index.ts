@@ -82,7 +82,7 @@ const transform: AxiosTransform = {
     } else if (options.errorMessageMode === 'notify') {
       Notify({ type: 'danger', message: timeoutMsg });
     } else if (options.errorMessageMode === 'toast') {
-      Toast({ type: 'text', message: timeoutMsg });
+      Toast({ type: 'text', message: timeoutMsg, position: 'bottom' });
     }
 
     throw new Error(timeoutMsg || '请求出错，请稍后重试');
