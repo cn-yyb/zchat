@@ -54,21 +54,16 @@
   import { Notify } from 'vant';
   import { useUserStore } from '@/stores/modules/user';
   import copyright from '@/layout/components/copyright/index.vue';
-
-  interface LoginFormType {
-    username: string;
-    password: string;
-  }
-
+  import type { UserLoginForm } from '@/api/modules/types/user';
   const userStore = useUserStore();
 
-  const loginForm = reactive<LoginFormType>({
+  const loginForm = reactive<UserLoginForm>({
     username: '',
     password: '',
   });
   const loading = ref(false);
 
-  const onSubmit = (values: LoginFormType) => {
+  const onSubmit = (values: UserLoginForm) => {
     if (!values.username) {
       Notify({ type: 'warning', message: '请输入您的账号或邮箱' });
       return;
@@ -79,7 +74,7 @@
     }
   };
 
-  async function submitLoginForm(formValues: LoginFormType) {
+  async function submitLoginForm(formValues: UserLoginForm) {
     try {
       loading.value = true;
       const userinfo = await userStore.loign(formValues);

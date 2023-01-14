@@ -1,15 +1,15 @@
-declare interface ApplyForm {
+export interface ApplyForm {
   friendUid: string;
   verifyMsg: string;
 }
 
-declare interface ChatRecordForm {
+export interface ChatRecordForm {
   chatId: string;
   current?: number;
   pageSize?: number;
 }
 
-declare interface ChatRecordItem {
+export interface ChatRecordItem {
   msgId: number;
   senderId: string;
   receiverId: string;
@@ -22,7 +22,7 @@ declare interface ChatRecordItem {
   isSelf: false;
 }
 
-declare interface ChatRecordResponse {
+export interface ChatRecordResponse {
   current: number;
   pageSize: number;
   pages: number;

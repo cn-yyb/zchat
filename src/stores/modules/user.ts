@@ -1,13 +1,9 @@
-import { userLogin } from '@/api/modules/login';
+import { getUserInfo, userLogin } from '@/api/modules/user';
 import { defineStore } from 'pinia';
 import { router } from '@/router';
 import { getCacheToken, setCacheToken } from '../auth';
 import { PageEnum } from '@/constants/enums/pageEnum';
-
-interface LoginFormType {
-  username: string;
-  password: string;
-}
+import type { UserLoginForm } from '@/api/modules/types/user';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -34,12 +30,12 @@ export const useUserStore = defineStore({
     },
   },
   actions: {
-    async loign(submitForm: LoginFormType): Promise<UserInfo | null> {
+    async loign(submitForm: UserLoginForm): Promise<UserInfo | null> {
       try {
-        const userinfo = await userLogin(submitForm);
-        this.setToken(userinfo.token);
+        const { token } = await userLogin(submitForm);
+        this.setToken(token);
         router.push('/');
-        return userinfo;
+        return this.refreshUserInfo(submitForm.username);
       } catch (error) {
         return Promise.reject(error);
       }
@@ -67,8 +63,18 @@ export const useUserStore = defineStore({
       setCacheToken(token);
     },
 
-    async refreshUserInfo(): Promise<Nullable<UserInfo>> {
-      return null;
+    async refreshUserInfo(username: string): Promise<Nullable<UserInfo>> {
+      try {
+        const userInfo = (await getUserInfo({
+          username,
+        })) as unknown as UserInfo;
+
+        this.userInfo = userInfo;
+        return userInfo;
+      } catch (error) {
+        console.log(error);
+        return null;
+      }
     },
   },
 });

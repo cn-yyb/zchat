@@ -1,10 +1,10 @@
-declare interface SendCodeForm {
+export interface SendCodeForm {
   email: string;
   subject?: string;
   sign?: string;
 }
 
-declare interface VerifyCodeForm {
+export interface VerifyCodeForm {
   email: string;
   emailCode: string;
 }

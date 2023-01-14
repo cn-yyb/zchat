@@ -2,12 +2,19 @@
  * @Author: zq
  * @Date: 2023-01-12 14:42:26
  * @Last Modified by: zq
- * @Last Modified time: 2023-01-12 16:14:41
+ * @Last Modified time: 2023-01-14 22:02:58
  * @Dest: 用户相关接口
  */
 
 import type { ErrorMessageMode } from '#/axios';
 import { http } from '../config';
+import type {
+  UserLoginForm,
+  UserLoginResponse,
+  UserRegisterForm,
+  GetUserInfoForm,
+  UserInfoResponse,
+} from './types/user';
 
 enum Api {
   LOGIN = '/user/login',
@@ -48,7 +55,7 @@ export function userRegister(data: UserRegisterForm, mode: ErrorMessageMode = 'n
 /**
  * @description: get user info
  */
-export function getUserInfo(data: UserLoginForm, mode: ErrorMessageMode = 'notify') {
+export function getUserInfo(data: GetUserInfoForm, mode: ErrorMessageMode = 'notify') {
   return http.post<UserInfoResponse>(
     {
       url: Api.USER_INFO,

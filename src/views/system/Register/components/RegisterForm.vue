@@ -2,8 +2,7 @@
   <van-form @submit="onSubmit">
     <van-cell-group inset>
       <van-field
-        autofocus
-        v-model.trim="registerForm.username"
+        v-model.trim="registerForm.accountName"
         name="username"
         label="用户名"
         autocomplete="off"
@@ -39,7 +38,7 @@
         placeholder="请输入登录密码"
       />
       <van-field
-        v-model.trim="registerForm.rePassword"
+        v-model.trim="registerForm.repassword"
         type="password"
         name="rePassword"
         autocomplete="off"
@@ -51,22 +50,7 @@
           },
         ]"
       />
-      <van-field
-        v-model.trim="registerForm.email"
-        name="email"
-        label="账户邮箱"
-        placeholder="请输入邮箱地址"
-        :rules="[
-          {
-            required: true,
-            message: '请输入邮箱地址',
-          },
-          {
-            pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
-            message: '请输入合法的邮箱地址',
-          },
-        ]"
-      />
+
       <van-field
         v-model="registerForm.birthday"
         is-link
@@ -80,8 +64,57 @@
           <van-radio-group v-model="registerForm.gender" direction="horizontal" size="small">
             <van-radio :name="1">先生</van-radio>
             <van-radio :name="2">女士</van-radio>
-            <van-radio :name="0">保密</van-radio>
+            <van-radio :name="-1">保密</van-radio>
           </van-radio-group>
+        </template>
+      </van-field>
+
+      <van-field
+        v-model.trim="registerForm.email"
+        name="email"
+        label="邮箱"
+        placeholder="请输入邮箱地址"
+        :rules="[
+          {
+            required: true,
+            message: '请输入邮箱地址',
+          },
+          {
+            pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+            message: '请输入合法的邮箱地址',
+          },
+        ]"
+      />
+
+      <van-field
+        v-model="registerForm.emailCode"
+        center
+        clearable
+        label="验证码"
+        placeholder="请输入邮箱验证码"
+      >
+        <template #button>
+          <van-button
+            style="width: 50px"
+            size="small"
+            type="primary"
+            autocomplete="off"
+            round
+            :disabled="isSendPending"
+            @click="handleSendEmailCode"
+          >
+            <van-icon size="18" name="envelop-o" v-if="!isSendPending" />
+            <van-count-down
+              ref="countDown"
+              :time="60 * 1000"
+              format="ss"
+              style="color: white"
+              @finish="onCountDoenFinished"
+              v-else
+            >
+              <template #default="{ seconds }">{{ seconds }}</template>
+            </van-count-down>
+          </van-button>
         </template>
       </van-field>
     </van-cell-group>
@@ -105,36 +138,34 @@
 </template>
 
 <script lang="ts" setup>
+  import { sendEmailCode } from '@/api/modules/email';
+  import type { UserRegisterForm } from '@/api/modules/types/user';
+  import { userRegister } from '@/api/modules/user';
   import { useUserStore } from '@/stores/modules/user';
   import dayjs from 'dayjs';
-  import { Dialog } from 'vant';
+  import { Dialog, type CountDownInstance } from 'vant';
   import { reactive, ref } from 'vue';
   import { useRouter } from 'vue-router';
-
-  interface RegisterForm {
-    username: string;
-    password: string;
-    rePassword: string;
-    email: string;
-    gender: 0 | 1 | 2;
-    birthday: string;
-  }
 
   const userStore = useUserStore();
   const router = useRouter();
 
   const loading = ref(false);
-  const registerForm = reactive<RegisterForm>({
-    username: 'kula0410',
-    password: '123456@Abc',
-    rePassword: '123456@Abc',
+  const registerForm = reactive<UserRegisterForm>({
+    accountName: '',
+    password: '',
+    repassword: '',
     email: 'sdpzhong@163.com',
-    gender: 0,
-    birthday: '1999/04/10',
+    gender: -1,
+    birthday: '',
+    emailCode: '',
   });
   const showPicker = ref(false);
   const minDate = new Date(1990, 1, 1);
   const maxDate = new Date();
+
+  const isSendPending = ref(false);
+  const countDown = ref<CountDownInstance | null>(null);
 
   const rePasswordValidator = (value) => {
     if (value !== registerForm.password) {
@@ -145,14 +176,14 @@
   };
 
   const onConfirm = (value) => {
-    registerForm.birthday = dayjs(value).format('YYYY/MM/DD');
+    registerForm.birthday = dayjs(value).format('YYYY-MM-DD');
     showPicker.value = false;
   };
 
-  const onSubmit = (value) => {
+  const onSubmit = async (value) => {
     try {
       loading.value = true;
-      console.log(value);
+      await userRegister(value);
       Dialog.confirm({
         title: '注册成功！',
         message: '新账户已成功创建，是否以当前账号登录？',
@@ -178,6 +209,24 @@
     } finally {
       loading.value = false;
     }
+  };
+
+  const handleSendEmailCode = async () => {
+    if (!isSendPending.value) {
+      isSendPending.value = true;
+      countDown.value?.start();
+      try {
+        sendEmailCode({
+          email: registerForm.email,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const onCountDoenFinished = () => {
+    isSendPending.value = false;
   };
 </script>
 

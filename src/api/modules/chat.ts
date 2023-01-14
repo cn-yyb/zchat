@@ -2,11 +2,12 @@
  * @Author: zq
  * @Date: 2023-01-12 16:15:33
  * @Last Modified by: zq
- * @Last Modified time: 2023-01-12 16:51:49
+ * @Last Modified time: 2023-01-14 22:01:36
  */
 
 import type { ErrorMessageMode } from '#/axios';
 import { http } from '../config';
+import type { ApplyForm, ChatRecordForm, ChatRecordResponse } from './types/chat';
 
 enum Api {
   APPLY = '/chat/apply',
