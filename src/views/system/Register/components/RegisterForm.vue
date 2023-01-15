@@ -183,7 +183,7 @@
   const onSubmit = async (value) => {
     try {
       loading.value = true;
-      await userRegister(value);
+      await userRegister(registerForm);
       Dialog.confirm({
         title: '注册成功！',
         message: '新账户已成功创建，是否以当前账号登录？',

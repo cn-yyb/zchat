@@ -16,7 +16,6 @@
           <van-form @submit="onSubmit">
             <van-cell-group inset>
               <van-field
-                autofocus
                 v-model.trim="loginForm.username"
                 name="username"
                 label="账号"
@@ -45,7 +44,7 @@
         </div>
       </div>
     </div>
-    <copyright />
+    <copyright :isFixed="false" />
   </div>
 </template>
 
@@ -101,9 +100,11 @@
       align-items: center;
       padding: 0 16px;
       color: #fff;
-      .register-btn {
-        font-size: 14px;
-      }
+      font-size: 16px;
+
+      // .register-btn {
+      //   font-size: 14px;
+      // }
     }
     .login-container {
       // text-align: center;

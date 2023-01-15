@@ -15,7 +15,7 @@
       </div>
       <register-form />
     </div>
-    <copyright />
+    <copyright :isFixed="false" />
   </div>
 </template>
 
@@ -36,7 +36,7 @@
       align-items: center;
       padding: 0 16px;
       color: #fff;
-      font-size: 14px;
+      font-size: 16px;
     }
     .register-container {
       display: flex;
