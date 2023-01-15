@@ -10,7 +10,7 @@
   </div>
 </template>
 
-<script lang="ts" setup name="BackTop">
+<script lang="ts" setup name="VBackTop">
   import { nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref } from 'vue';
 
   const props = defineProps({
