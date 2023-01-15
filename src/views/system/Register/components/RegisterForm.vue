@@ -191,7 +191,7 @@
           new Promise((resolve) => {
             if (action === 'confirm') {
               setTimeout(() => {
-                userStore.loign({
+                userStore.login({
                   username: value.username,
                   password: value.password,
                 });

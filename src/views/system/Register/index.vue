@@ -30,7 +30,7 @@
     background-color: var(--theme-bg-color);
 
     .top-bar {
-      height: 1rem;
+      height: 1.2rem;
       display: flex;
       justify-content: flex-end;
       align-items: center;

@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2022-10-24 11:36:27
  * @Last Modified by: zq
- * @Last Modified time: 2022-11-12 14:02:49
+ * @Last Modified time: 2023-01-15 14:34:25
  * vant 全局样式配置文件 (后续新增主题设置,将维护到 pinia中)
  */
 
@@ -19,4 +19,6 @@ export const THEME_VARS = {
   NavBarBackgroundColor: PRIMARY_COLOR,
   NavBarTitleTextColor: '#fff',
   TabbarItemActiveColor: PRIMARY_COLOR,
+  checkboxCheckedIconColor: PRIMARY_COLOR,
+  radioCheckedIconColor: PRIMARY_COLOR,
 };

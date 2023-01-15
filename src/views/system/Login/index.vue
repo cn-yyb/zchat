@@ -14,12 +14,12 @@
         </div>
         <div class="login-form">
           <van-form @submit="onSubmit">
-            <van-cell-group inset>
+            <van-cell-group inset style="padding: 0.1067rem 0">
               <van-field
                 v-model.trim="loginForm.username"
                 name="username"
                 label="账号"
-                placeholder="请输入账号或邮箱"
+                placeholder="请输入用户名或邮箱"
                 left-icon="user-o"
                 autocomplete="username"
                 label-width="1.2rem"
@@ -34,11 +34,20 @@
                 autocomplete="current-password"
                 label-width="1.2rem"
               />
+              <div class="login-opt">
+                <van-checkbox v-model="isSavePw">
+                  <span>记住密码</span>
+                </van-checkbox>
+                <a :style="{ color: PRIMARY_COLOR }">忘记密码？</a>
+              </div>
             </van-cell-group>
-            <div style="margin: var(--van-padding-md)">
+            <div style="margin: var(--van-padding-sm) var(--van-padding-md)">
               <van-button round block type="primary" native-type="submit" :loading="loading">
                 登录
               </van-button>
+            </div>
+            <div style="margin: 0 var(--van-padding-md)">
+              <van-button round block icon="envelop-o" type="warning"> 邮箱验证登录 </van-button>
             </div>
           </van-form>
         </div>
@@ -49,18 +58,25 @@
 </template>
 
 <script lang="ts" setup>
-  import { reactive, ref } from 'vue';
+  import { ref, unref, onMounted, nextTick } from 'vue';
   import { Notify } from 'vant';
   import { useUserStore } from '@/stores/modules/user';
   import copyright from '@/layout/components/copyright/index.vue';
   import type { UserLoginForm } from '@/api/modules/types/user';
+  import { PRIMARY_COLOR } from '@/constants/modules/theme';
+  import { CACHE_KEYS } from '@/constants/enums/cacheKeysEnum';
+  import { createLocalStorage } from '@/utils/cache';
+
   const userStore = useUserStore();
 
-  const loginForm = reactive<UserLoginForm>({
+  let loginForm = ref<UserLoginForm>({
     username: '',
     password: '',
   });
   const loading = ref(false);
+
+  const isSavePw = ref(false);
+  const pwCache = createLocalStorage();
 
   const onSubmit = (values: UserLoginForm) => {
     if (!values.username) {
@@ -76,8 +92,10 @@
   async function submitLoginForm(formValues: UserLoginForm) {
     try {
       loading.value = true;
-      const userinfo = await userStore.loign(formValues);
+      const userinfo = await userStore.login(formValues);
       console.log(userinfo);
+      // save pw
+      checkSavePw();
       Notify({ type: 'success', message: '登录成功！' });
     } catch (error) {
       console.log(error);
@@ -87,6 +105,24 @@
       }, 500);
     }
   }
+
+  function checkSavePw() {
+    if (unref(isSavePw)) {
+      pwCache.set(CACHE_KEYS.SAVE_PW, loginForm.value);
+    } else {
+      pwCache.remove(CACHE_KEYS.SAVE_PW);
+    }
+  }
+
+  onMounted(async () => {
+    const cacheRecord = pwCache.get(CACHE_KEYS.SAVE_PW);
+    if (!cacheRecord) {
+      return;
+    }
+    loginForm.value = cacheRecord;
+    await nextTick();
+    isSavePw.value = !!loginForm.value.password;
+  });
 </script>
 
 <style lang="less" scoped>
@@ -94,7 +130,7 @@
     height: 100%;
     background-color: var(--theme-bg-color);
     .top-bar {
-      height: 1rem;
+      height: 1.2rem;
       display: flex;
       justify-content: flex-end;
       align-items: center;
@@ -114,7 +150,7 @@
         width: 500px;
         .login-header {
           text-align: center;
-          padding: 1.2rem 0 1.2rem;
+          padding: 1rem 0 1rem;
           .login-logo-title {
             display: flex;
             align-items: center;
@@ -157,6 +193,15 @@
         .login-form {
           margin: 1rem 0 1.4rem;
         }
+      }
+
+      .login-opt {
+        margin: 0.2667rem var(--van-padding-md);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: #fff;
+        font-size: 14px;
       }
     }
   }

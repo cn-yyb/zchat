@@ -30,12 +30,14 @@ export const useUserStore = defineStore({
     },
   },
   actions: {
-    async loign(submitForm: UserLoginForm): Promise<UserInfo | null> {
+    async login(submitForm: UserLoginForm): Promise<UserInfo | null> {
       try {
         const { token } = await userLogin(submitForm);
         this.setToken(token);
-        router.push('/');
-        return this.refreshUserInfo(submitForm.username);
+        setTimeout(() => {
+          router.push('/');
+        }, 800);
+        return this.refreshUserInfo();
       } catch (error) {
         return Promise.reject(error);
       }
@@ -63,11 +65,9 @@ export const useUserStore = defineStore({
       setCacheToken(token);
     },
 
-    async refreshUserInfo(username: string): Promise<Nullable<UserInfo>> {
+    async refreshUserInfo(): Promise<Nullable<UserInfo>> {
       try {
-        const userInfo = (await getUserInfo({
-          username,
-        })) as unknown as UserInfo;
+        const userInfo = (await getUserInfo()) as unknown as UserInfo;
 
         this.userInfo = userInfo;
         return userInfo;

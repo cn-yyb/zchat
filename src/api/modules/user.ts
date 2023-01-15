@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2023-01-12 14:42:26
  * @Last Modified by: zq
- * @Last Modified time: 2023-01-14 22:02:58
+ * @Last Modified time: 2023-01-15 11:27:47
  * @Dest: 用户相关接口
  */
 
@@ -12,7 +12,6 @@ import type {
   UserLoginForm,
   UserLoginResponse,
   UserRegisterForm,
-  GetUserInfoForm,
   UserInfoResponse,
 } from './types/user';
 
@@ -55,7 +54,7 @@ export function userRegister(data: UserRegisterForm, mode: ErrorMessageMode = 'n
 /**
  * @description: get user info
  */
-export function getUserInfo(data: GetUserInfoForm, mode: ErrorMessageMode = 'notify') {
+export function getUserInfo(data = {}, mode: ErrorMessageMode = 'notify') {
   return http.post<UserInfoResponse>(
     {
       url: Api.USER_INFO,

@@ -39,8 +39,8 @@ export declare interface UserInfoResponse {
   updatedAt: string;
 }
 
-export declare interface GetUserInfoForm {
-  username?: string;
-  uid?: string;
-  usreId?: number;
-}
+// export declare interface GetUserInfoForm {
+//   username?: string;
+//   uid?: string;
+//   usreId?: number;
+// }

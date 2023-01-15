@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2022-10-24 17:40:31
  * @Last Modified by: zq
- * @Last Modified time: 2022-10-26 09:36:31
+ * @Last Modified time: 2023-01-15 11:40:50
  * @Desc： 路由守卫配置文件
  */
 
@@ -44,14 +44,14 @@ function createHttpGuard(router: Router) {
 function createPermissionGuard(router: Router) {
   const userStore = useUserStore();
   // 权限拦截
-  router.beforeEach(async (to, _from, next) => {
+  router.beforeEach(async (to, from, next) => {
     if (hasCacheToken()) {
       // 2. 判断是否为登录页
       if (to.path === '/login') {
         next('/');
       } else {
         // 解决页面刷新后用户信息丢失问题
-        if (!userStore.userInfo) {
+        if (!['/login', '/register'].includes(from.path) && !userStore.userInfo) {
           await userStore.refreshUserInfo();
         }
         next();
