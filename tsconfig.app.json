@@ -7,10 +7,9 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "vite.config.ts",
     "types/**/*",
-    "package.json",
     "build/**/*",
+    "vite.config.ts",
   ],
   "exclude": [
     "src/**/__tests__/*",
