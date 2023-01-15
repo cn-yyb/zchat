@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2022-10-24 15:32:49
  * @Last Modified by: zq
- * @Last Modified time: 2023-01-11 17:23:06
+ * @Last Modified time: 2023-01-15 16:04:57
  * @dsec: 获取环境变量
  */
 import type { GlobEnvConfig } from '#/config';
@@ -39,6 +39,7 @@ export function getAppEnvConfig() {
     VITE_GLOB_APP_SHORT_NAME,
     VITE_GLOB_API_URL_PREFIX,
     VITE_GLOB_UPLOAD_URL,
+    VITE_WS_URL,
   } = ENV;
 
   if (!/^[a-zA-Z\_]*$/.test(VITE_GLOB_APP_SHORT_NAME)) {
@@ -53,6 +54,7 @@ export function getAppEnvConfig() {
     VITE_GLOB_APP_SHORT_NAME,
     VITE_GLOB_API_URL_PREFIX,
     VITE_GLOB_UPLOAD_URL,
+    VITE_WS_URL,
   };
 }
 

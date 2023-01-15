@@ -1,20 +1,27 @@
 // import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import { WebSocketChannel } from '@/events/ws';
+import { useUserStore } from './user';
+import { getAppEnvConfig } from '@/utils/env';
+import { ref } from 'vue';
 
-export const useWebSocketStore = defineStore('websocket', () => {
-  let channel: WebSocketChannel | null = null;
+export const useWebSocketStore = defineStore('app-websocket', () => {
+  const channel = ref<WebSocketChannel>();
+  const userStore = useUserStore();
+  const { VITE_WS_URL } = getAppEnvConfig();
 
-  function connectWebSocket() {
-    channel = new WebSocketChannel({
-      url: 'ws://localhost:8001',
-      protocols: [
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNkcHpob25nIiwidWlkIjoiNDMzZmIyNzYtYzA0MC00YzVmLTk5MjQtN2ZiYjU1ZTM4NjNiIiwicm9sZSI6Mywic3RhdHVzIjowLCJpYXQiOjE2NzMyNDU1NzUsImV4cCI6MTY3MzI3NDM3NX0.64a4tYB7uHLUip_eebUHqJaUArguVgQ-3Ece0nao79o',
-      ],
+  function connectWebSocketService() {
+    channel.value = new WebSocketChannel({
+      url: VITE_WS_URL,
+      protocols: [userStore.getToken],
     });
 
-    channel.initWebSocket();
+    channel.value?.initWebSocket();
   }
 
-  return { connectWebSocket };
+  function closeWebSocketService() {
+    channel.value?.close();
+  }
+
+  return { connectWebSocketService, channel, closeWebSocketService };
 });

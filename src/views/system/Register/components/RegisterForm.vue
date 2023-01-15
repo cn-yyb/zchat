@@ -17,6 +17,7 @@
             message: '用户名格式为4到16位字母或数字组成',
           },
         ]"
+        clearable
       />
       <van-field
         v-model.trim="registerForm.password"
@@ -36,6 +37,7 @@
           },
         ]"
         placeholder="请输入登录密码"
+        clearable
       />
       <van-field
         v-model.trim="registerForm.repassword"
@@ -49,6 +51,7 @@
             validator: rePasswordValidator,
           },
         ]"
+        clearable
       />
 
       <van-field
@@ -84,6 +87,7 @@
             message: '请输入合法的邮箱地址',
           },
         ]"
+        clearable
       />
 
       <van-field
@@ -155,7 +159,7 @@
     accountName: '',
     password: '',
     repassword: '',
-    email: 'sdpzhong@163.com',
+    email: '',
     gender: -1,
     birthday: '',
     emailCode: '',
@@ -186,7 +190,7 @@
       await userRegister(registerForm);
       Dialog.confirm({
         title: '注册成功！',
-        message: '新账户已成功创建，是否以当前账号登录？',
+        message: '新账户注册成功，是否立即登录？',
         beforeClose: (action) =>
           new Promise((resolve) => {
             if (action === 'confirm') {

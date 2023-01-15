@@ -69,10 +69,12 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue';
-  import { useUserStore } from '@/stores/modules/user';
   import { Dialog } from 'vant';
+  import { useUserStore } from '@/stores/modules/user';
+  import { useWebSocketStore } from '@/stores';
 
   const useStore = useUserStore();
+  const webSocketStore = useWebSocketStore();
 
   const isShow = ref(false);
 
@@ -86,6 +88,7 @@
           if (action === 'confirm') {
             setTimeout(() => {
               useStore.logout();
+              webSocketStore.closeWebSocketService();
               resolve(true);
             }, 1000);
           } else {

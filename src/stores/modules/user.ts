@@ -4,6 +4,7 @@ import { router } from '@/router';
 import { getCacheToken, setCacheToken } from '../auth';
 import { PageEnum } from '@/constants/enums/pageEnum';
 import type { UserLoginForm } from '@/api/modules/types/user';
+import { useWebSocketStore } from './websocket';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -34,6 +35,9 @@ export const useUserStore = defineStore({
       try {
         const { token } = await userLogin(submitForm);
         this.setToken(token);
+        // 初始化websocket
+        const websocketStore = useWebSocketStore();
+        websocketStore.connectWebSocketService();
         setTimeout(() => {
           router.push('/');
         }, 800);

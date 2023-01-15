@@ -21,8 +21,9 @@
                 label="账号"
                 placeholder="请输入用户名或邮箱"
                 left-icon="user-o"
-                autocomplete="username"
+                autocomplete="account"
                 label-width="1.2rem"
+                clearable
               />
               <van-field
                 v-model.trim="loginForm.password"
@@ -33,6 +34,7 @@
                 left-icon="shield-o"
                 autocomplete="current-password"
                 label-width="1.2rem"
+                clearable
               />
               <div class="login-opt">
                 <van-checkbox v-model="isSavePw">

@@ -10,6 +10,7 @@
     "types/**/*",
     "build/**/*",
     "vite.config.ts",
+    "package.json"
   ],
   "exclude": [
     "src/**/__tests__/*",

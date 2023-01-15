@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2022-10-29 17:00:54
  * @Last Modified by: zq
- * @Last Modified time: 2023-01-11 14:21:03
+ * @Last Modified time: 2023-01-15 17:38:46
  * @desc: vite 项目配置文件
  */
 
@@ -68,7 +68,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     },
     esbuild: {
       // 打包时移除日志和调试断点
-      drop: ['console', 'debugger'],
+      drop: isBuild ? ['console', 'debugger'] : [],
     },
   };
 };

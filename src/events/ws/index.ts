@@ -2,14 +2,16 @@
  * @Author: zq
  * @Date: 2022-12-02 09:56:06
  * @Last Modified by: zq
- * @Last Modified time: 2023-01-12 16:10:38
+ * @Last Modified time: 2023-01-15 17:51:09
  * 创建 websocket服务
  */
 
 import { HeartCheck } from './helper';
-import { WS_CONFIG } from './setting';
+import { CLIENT_EVENTS, WS_CONFIG } from './setting';
 import type { WSMsgType } from './type';
 import dayjs from 'dayjs';
+import { Dialog, Toast } from 'vant';
+import type { ToastWrapperInstance } from 'vant/lib/toast/types';
 
 export * from './type';
 export * from './helper';
@@ -20,6 +22,8 @@ export interface WSConfig {
   protocols?: string | string[];
 }
 
+export type onPublicMsgFuncType = (data: WSMsgType) => void;
+
 export class WebSocketChannel {
   readonly heartCheck = new HeartCheck();
   private client: WebSocket | null = null;
@@ -29,8 +33,18 @@ export class WebSocketChannel {
   isConnected = false;
   reconnectCount = 0;
 
+  toast: ToastWrapperInstance | null = null;
+
+  // 暴露给外部的消息事件回调
+  onPublicMsgListener: onPublicMsgFuncType = () => {};
+
   get instance() {
     return this.client;
+  }
+
+  get readyState() {
+    console.log(this.client?.readyState);
+    return this.client?.readyState;
   }
 
   constructor(config: WSConfig = {}) {
@@ -49,6 +63,17 @@ export class WebSocketChannel {
       };
 
       // this.client.addEventListener('message', this.onWebSocketMessage);
+
+      this.client.onmessage = (e) => {
+        const res = JSON.parse(e.data) as WSMsgType;
+        this.onPublicMsgListener(res);
+        if (res.event === CLIENT_EVENTS.CONNECT_SUCCESS) {
+          console.log('====== normal communication! ======');
+          this.toast?.clear();
+          this.toast && (this.toast = null);
+          resolve('websocket conneted successfully!');
+        }
+      };
 
       this.client.onclose = (e) => {
         reject(e);
@@ -83,13 +108,34 @@ export class WebSocketChannel {
     //被动断开，重新连接
     if (e.code === 1006) {
       this.destory();
-      if (this.reconnectCount < 3) {
+      if (this.reconnectCount < WS_CONFIG.RECONNECT_COUNT) {
         setTimeout(() => {
           console.log('websocket reconnecting...', this.reconnectCount);
+          // Toast.clear();
+          // Toast.loading({
+          //   forbidClick: true,
+          //   message: `服务重连中...(${this.reconnectCount + 1})`,
+          // });
+          if (!this.toast) {
+            this.toast = Toast.loading({
+              duration: 0,
+              forbidClick: true,
+              message: '',
+            });
+          }
+          this.toast.message = `服务重连中...${this.reconnectCount + 1}`;
+
           this.initWebSocket();
           this.reconnectCount++;
         }, 3000);
       } else {
+        // Toast.clear();
+        this.toast?.clear();
+        Dialog({
+          title: '服务连接异常',
+          message: `服务连接失败了 T_T。请稍后刷新重试，或者联系网站管理员`,
+          theme: 'round-button',
+        });
         console.error('websocket is disconnected!!');
       }
     }
