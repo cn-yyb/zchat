@@ -1,7 +1,5 @@
 <template>
-  <div class="copyright-info" :style="style" :class="[`position-${isFixed ? 'fixed' : 'absolute'}`]"
-    >Copyright © 2021-2022 xx All Rights Reserved.</div
-  >
+  <div class="copyright-info" :style="style"> Copyright © 2021-2022 xx All Rights Reserved. </div>
 </template>
 
 <script lang="ts" setup>
@@ -12,28 +10,20 @@
       type: Object as PropType<StyleValue>,
       default: () => {},
     },
-    isFixed: {
-      type: Boolean,
-      default: true,
-    },
   });
 </script>
 
 <style lang="less" scoped>
   .copyright-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    flex-shrink: 1;
+    height: 24px;
+    line-height: 24px;
     text-align: center;
     font-size: 12px;
     color: #fff;
-    bottom: 4px;
-    left: 0;
-    right: 0;
-  }
-
-  .position-absolute {
-    position: absolute;
-  }
-
-  .position-fixed {
-    position: fixed;
   }
 </style>

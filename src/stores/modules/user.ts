@@ -40,7 +40,7 @@ export const useUserStore = defineStore({
         websocketStore.connectWebSocketService();
         setTimeout(() => {
           router.push('/');
-        }, 800);
+        }, 600);
         return this.refreshUserInfo();
       } catch (error) {
         return Promise.reject(error);

@@ -4,56 +4,53 @@
       <div class="register-btn" @click="$router.push('/register')">注册</div>
     </div>
     <div class="login-container">
-      <div class="login-container-inner">
-        <div class="login-header">
-          <div class="login-logo-title">
-            <!-- <div class="app-logo"></div> -->
-            <div class="app-title">ZChat.</div>
-          </div>
-          <div class="app-desc">This is xxxx.</div>
+      <div class="login-header">
+        <div class="login-logo-title">
+          <!-- <div class="app-logo"></div> -->
+          <div class="app-title">ZChat.</div>
         </div>
-        <div class="login-form">
-          <van-form @submit="onSubmit">
-            <van-cell-group inset style="padding: 0.1067rem 0">
-              <van-field
-                v-model.trim="loginForm.username"
-                name="username"
-                label="账号"
-                placeholder="请输入用户名或邮箱"
-                left-icon="user-o"
-                autocomplete="account"
-                label-width="1.2rem"
-                clearable
-              />
-              <van-field
-                v-model.trim="loginForm.password"
-                type="password"
-                name="password"
-                label="密码"
-                placeholder="请输入密码"
-                left-icon="shield-o"
-                autocomplete="current-password"
-                label-width="1.2rem"
-                clearable
-              />
-              <div class="login-opt">
-                <van-checkbox v-model="isSavePw">
-                  <span>记住密码</span>
-                </van-checkbox>
-                <a :style="{ color: PRIMARY_COLOR }">忘记密码？</a>
-              </div>
-            </van-cell-group>
-            <div style="margin: var(--van-padding-sm) var(--van-padding-md)">
-              <van-button round block type="primary" native-type="submit" :loading="loading">
-                登录
-              </van-button>
-            </div>
-            <div style="margin: 0 var(--van-padding-md)">
-              <van-button round block icon="envelop-o" type="warning"> 邮箱验证登录 </van-button>
-            </div>
-          </van-form>
-        </div>
+        <div class="app-desc">This is xxxx.</div>
       </div>
+      <van-form @submit="onSubmit" class="login-form">
+        <van-cell-group inset style="padding: 0.1067rem 0">
+          <van-field
+            v-model.trim="loginForm.username"
+            name="username"
+            label="账号"
+            placeholder="请输入用户名或邮箱"
+            left-icon="user-o"
+            autocomplete="account"
+            label-width="1.2rem"
+            clearable
+          />
+
+          <van-field
+            v-model.trim="loginForm.password"
+            type="password"
+            name="password"
+            label="密码"
+            placeholder="请输入密码"
+            left-icon="shield-o"
+            autocomplete="current-password"
+            label-width="1.2rem"
+            clearable
+          />
+          <div class="login-opt">
+            <van-checkbox v-model="isSavePw">
+              <span>记住密码</span>
+            </van-checkbox>
+            <a :style="{ color: PRIMARY_COLOR }">忘记密码？</a>
+          </div>
+        </van-cell-group>
+        <div style="margin: var(--van-padding-sm) var(--van-padding-md)">
+          <van-button round block type="primary" native-type="submit" :loading="loading">
+            登录
+          </van-button>
+        </div>
+        <div style="margin: var(--van-padding-sm) var(--van-padding-md)">
+          <van-button round block icon="envelop-o" type="warning"> 邮箱验证登录 </van-button>
+        </div>
+      </van-form>
     </div>
     <copyright :isFixed="false" />
   </div>
@@ -129,7 +126,11 @@
 
 <style lang="less" scoped>
   .login-page {
-    height: 100%;
+    // height: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+
     background-color: var(--theme-bg-color);
     .top-bar {
       height: 1.2rem;
@@ -145,56 +146,55 @@
       // }
     }
     .login-container {
-      // text-align: center;
       display: flex;
-      justify-content: center;
-      .login-container-inner {
-        width: 500px;
-        .login-header {
-          text-align: center;
-          padding: 1rem 0 1rem;
-          .login-logo-title {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            .app-title {
-              font-size: 1.4rem;
-              font-size: 700;
-              font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans',
-                Arial, sans-serif;
-              font-style: italic;
-              // color: #fff;
-              background-image: -webkit-linear-gradient(top, #fff, #fff, #98a8f8);
-              -webkit-background-clip: text;
-              -webkit-text-fill-color: transparent;
-              background-clip: text;
-              color: transparent;
-            }
-            .app-logo {
-              height: 1.4rem;
-              width: 1.4rem;
-              background-color: #fff;
-              margin-right: 0.5rem;
-              border-radius: 10px;
-
-              font-size: 1rem;
-              font-size: 700;
-              font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans',
-                Arial, sans-serif;
-              color: #98a8f8;
-              text-align: center;
-              line-height: 1.4rem;
-            }
-          }
-          .app-desc {
+      flex-direction: column;
+      align-items: center;
+      .login-header {
+        text-align: center;
+        padding: 1rem 0 1rem;
+        .login-logo-title {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .app-title {
+            font-size: 1.4rem;
+            font-size: 700;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans',
+              Arial, sans-serif;
             font-style: italic;
-            font-size: 14px;
-            color: #eee;
+            // color: #fff;
+            background-image: -webkit-linear-gradient(top, #fff, #fff, #98a8f8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+          }
+          .app-logo {
+            height: 1.4rem;
+            width: 1.4rem;
+            background-color: #fff;
+            margin-right: 0.5rem;
+            border-radius: 10px;
+
+            font-size: 1rem;
+            font-size: 700;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans',
+              Arial, sans-serif;
+            color: #98a8f8;
+            text-align: center;
+            line-height: 1.4rem;
           }
         }
-        .login-form {
-          margin: 1rem 0 1.4rem;
+        .app-desc {
+          font-style: italic;
+          font-size: 14px;
+          color: #eee;
         }
+      }
+
+      .login-form {
+        width: 100%;
+        max-width: 400px;
       }
 
       .login-opt {

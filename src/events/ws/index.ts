@@ -68,7 +68,7 @@ export class WebSocketChannel {
         const res = JSON.parse(e.data) as WSMsgType;
         this.onPublicMsgListener(res);
         if (res.event === CLIENT_EVENTS.CONNECT_SUCCESS) {
-          console.log('====== normal communication! ======');
+          console.log('====== normal connection! ======');
           this.toast?.clear();
           this.toast && (this.toast = null);
           resolve('websocket conneted successfully!');

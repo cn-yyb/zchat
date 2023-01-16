@@ -12,6 +12,7 @@ import type { Router } from 'vue-router';
 import { useUserStore } from '@/stores/modules/user';
 import { getAppEnvConfig } from '@/utils/env';
 import { WHITE_LIST } from '../constant';
+import { useWebSocketStore } from '@/stores';
 
 const { VITE_GLOB_APP_TITLE } = getAppEnvConfig();
 
@@ -43,6 +44,7 @@ function createHttpGuard(router: Router) {
  */
 function createPermissionGuard(router: Router) {
   const userStore = useUserStore();
+  const websocketStore = useWebSocketStore();
   // 权限拦截
   router.beforeEach(async (to, from, next) => {
     if (hasCacheToken()) {
@@ -50,9 +52,10 @@ function createPermissionGuard(router: Router) {
       if (to.path === '/login') {
         next('/');
       } else {
-        // 解决页面刷新后用户信息丢失问题
+        // 解决页面刷新后用户信息丢失问题 & websocket 刷新重连
         if (!['/login', '/register'].includes(from.path) && !userStore.userInfo) {
-          await userStore.refreshUserInfo();
+          userStore.refreshUserInfo();
+          websocketStore.connectWebSocketService();
         }
         next();
       }

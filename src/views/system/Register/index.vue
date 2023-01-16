@@ -26,7 +26,10 @@
 
 <style lang="less" scoped>
   .register-page {
-    height: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+
     background-color: var(--theme-bg-color);
 
     .top-bar {

@@ -19,6 +19,7 @@
         ]"
         clearable
       />
+
       <van-field
         v-model.trim="registerForm.password"
         type="password"
@@ -39,6 +40,7 @@
         placeholder="请输入登录密码"
         clearable
       />
+
       <van-field
         v-model.trim="registerForm.repassword"
         type="password"
@@ -62,6 +64,7 @@
         label="生日"
         @click="showPicker = true"
       />
+
       <van-field name="gender" label="性别">
         <template #input>
           <van-radio-group v-model="registerForm.gender" direction="horizontal" size="small">
