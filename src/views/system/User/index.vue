@@ -69,7 +69,7 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue';
-  import { Dialog } from 'vant';
+  import { showConfirmDialog } from 'vant';
   import { useUserStore } from '@/stores/modules/user';
   import { useWebSocketStore } from '@/stores';
 
@@ -81,7 +81,7 @@
   const showSettingPopup = () => (isShow.value = true);
 
   const handleLogout = () => {
-    Dialog.confirm({
+    showConfirmDialog({
       title: '是否退出登录?',
       beforeClose: (action) =>
         new Promise((resolve) => {

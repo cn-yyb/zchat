@@ -10,7 +10,7 @@ import { HeartCheck } from './helper';
 import { CLIENT_EVENTS, WS_CONFIG } from './setting';
 import type { WSMsgType } from './type';
 import dayjs from 'dayjs';
-import { Dialog, Toast } from 'vant';
+import { showDialog, showLoadingToast } from 'vant';
 import type { ToastWrapperInstance } from 'vant/lib/toast/types';
 
 export * from './type';
@@ -72,7 +72,7 @@ export class WebSocketChannel {
         this.onPublicMsgListener(res);
         if (res.event === CLIENT_EVENTS.CONNECT_SUCCESS) {
           console.log('====== normal connection! ======');
-          this.toast?.clear();
+          this.toast?.close();
           this.toast && (this.toast = null);
           resolve('websocket conneted successfully!');
         }
@@ -115,7 +115,7 @@ export class WebSocketChannel {
         setTimeout(() => {
           console.log('websocket reconnecting...', this.reconnectCount);
           if (!this.toast) {
-            this.toast = Toast.loading({
+            this.toast = showLoadingToast({
               duration: 0,
               forbidClick: true,
               message: '',
@@ -127,9 +127,9 @@ export class WebSocketChannel {
           this.reconnectCount++;
         }, 3000);
       } else {
-        // Toast.clear();
-        this.toast?.clear();
-        Dialog({
+        // closeToast();
+        this.toast?.close();
+        showDialog({
           title: '服务连接异常',
           message: `服务连接失败了 T_T。请稍后刷新重试，或者联系网站管理员`,
           theme: 'round-button',

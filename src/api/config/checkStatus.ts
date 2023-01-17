@@ -1,6 +1,6 @@
 import type { ErrorMessageMode } from '#/axios';
 import { useUserStore } from '@/stores/modules/user';
-import { Notify, Dialog, Toast } from 'vant';
+import { showNotify, showDialog, showToast } from 'vant';
 
 export function checkStatus(
   status: number,
@@ -17,7 +17,7 @@ export function checkStatus(
     // Jump to the login page if not logged in, and carry the path of the current page
     // Return to the current page after successful login. This step needs to be operated on the login page.
     case 401:
-      Dialog.alert({
+      showDialog({
         title: '登录过期',
         message: `抱歉，您的登录身份已过期，请重新登录。`,
         theme: 'round-button',
@@ -63,11 +63,11 @@ export function checkStatus(
 
   if (errMessage) {
     if (errorMessageMode === 'dialog') {
-      Dialog({ title: '错误提示', message: errMessage });
+      showDialog({ title: '错误提示', message: errMessage });
     } else if (errorMessageMode === 'notify') {
-      Notify({ type: 'danger', message: errorMessageMode });
+      showNotify({ type: 'danger', message: errorMessageMode });
     } else if (errorMessageMode === 'toast') {
-      Toast({ message: errorMessageMode });
+      showToast({ message: errorMessageMode });
     }
   }
 }

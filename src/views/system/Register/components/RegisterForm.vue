@@ -60,8 +60,8 @@
         v-model="registerForm.birthday"
         is-link
         readonly
-        name="datetimePicker"
-        label="生日"
+        name="datePicker"
+        label="出生年月"
         @click="showPicker = true"
       />
 
@@ -133,8 +133,7 @@
   </van-form>
 
   <van-popup v-model:show="showPicker" position="bottom" round>
-    <van-datetime-picker
-      type="date"
+    <van-date-picker
       title="出生年月"
       :min-date="minDate"
       :max-date="maxDate"
@@ -150,7 +149,7 @@
   import { userRegister } from '@/api/modules/user';
   import { useUserStore } from '@/stores/modules/user';
   import dayjs from 'dayjs';
-  import { Dialog, type CountDownInstance } from 'vant';
+  import { showConfirmDialog, type CountDownInstance } from 'vant';
   import { reactive, ref } from 'vue';
   import { useRouter } from 'vue-router';
 
@@ -168,7 +167,7 @@
     emailCode: '',
   });
   const showPicker = ref(false);
-  const minDate = new Date(1990, 1, 1);
+  const minDate = new Date(1990, 0, 1);
   const maxDate = new Date();
 
   const isSendPending = ref(false);
@@ -182,8 +181,9 @@
     }
   };
 
-  const onConfirm = (value) => {
-    registerForm.birthday = dayjs(value).format('YYYY-MM-DD');
+  const onConfirm = ({ selectedValues }) => {
+    console.log(selectedValues);
+    registerForm.birthday = dayjs(selectedValues).format('YYYY-MM-DD');
     showPicker.value = false;
   };
 
@@ -191,7 +191,7 @@
     try {
       loading.value = true;
       await userRegister(registerForm);
-      Dialog.confirm({
+      showConfirmDialog({
         title: '注册成功！',
         message: '新账户注册成功，是否立即登录？',
         beforeClose: (action) =>

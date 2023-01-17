@@ -11,7 +11,7 @@ import { merge, clone } from 'lodash-es';
 import { ContentTypeEnum, RequestEnum, ResultEnum } from '@/constants/enums/httpEnum';
 import type { AxiosResponse } from 'axios';
 import type { ErrorMessageMode, RequestOptions, Result } from '#/axios';
-import { Notify, Dialog, Toast } from 'vant';
+import { showNotify, showDialog, showToast } from 'vant';
 import { isString } from '@/utils/is';
 import { formatRequestDate, joinTimestamp, setObjToUrlParams } from './helper';
 import { checkStatus } from './checkStatus';
@@ -78,11 +78,11 @@ const transform: AxiosTransform = {
 
     // dialog 弹窗提示，notify 顶部横栏提示， toast 轻提示
     if (options.errorMessageMode === 'dialog') {
-      Dialog({ title: '错误提示', message: timeoutMsg });
+      showDialog({ title: '错误提示', message: timeoutMsg });
     } else if (options.errorMessageMode === 'notify') {
-      Notify({ type: 'danger', message: timeoutMsg });
+      showNotify({ type: 'danger', message: timeoutMsg });
     } else if (options.errorMessageMode === 'toast') {
-      Toast({ type: 'text', message: timeoutMsg, position: 'bottom' });
+      showToast({ type: 'text', message: timeoutMsg });
     }
 
     throw new Error(timeoutMsg || '请求出错，请稍后重试');
@@ -184,11 +184,11 @@ const transform: AxiosTransform = {
 
       if (errMessage) {
         if (errorMessageMode === 'dialog') {
-          Dialog({ title: '错误提示', message: errMessage });
+          showDialog({ title: '错误提示', message: errMessage });
         } else if (errorMessageMode === 'notify') {
-          Notify({ type: 'danger', message: errMessage });
+          showNotify({ type: 'danger', message: errMessage });
         } else if (errorMessageMode === 'toast') {
-          Toast({ message: errMessage });
+          showToast({ message: errMessage });
         }
         return Promise.reject(error);
       }

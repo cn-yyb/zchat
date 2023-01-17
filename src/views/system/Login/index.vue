@@ -58,7 +58,7 @@
 
 <script lang="ts" setup>
   import { ref, unref, onMounted, nextTick } from 'vue';
-  import { Notify } from 'vant';
+  import { showNotify } from 'vant';
   import { useUserStore } from '@/stores/modules/user';
   import copyright from '@/layout/components/copyright/index.vue';
   import type { UserLoginForm } from '@/api/modules/types/user';
@@ -79,10 +79,10 @@
 
   const onSubmit = (values: UserLoginForm) => {
     if (!values.username) {
-      Notify({ type: 'warning', message: '请输入您的账号或邮箱' });
+      showNotify({ type: 'warning', message: '请输入您的账号或邮箱' });
       return;
     } else if (!values.password) {
-      Notify({ type: 'warning', message: '请输入您的密码' });
+      showNotify({ type: 'warning', message: '请输入您的密码' });
     } else {
       submitLoginForm(values);
     }
@@ -95,7 +95,7 @@
       console.log(userinfo);
       // save pw
       checkSavePw();
-      Notify({ type: 'success', message: '登录成功！' });
+      showNotify({ type: 'success', message: '登录成功！' });
     } catch (error) {
       console.log(error);
     } finally {
