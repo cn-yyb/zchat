@@ -4,7 +4,7 @@
     closeable
     round
     position="left"
-    :style="{ width: '85%', height: '100%' }"
+    :style="{ maxWidth: '600px', width: '85%', height: '100%' }"
   >
     <div class="user-setting">
       <div class="user-base-info">

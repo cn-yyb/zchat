@@ -58,7 +58,8 @@
 
 <style lang="less" scoped>
   .applets-grid {
-    margin-top: 10px;
+    margin-top: 0.2703rem;
+    padding-bottom: 1.3333rem;
     :deep(.van-grid-item__content) {
       border-radius: 15px;
       // box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.04);
