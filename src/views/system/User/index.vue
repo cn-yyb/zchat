@@ -13,15 +13,16 @@
           fit="cover"
           width="1.5rem"
           height="1.5rem"
-          src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
+          :src="userInfo?.avatar || defaultImgUrl"
           class="user-avatar"
         />
         <div class="user-bio-info">
-          <div class="user-nickname">一隅北 <van-icon name="medal-o" /></div>
-          <div class="user-bio">
-            <v-icon icon="carbon:edit" />
-            长路漫漫，唯剑作伴。</div
-          >
+          <div class="user-nickname"
+            >{{ userInfo?.nickName || userInfo?.accountName || '_' }} <van-icon name="medal-o"
+          /></div>
+          <div class="user-bio" :title="userInfo?.sign">
+            {{ userInfo?.sign || '个性签名' }}&nbsp;<v-icon icon="carbon:edit"
+          /></div>
         </div>
       </div>
       <div class="action-list">
@@ -68,15 +69,17 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue';
+  import { computed, ref } from 'vue';
   import { showConfirmDialog } from 'vant';
   import { useUserStore } from '@/stores/modules/user';
   import { useWebSocketStore } from '@/stores';
 
   const useStore = useUserStore();
+  const userInfo = computed(() => useStore.getUserInfo);
   const webSocketStore = useWebSocketStore();
 
   const isShow = ref(false);
+  const defaultImgUrl = 'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg';
 
   const showSettingPopup = () => (isShow.value = true);
 
@@ -141,7 +144,7 @@
         .user-nickname {
           font-size: 0.45rem;
           color: #222;
-          font-weight: 500;
+          font-weight: 700;
           flex: 1;
           flex-shrink: 0;
 
@@ -149,7 +152,7 @@
         }
 
         .user-bio {
-          font-size: 0.4rem;
+          font-size: 0.3784rem;
 
           .text-overflow();
         }
