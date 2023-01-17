@@ -1,4 +1,5 @@
 import type { ErrorMessageMode } from '#/axios';
+import { useUserStore } from '@/stores/modules/user';
 import { Notify, Dialog, Toast } from 'vant';
 
 export function checkStatus(
@@ -16,14 +17,14 @@ export function checkStatus(
     // Jump to the login page if not logged in, and carry the path of the current page
     // Return to the current page after successful login. This step needs to be operated on the login page.
     case 401:
-      // ! 401 错误已经在 axios/index.ts 中单独进行处理
-      // userStore.setToken(undefined);
-      // errMessage = msg || t('sys.api.errMsg401');
-      // if (stp === SessionTimeoutProcessingEnum.PAGE_COVERAGE) {
-      //   userStore.setSessionTimeout(true);
-      // } else {
-      //   userStore.logout(true);
-      // }
+      Dialog.alert({
+        title: '登录过期',
+        message: `抱歉，您的登录身份已过期，请重新登录。`,
+        theme: 'round-button',
+      }).then(() => {
+        const usrStore = useUserStore();
+        usrStore.logout();
+      });
       break;
     case 403:
       errMessage = '403';

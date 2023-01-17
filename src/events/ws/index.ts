@@ -52,6 +52,9 @@ export class WebSocketChannel {
   }
 
   initWebSocket() {
+    // 销毁连接实例和事件监听
+    this.destory();
+
     return new Promise<any>((resolve, reject) => {
       // 初始化 websocket 实例
       this.client = new WebSocket(this.config.url!, this.config.protocols);
@@ -105,17 +108,12 @@ export class WebSocketChannel {
     console.log('close: ', e);
     this.heartCheck.clear();
     this.isConnected = false;
+
     //被动断开，重新连接
     if (e.code === 1006) {
-      this.destory();
       if (this.reconnectCount < WS_CONFIG.RECONNECT_COUNT) {
         setTimeout(() => {
           console.log('websocket reconnecting...', this.reconnectCount);
-          // Toast.clear();
-          // Toast.loading({
-          //   forbidClick: true,
-          //   message: `服务重连中...(${this.reconnectCount + 1})`,
-          // });
           if (!this.toast) {
             this.toast = Toast.loading({
               duration: 0,
@@ -185,10 +183,12 @@ export class WebSocketChannel {
   }
 
   destory() {
-    this.client!.onclose = null;
-    this.client!.onerror = null;
-    this.client!.onmessage = null;
-    this.client!.onopen = null;
-    this.client = null;
+    if (this.client) {
+      this.client.onclose = null;
+      this.client.onerror = null;
+      this.client.onmessage = null;
+      this.client.onopen = null;
+      this.client = null;
+    }
   }
 }
