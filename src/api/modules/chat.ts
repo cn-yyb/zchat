@@ -7,7 +7,7 @@
 
 import type { ErrorMessageMode } from '#/axios';
 import { http } from '../config';
-import type { ApplyForm, ChatRecordForm, ChatRecordResponse } from './types/chat';
+import type { ApplyForm, ChatRecordForm, ChatRecordResponse, ContactItem } from './types/chat';
 
 enum Api {
   APPLY = '/chat/apply',
@@ -50,7 +50,7 @@ export function passApplication(data: { id: number }, mode: ErrorMessageMode = '
  * @description: getContacts
  */
 export function getContacts(params = {}, mode: ErrorMessageMode = 'notify') {
-  return http.get<any>(
+  return http.get<ContactItem[]>(
     {
       url: Api.CONTACTS,
       params,

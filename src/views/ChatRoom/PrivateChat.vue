@@ -69,7 +69,7 @@
 </template>
 
 <script lang="ts" setup name="PrivateChat">
-  import { nextTick, onMounted, onUnmounted, ref } from 'vue';
+  import { nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
   import { getChatMockData, type ChatRecordItem } from './mockData';
   import { toFormateUrls } from '@/utils/url';
   import type { FieldInstance } from 'vant';
@@ -136,7 +136,7 @@
     chatRef.value?.addEventListener('scroll', chatRefSrcollEvent);
   });
 
-  onUnmounted(() => {
+  onBeforeUnmount(() => {
     chatRef.value?.removeEventListener('scroll', chatRefSrcollEvent);
   });
 </script>

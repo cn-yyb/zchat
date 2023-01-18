@@ -26,7 +26,7 @@
   import LayoutHeader from '@/layout/components/header/index.vue';
   import UserStatus from '@/layout/components/header/UserStatus.vue';
   import UserSetting from '@/views/system/User/index.vue';
-  import { Toast, type PopoverAction } from 'vant';
+  import { showToast, type PopoverAction } from 'vant';
 
   const settingCompRef = ref<InstanceType<typeof UserSetting> | null>(null);
 
@@ -41,7 +41,7 @@
     { text: '通知管理', icon: 'volume-o' },
   ];
 
-  const onSelect = (action: PopoverAction) => Toast(action.text);
+  const onSelect = (action: PopoverAction) => showToast(action.text);
 </script>
 
 <style lang="less" scoped>

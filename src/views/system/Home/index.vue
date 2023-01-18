@@ -9,6 +9,7 @@
       input-align="center"
       placeholder="搜索"
       readonly
+      shape="round"
       @click-input="$router.push('/user-search')"
     />
     <!-- down refresh with chatlist-->

@@ -30,3 +30,15 @@ export declare interface ChatRecordResponse {
   time: number;
   data: ChatRecordItem[];
 }
+
+export declare interface ContactItem {
+  chatId: number;
+  contactId: number;
+  contactName: string;
+  createdAt: string;
+  friendUid: string;
+  groupId: number;
+  remark: string;
+  type: number;
+  updatedAt: string;
+}

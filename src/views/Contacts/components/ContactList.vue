@@ -1,55 +1,57 @@
 <template>
   <div class="contact-list">
-    <van-pull-refresh v-model="loading" @refresh="onRefresh">
-      <van-index-bar :sticky="false">
-        <template v-for="item of renderItems" :key="item">
-          <van-index-anchor :index="item" />
-          <!-- <van-cell v-for="itemText of 6" :title="`${item}-${itemText}`" :key="itemText" /> -->
-          <van-cell border clickable v-for="userItem in 3" :key="userItem">
-            <template #title>
-              <div class="left-container">
-                <van-image
-                  round
-                  width="1.2rem"
-                  height="1.2rem"
-                  fit="cover"
-                  :src="AvatarImage"
-                  class="user-avatar"
-                  :class="{ 'deactive-status': userItem % 3 === 0 }"
-                />
-                <div class="user-simple-info">
-                  <div class="user-nickname">{{ '陌上花开' }}</div>
-                  <div class="new-msg">{{
-                    `[${userItem % 3 === 0 ? '离线' : '在线'}]` + ' 长路漫漫, 唯剑作伴'
-                  }}</div>
-                </div>
+    <!-- <van-pull-refresh v-model="loading" @refresh="onRefresh"> -->
+    <van-index-bar :sticky="false">
+      <template v-for="item of contectIndexGroupRecord" :key="item">
+        <van-index-anchor v-if="item.data.length" :index="item.letter" />
+        <!-- <van-cell v-for="itemText of 6" :title="`${item}-${itemText}`" :key="itemText" /> -->
+        <van-cell
+          border
+          clickable
+          v-for="contactItem in item.data"
+          :key="contactItem.contactId"
+          :to="`/home/private?uid=${contactItem.chatId}&type=${contactItem.type}`"
+        >
+          <template #title>
+            <div class="left-container">
+              <van-image
+                round
+                width="1.2rem"
+                height="1.2rem"
+                fit="cover"
+                :src="AvatarImage"
+                class="user-avatar"
+                :class="{ 'deactive-status': false }"
+              />
+              <div class="user-simple-info">
+                <div class="user-nickname">{{
+                  contactItem.contactName || contactItem.remark || '_'
+                }}</div>
+                <div class="new-msg">{{
+                  `[${true ? '在线' : '离线'}]` + ' 长路漫漫, 唯剑作伴'
+                }}</div>
               </div>
-            </template>
-          </van-cell>
-        </template>
-      </van-index-bar>
-    </van-pull-refresh>
+            </div>
+          </template>
+        </van-cell>
+      </template>
+    </van-index-bar>
+    <!-- </van-pull-refresh> -->
     <van-empty v-if="false" image-size="70" description="真可怜, 您还没有一个好友" />
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { Toast } from 'vant';
-  import { ref } from 'vue';
+  import { inject, type Ref, computed } from 'vue';
   import AvatarImage from '@/assets/images/avatar.jpg';
+  import type { ContactItem } from '@/api/modules/types/chat';
+  import { indexGroup } from '@/utils/indexGroup';
 
-  const renderItems = Array(26)
-    .fill(undefined)
-    .map((_v, i) => String.fromCharCode(i + 65));
+  const contactList = inject<Ref<ContactItem[]>>('contactRecord');
 
-  const loading = ref(false);
-
-  const onRefresh = () => {
-    setTimeout(() => {
-      Toast('刷新成功');
-      loading.value = false;
-    }, 1000);
-  };
+  const contectIndexGroupRecord = computed(() =>
+    indexGroup(contactList!.value || [], 'contactName'),
+  );
 </script>
 
 <style lang="less" scoped>

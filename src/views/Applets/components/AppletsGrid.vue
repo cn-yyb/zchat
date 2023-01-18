@@ -27,16 +27,16 @@
 </template>
 
 <script lang="ts" setup>
-  import { Toast } from 'vant';
+  import { showToast } from 'vant';
   import { ref } from 'vue';
 
   const longPressCb = () => {
-    // Toast('长按事件触发!');
+    // showToast('长按事件触发!');
     showShare.value = true;
   };
 
   const handleClick = () => {
-    Toast('点击事件触发');
+    showToast('点击事件触发');
   };
 
   const showShare = ref(false);

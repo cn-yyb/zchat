@@ -95,7 +95,10 @@
       console.log(userinfo);
       // save pw
       checkSavePw();
-      showNotify({ type: 'success', message: '登录成功！' });
+      showNotify({
+        type: 'success',
+        message: `欢迎回来，${userinfo?.nickName || userinfo?.accountName}`,
+      });
     } catch (error) {
       console.log(error);
     } finally {
