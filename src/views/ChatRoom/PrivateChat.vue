@@ -45,7 +45,6 @@
         </div>
       </template>
     </div>
-    <!-- <van-empty description="PrivateChat 模块未开发" /> -->
     <div class="send-area">
       <van-cell-group>
         <van-field ref="sendInputRef" v-model.trim="sendMsg" type="textarea" rows="1" autosize>
@@ -74,6 +73,28 @@
   import { toFormateUrls } from '@/utils/url';
   import type { FieldInstance } from 'vant';
   import ChatRomPageHeader from './components/ChatRomPageHeader.vue';
+  import { useWebSocketStore } from '@/stores/modules/websocket';
+  import { useRoute } from 'vue-router';
+
+  const websocketStore = useWebSocketStore();
+  const route = useRoute();
+
+  const contactId = Number(route.query?.uid);
+
+  websocketStore.chatMsgListener(contactId, (res) => {
+    const { msg } = res.data;
+    chatRecordList.value.push({
+      nickname: 'xx',
+      avatar: '',
+      content: toFormateUrls(msg, undefined, 'word-break: break-all;'),
+      created_date: new Date().toLocaleTimeString(),
+      isSelf: false,
+      isEndTime: false,
+    });
+    nextTick(() => {
+      chatRef.value!.scrollTop = chatRef.value!.scrollHeight;
+    });
+  });
 
   const sendInputRef = ref<FieldInstance | null>(null);
   const sendMsg = ref<string>('');
