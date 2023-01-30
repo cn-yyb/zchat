@@ -1,7 +1,7 @@
 <template>
   <div class="contact-group">
     <van-pull-refresh v-model="loading" @refresh="onRefresh">
-      <van-cell border clickable is-link icon="setting-o" title="分组管理" />
+      <van-cell :border="false" clickable is-link icon="setting-o" title="分组管理" />
       <van-collapse v-model="activeNames">
         <van-collapse-item name="1" icon="friends-o">
           <template #title>我的好友</template>
