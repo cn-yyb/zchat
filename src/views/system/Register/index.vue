@@ -1,7 +1,7 @@
 <template>
   <div class="register-page">
     <div class="top-bar">
-      <div class="register-btn" @click="$router.push('/login')">登录</div>
+      <div class="login-btn" @click="$router.push('/login')">登录</div>
     </div>
     <div class="register-container">
       <div class="container-header">
@@ -40,6 +40,9 @@
       padding: 0 16px;
       color: #fff;
       font-size: 16px;
+      .login-btn {
+        cursor: pointer;
+      }
     }
     .register-container {
       display: flex;

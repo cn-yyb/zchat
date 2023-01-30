@@ -144,9 +144,9 @@
       color: #fff;
       font-size: 16px;
 
-      // .register-btn {
-      //   font-size: 14px;
-      // }
+      .register-btn {
+        cursor: pointer;
+      }
     }
     .login-container {
       display: flex;
