@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2022-11-02 15:46:28
  * @Last Modified by: zq
- * @Last Modified time: 2022-11-03 12:05:11
+ * @Last Modified time: 2023-01-31 15:38:30
  */
 import { getCalendarDate } from '@/utils/calendarDate';
 import { toFormateUrls } from '@/utils/url';
@@ -15,6 +15,8 @@ export interface ChatRecordItem {
   isEndTime: boolean;
   isSelf: boolean;
   content: string;
+  uid?: string;
+  [x: string]: any;
 }
 
 const chatContent = [

@@ -1,5 +1,5 @@
 <template>
-  <van-form @submit="onSubmit">
+  <van-form @submit="onSubmit" ref="registerFormRef">
     <van-cell-group inset>
       <van-field
         v-model.trim="registerForm.accountName"
@@ -149,6 +149,7 @@
   import { userRegister } from '@/api/modules/user';
   import { useUserStore } from '@/stores/modules/user';
   import dayjs from 'dayjs';
+  import type { FormInstance } from 'vant';
   import { showConfirmDialog, type CountDownInstance } from 'vant';
   import { reactive, ref } from 'vue';
   import { useRouter } from 'vue-router';
@@ -172,10 +173,11 @@
 
   const isSendPending = ref(false);
   const countDown = ref<CountDownInstance | null>(null);
+  const registerFormRef = ref<FormInstance>();
 
   const rePasswordValidator = (value) => {
     if (value !== registerForm.password) {
-      return '确认密码和新密码不一致!';
+      return '确认密码和登录密码不一致!';
     } else {
       return true;
     }
@@ -219,11 +221,12 @@
   };
 
   const handleSendEmailCode = async () => {
+    await registerFormRef.value?.validate('email');
     if (!isSendPending.value) {
       isSendPending.value = true;
       countDown.value?.start();
       try {
-        sendEmailCode({
+        await sendEmailCode({
           email: registerForm.email,
         });
       } catch (error) {

@@ -7,7 +7,7 @@
         <van-loading v-if="isLoading && !isEnd" size="0.5rem" />
         <span v-if="isEnd">已获取全部聊天记录</span>
       </div>
-      <template v-for="chatRecord of chatRecordList" :key="chatRecord.created_date">
+      <template v-for="chatRecord of _chatRecordList" :key="chatRecord.created_date">
         <div class="chat-record-item">
           <template v-if="chatRecord.isSelf">
             <div class="self-record">
@@ -17,13 +17,13 @@
                 fit="cover"
                 width="1rem"
                 height="1rem"
-                src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
+                :src="userStore.getUserInfo?.avatar"
                 class="user-avatar"
               />
             </div>
-            <template v-if="chatRecord.isEndTime">
-              <div class="chat-date-divider">{{ chatRecord.created_date }}</div>
-            </template>
+            <!-- <template v-if="chatRecord.isEndTime">
+              <div class="chat-date-divider">{{ chatRecord.createdAt }}</div>
+            </template> -->
           </template>
           <template v-else>
             <div class="other-record">
@@ -38,9 +38,9 @@
               <div class="chat-record-content"><span v-html="chatRecord.content"></span></div>
             </div>
 
-            <template v-if="chatRecord.isEndTime">
-              <div class="chat-date-divider">{{ chatRecord.created_date }}</div>
-            </template>
+            <!-- <template v-if="chatRecord.isEndTime">
+              <div class="chat-date-divider">{{ chatRecord.createdAt }}</div>
+            </template> -->
           </template>
         </div>
       </template>
@@ -68,59 +68,134 @@
 </template>
 
 <script lang="ts" setup name="PrivateChat">
-  import { nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
-  import { getChatMockData, type ChatRecordItem } from './mockData';
+  import { nextTick, onBeforeUnmount, onMounted, onDeactivated, ref } from 'vue';
   import { toFormateUrls } from '@/utils/url';
   import type { FieldInstance } from 'vant';
   import ChatRomPageHeader from './components/ChatRomPageHeader.vue';
   import { useWebSocketStore } from '@/stores/modules/websocket';
-  import { useRoute } from 'vue-router';
+  import { SERVER_EVENTS, type WSMsgType } from '@/events/ws';
+  import dayjs from 'dayjs';
+  import { useUserStore } from '@/stores/modules/user';
+  import type { ChatRecordForm, ChatRecordItem as _ChatRecordItem } from '@/api/modules/types/chat';
+  import { getChatRecord } from '@/api/modules/chat';
+
+  interface chatRecordResItem {
+    avatar: string;
+    nickName: string;
+    accountName: string;
+    gender: number;
+    uid: string;
+    msg: string;
+    chatId: number;
+    contactId: number;
+    msgType: number;
+    status: number;
+    msgId: number;
+    senderId: string;
+    receiverId: string;
+    content: string;
+    updatedAt: string;
+    createdAt: string;
+  }
 
   const websocketStore = useWebSocketStore();
-  const route = useRoute();
+  const userStore = useUserStore();
 
-  const contactId = Number(route.query?.uid);
-
-  websocketStore.chatMsgListener(contactId, (res) => {
-    const { msg } = res.data;
-    chatRecordList.value.push({
-      nickname: 'xx',
-      avatar: '',
-      content: toFormateUrls(msg, undefined, 'word-break: break-all;'),
-      created_date: new Date().toLocaleTimeString(),
-      isSelf: false,
-      isEndTime: false,
+  websocketStore.chatMsgListener((res: WSMsgType<chatRecordResItem>) => {
+    console.log(res.data);
+    const {
+      msgId,
+      senderId,
+      receiverId,
+      chatId,
+      msgType,
+      content,
+      status,
+      createdAt,
+      updatedAt,
+      avatar,
+      nickName,
+      accountName,
+    } = res.data;
+    _chatRecordList.value.push({
+      nickname: nickName || accountName || '_',
+      msgId,
+      senderId,
+      receiverId,
+      chatId,
+      msgType,
+      content: toFormateUrls(content, undefined, 'word-break: break-all;'),
+      status,
+      createdAt: dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss'),
+      updatedAt: dayjs(updatedAt).format('YYYY-MM-DD HH:mm:ss'),
+      isSelf: senderId === userStore.getUserInfo?.uid,
+      avatar,
+      // isEndTime: false,
     });
     nextTick(() => {
       chatRef.value!.scrollTop = chatRef.value!.scrollHeight;
     });
   });
 
+  onDeactivated(() => {
+    websocketStore.clearMsgListener();
+  });
+
   const sendInputRef = ref<FieldInstance | null>(null);
   const sendMsg = ref<string>('');
-  const chatRecordList = ref<ChatRecordItem[]>([]);
+  const _chatRecordList = ref<_ChatRecordItem[]>([]);
   const chatRef = ref<HTMLDivElement | null>(null);
   const isLoading = ref(false);
   const isEnd = ref(false);
   const valveRef = ref(true);
 
-  const requestCount = ref(0);
+  const requestListParams = ref<ChatRecordForm>({
+    chatId: websocketStore.currentChatRoom.chatId!,
+    current: 1,
+    pageSize: 20,
+  });
 
-  chatRecordList.value = getChatMockData();
+  // chatRecordList.value = getChatMockData();
+
+  async function requestChatRecord() {
+    isLoading.value = true;
+    try {
+      const { data, pages, current } = await getChatRecord(requestListParams.value);
+
+      if (pages === current) {
+        isEnd.value = true;
+      }
+      _chatRecordList.value = [...data, ..._chatRecordList.value];
+    } catch (error) {
+      console.log(error);
+      // eslint-disable-next-line no-empty
+    } finally {
+      setTimeout(() => {
+        // 状态处理
+        isLoading.value = false;
+      }, 1000);
+    }
+  }
+
+  async function initChatRecord() {
+    await requestChatRecord();
+    await nextTick();
+    chatRef.value!.scrollTop = chatRef.value!.scrollHeight;
+  }
+  initChatRecord();
 
   const handleSend = () => {
     if (!sendMsg.value) {
       return;
     }
-    console.log(sendMsg.value);
-    chatRecordList.value.push({
-      nickname: 'xx',
-      avatar: '',
-      content: toFormateUrls(sendMsg.value, undefined, 'word-break: break-all;'),
-      created_date: new Date().toLocaleTimeString(),
-      isSelf: true,
-      isEndTime: false,
+    websocketStore.channel?.sendMsg({
+      event: SERVER_EVENTS.SEND_CHAT_MSG,
+      data: {
+        contactId: websocketStore.currentChatRoom.contactId,
+        msg: sendMsg.value,
+      },
     });
+
     sendMsg.value = '';
     nextTick(() => {
       chatRef.value!.scrollTop = chatRef.value!.scrollHeight;
@@ -134,20 +209,17 @@
       valveRef.value = false;
       isLoading.value = true;
       // 尝试获取历史数据...
-      setTimeout(() => {
-        chatRecordList.value = [...getChatMockData().slice(0, 5), ...chatRecordList.value];
-        // 状态处理
-        isLoading.value = false;
+      setTimeout(async () => {
+        await requestChatRecord();
+        requestListParams.value.current!++;
 
-        requestCount.value++;
-        requestCount.value === 4 && (isEnd.value = true);
         // 重新打开阀门
         valveRef.value = true;
 
-        nextTick(() => {
+        await nextTick(() => {
           chatRef.value!.scrollTop = 0;
         });
-      }, 2000);
+      }, 1000);
     }
   }
 
@@ -158,6 +230,7 @@
   });
 
   onBeforeUnmount(() => {
+    websocketStore.clearMsgListener();
     chatRef.value?.removeEventListener('scroll', chatRefSrcollEvent);
   });
 </script>

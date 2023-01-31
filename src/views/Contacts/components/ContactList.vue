@@ -1,7 +1,7 @@
 <template>
   <div class="contact-list">
     <!-- <van-pull-refresh v-model="loading" @refresh="onRefresh"> -->
-    <van-index-bar :sticky="false">
+    <van-index-bar :sticky="false" :index-list="indexList">
       <template v-for="item of contectIndexGroupRecord" :key="item">
         <van-index-anchor v-if="item.data.length" :index="item.letter" />
         <!-- <van-cell v-for="itemText of 6" :title="`${item}-${itemText}`" :key="itemText" /> -->
@@ -10,7 +10,7 @@
           clickable
           v-for="contactItem in item.data"
           :key="contactItem.contactId"
-          :to="`/home/private?uid=${contactItem.chatId}&type=${contactItem.type}`"
+          @click="handleChat(contactItem)"
         >
           <template #title>
             <div class="left-container">
@@ -43,15 +43,25 @@
 
 <script lang="ts" setup>
   import { inject, type Ref, computed } from 'vue';
+  import { useRouter } from 'vue-router';
   import AvatarImage from '@/assets/images/avatar.jpg';
   import type { ContactItem } from '@/api/modules/types/chat';
   import { indexGroup } from '@/utils/indexGroup';
+  import { useWebSocketStore } from '@/stores';
+
+  const router = useRouter();
+  const websocketStore = useWebSocketStore();
 
   const contactList = inject<Ref<ContactItem[]>>('contactRecord');
-
   const contectIndexGroupRecord = computed(() =>
     indexGroup(contactList!.value || [], 'contactName'),
   );
+  const indexList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split('');
+
+  const handleChat = ({ chatId, type, contactId }: ContactItem) => {
+    websocketStore.setChatRoomParams({ chatId, type, contactId });
+    router.push('/home/private');
+  };
 </script>
 
 <style lang="less" scoped>

@@ -29,7 +29,7 @@
             <van-button class="right-actions-btn" square type="warning" text="置顶" />
             <van-button class="right-actions-btn" square type="danger" text="删除" />
           </template>
-          <van-cell border clickable size="large" :to="`/home/private?uid=${item}&type=0`">
+          <van-cell border clickable size="large" :to="`/home/private?chatId=${item}&type=0`">
             <template #title>
               <div class="left-container">
                 <van-image

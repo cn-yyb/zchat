@@ -4,7 +4,7 @@ export declare interface ApplyForm {
 }
 
 export declare interface ChatRecordForm {
-  chatId: string;
+  chatId: number;
   current?: number;
   pageSize?: number;
 }
@@ -19,7 +19,9 @@ export declare interface ChatRecordItem {
   status: number;
   createdAt: string;
   updatedAt: string;
-  isSelf: false;
+  isSelf: boolean;
+  avatar: string;
+  [x: string]: any;
 }
 
 export declare interface ChatRecordResponse {

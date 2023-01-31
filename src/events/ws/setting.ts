@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2022-12-02 09:59:08
  * @Last Modified by: zq
- * @Last Modified time: 2023-01-15 17:51:00
+ * @Last Modified time: 2023-01-31 16:07:47
  */
 
 export class WS_CONFIG {
@@ -24,6 +24,7 @@ export class WS_CONFIG {
 export enum SERVER_EVENTS {
   PING = 'SERVER_PING',
   SEND_DATA = ' SERVER_SEND_DATA',
+  SEND_CHAT_MSG = 'SERVER_SEND_CHAT_MSG',
 }
 
 export enum CLIENT_EVENTS {

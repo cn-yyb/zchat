@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2023-01-12 16:15:33
  * @Last Modified by: zq
- * @Last Modified time: 2023-01-14 22:01:36
+ * @Last Modified time: 2023-01-31 15:17:06
  */
 
 import type { ErrorMessageMode } from '#/axios';
@@ -67,7 +67,7 @@ export function getContacts(params = {}, mode: ErrorMessageMode = 'notify') {
 export function getChatRecord(data: ChatRecordForm, mode: ErrorMessageMode = 'notify') {
   return http.post<ChatRecordResponse>(
     {
-      url: Api.CONTACTS,
+      url: Api.RECORD,
       data,
     },
     {
