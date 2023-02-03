@@ -19,16 +19,17 @@
                 width="1.2rem"
                 height="1.2rem"
                 fit="cover"
-                :src="AvatarImage"
+                :src="contactItem.user.avatar || AvatarImage"
                 class="user-avatar"
                 :class="{ 'deactive-status': false }"
               />
               <div class="user-simple-info">
-                <div class="user-nickname">{{
-                  contactItem.contactName || contactItem.remark || '_'
-                }}</div>
+                <div class="user-nickname"
+                  >{{ contactItem.contactName
+                  }}{{ contactItem.remark ? `(${contactItem.remark})` : '' }}</div
+                >
                 <div class="new-msg">{{
-                  `[${true ? '在线' : '离线'}]` + ' 长路漫漫, 唯剑作伴'
+                  `[${true ? '在线' : '离线'}]` + ` ${contactItem.user.sign}`
                 }}</div>
               </div>
             </div>

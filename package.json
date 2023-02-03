@@ -26,6 +26,7 @@
     "lib-flexible": "^0.3.2",
     "lodash-es": "^4.17.21",
     "pinia": "^2.0.21",
+    "pinyin-pro": "^3.13.0",
     "qs": "^6.11.0",
     "vant": "^4.0.8",
     "vconsole": "^3.15.0",

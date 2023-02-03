@@ -43,6 +43,7 @@ specifiers:
   npm-run-all: ^4.1.5
   picocolors: ^1.0.0
   pinia: ^2.0.21
+  pinyin-pro: ^3.13.0
   postcss: ^8.4.18
   postcss-pxtorem: ^6.0.0
   prettier: ^2.7.1
@@ -73,6 +74,7 @@ dependencies:
   lib-flexible: 0.3.2
   lodash-es: 4.17.21
   pinia: 2.0.23_lrjaoqkmph6q2hmgd3qeuy6rom
+  pinyin-pro: registry.npmmirror.com/pinyin-pro/3.13.0
   qs: 6.11.0
   vant: registry.npmmirror.com/vant/4.0.9_vue@3.2.41
   vconsole: registry.npmmirror.com/vconsole/3.15.0
@@ -5671,6 +5673,12 @@ packages:
     engines: {node: '>=6'}
     dev: true
     optional: true
+
+  registry.npmmirror.com/pinyin-pro/3.13.0:
+    resolution: {integrity: sha512-mwXkm0fbNdyBqWMCkpmPDT3by8nAIROpQBtJPd2zCQtYn/ED2KWe42X7gZ96R7jZz8zPzaWk5yq93BnOOucNNw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/pinyin-pro/-/pinyin-pro-3.13.0.tgz}
+    name: pinyin-pro
+    version: 3.13.0
+    dev: false
 
   registry.npmmirror.com/process-nextick-args/2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/process-nextick-args/-/process-nextick-args-2.0.1.tgz}

@@ -1,3 +1,5 @@
+import type { UserInfoResponse } from './user';
+
 export declare interface ApplyForm {
   friendUid: string;
   verifyMsg: string;
@@ -20,7 +22,13 @@ export declare interface ChatRecordItem {
   createdAt: string;
   updatedAt: string;
   isSelf: boolean;
-  avatar: string;
+  user: {
+    avatar: string;
+    uid: string;
+    nickName: string;
+    gender: number;
+    accountName: string;
+  };
   [x: string]: any;
 }
 
@@ -43,4 +51,5 @@ export declare interface ContactItem {
   remark: string;
   type: number;
   updatedAt: string;
+  user: UserInfoResponse;
 }

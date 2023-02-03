@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-01-31 15:38:30
  */
 import { getCalendarDate } from '@/utils/calendarDate';
-import { toFormateUrls } from '@/utils/url';
+import { toFormatUrls } from '@/utils/url';
 import dayjs from 'dayjs';
 
 export interface ChatRecordItem {
@@ -90,7 +90,7 @@ export function getChatMockData(): ChatRecordItem[] {
       created_date: getCalendarDate(dayjs(+new Date() + i * 20000).format('YYYY-MM-DD HH:mm:ss')),
       isEndTime: i % 5 === 0,
       isSelf: i % 4 === 0,
-      content: toFormateUrls(
+      content: toFormatUrls(
         chatContent[Math.floor(Math.random() * chatContent.length)],
         undefined,
         'word-break: break-all;',

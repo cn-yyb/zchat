@@ -21,6 +21,22 @@
   import UserStatus from '@/layout/components/header/UserStatus.vue';
   import UserSetting from '@/views/system/User/index.vue';
   import { UserStatusEnum } from '@/constants/enums/userEnum';
+  import type { PropType } from 'vue';
+
+  type UserStatusInfo = {
+    nickname: string;
+    status: UserStatusEnum;
+  };
+
+  defineProps({
+    userStatus: {
+      type: Object as PropType<UserStatusInfo>,
+      default: () => ({
+        nickname: '一隅北',
+        status: UserStatusEnum.ONLINE,
+      }),
+    },
+  });
 
   const settingCompRef = ref<InstanceType<typeof UserSetting> | null>(null);
 </script>

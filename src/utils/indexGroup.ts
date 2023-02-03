@@ -6,6 +6,8 @@
  * @Desc: 将数据按首字母顺序排列分组
  */
 
+import { pinyin } from 'pinyin-pro';
+
 export interface LangGroupsRecord<T = any> {
   zh: T[];
   en: T[];
@@ -44,9 +46,8 @@ export function indexGroupFormat<T, K extends keyof T>(
 ) {
   if (!String.prototype.localeCompare) return null;
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split('');
-  const zh = '阿八嚓哒妸发旮哈讥咔垃痳拏噢妑七呥扨它穵夕丫帀'.split('');
 
-  return letters.map((item, i) => {
+  return letters.map((item) => {
     const cur: indexGroupRecordItem<T> = { letter: item, data: [] };
     if (item === '#') {
       cur.data = recordSortByCharCode(otherRecord, groupBy) as any;
@@ -56,8 +57,9 @@ export function indexGroupFormat<T, K extends keyof T>(
     const enArr: T[] = [];
 
     zhRecord.forEach((record) => {
-      const groupByData = String(record[groupBy] || '') as unknown as string;
-      if (groupByData.localeCompare(zh[i]) >= 0 && groupByData.localeCompare(zh[i + 1]) < 0) {
+      const groupByDataFirst = String(record[groupBy] || '')[0] as unknown as string;
+
+      if (pinyin(groupByDataFirst, { pattern: 'first' }).toUpperCase() === item) {
         zhArr.push(record);
       }
     });

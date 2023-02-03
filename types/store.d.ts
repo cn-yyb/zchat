@@ -19,3 +19,8 @@ declare interface UserInfo {
   createdAt: string;
   updatedAt: string;
 }
+
+declare type UserStatusInfo = {
+  nickname: string;
+  status: UserStatusEnum;
+};

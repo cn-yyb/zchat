@@ -7,7 +7,7 @@
         <van-loading v-if="isLoading && !isEnd" size="0.5rem" />
         <span v-if="isEnd">已获取全部聊天记录</span>
       </div>
-      <template v-for="chatRecord of _chatRecordList" :key="chatRecord.created_date">
+      <template v-for="chatRecord of chatRecordList" :key="chatRecord.created_date">
         <div class="chat-record-item">
           <template v-if="chatRecord.isSelf">
             <div class="self-record">
@@ -32,7 +32,7 @@
                 fit="cover"
                 width="1rem"
                 height="1rem"
-                :src="chatRecord.avatar"
+                :src="chatRecord.user.avatar"
                 class="user-avatar"
               />
               <div class="chat-record-content"><span v-html="chatRecord.content"></span></div>
@@ -69,23 +69,17 @@
 
 <script lang="ts" setup name="PrivateChat">
   import { nextTick, onBeforeUnmount, onMounted, onDeactivated, ref } from 'vue';
-  import { toFormateUrls } from '@/utils/url';
+  import { toFormatUrls } from '@/utils/url';
   import type { FieldInstance } from 'vant';
   import ChatRomPageHeader from './components/ChatRomPageHeader.vue';
   import { useWebSocketStore } from '@/stores/modules/websocket';
   import { SERVER_EVENTS, type WSMsgType } from '@/events/ws';
   import dayjs from 'dayjs';
   import { useUserStore } from '@/stores/modules/user';
-  import type { ChatRecordForm, ChatRecordItem as _ChatRecordItem } from '@/api/modules/types/chat';
+  import type { ChatRecordForm, ChatRecordItem } from '@/api/modules/types/chat';
   import { getChatRecord } from '@/api/modules/chat';
 
   interface chatRecordResItem {
-    avatar: string;
-    nickName: string;
-    accountName: string;
-    gender: number;
-    uid: string;
-    msg: string;
     chatId: number;
     contactId: number;
     msgType: number;
@@ -96,6 +90,13 @@
     content: string;
     updatedAt: string;
     createdAt: string;
+    user: {
+      avatar: string;
+      uid: string;
+      nickName: string;
+      gender: number;
+      accountName: string;
+    };
   }
 
   const websocketStore = useWebSocketStore();
@@ -113,24 +114,20 @@
       status,
       createdAt,
       updatedAt,
-      avatar,
-      nickName,
-      accountName,
+      user,
     } = res.data;
-    _chatRecordList.value.push({
-      nickname: nickName || accountName || '_',
+    chatRecordList.value.push({
       msgId,
       senderId,
       receiverId,
       chatId,
       msgType,
-      content: toFormateUrls(content, undefined, 'word-break: break-all;'),
+      content: toFormatUrls(content, undefined, 'word-break: break-all;'),
       status,
       createdAt: dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss'),
       updatedAt: dayjs(updatedAt).format('YYYY-MM-DD HH:mm:ss'),
       isSelf: senderId === userStore.getUserInfo?.uid,
-      avatar,
-      // isEndTime: false,
+      user,
     });
     nextTick(() => {
       chatRef.value!.scrollTop = chatRef.value!.scrollHeight;
@@ -143,7 +140,7 @@
 
   const sendInputRef = ref<FieldInstance | null>(null);
   const sendMsg = ref<string>('');
-  const _chatRecordList = ref<_ChatRecordItem[]>([]);
+  const chatRecordList = ref<ChatRecordItem[]>([]);
   const chatRef = ref<HTMLDivElement | null>(null);
   const isLoading = ref(false);
   const isEnd = ref(false);
@@ -165,10 +162,14 @@
       if (pages === current) {
         isEnd.value = true;
       }
-      _chatRecordList.value = [...data, ..._chatRecordList.value];
+      data.forEach(
+        (v) => (v.content = toFormatUrls(v.content, undefined, 'word-break: break-all;')),
+      );
+      chatRecordList.value = [...data, ...chatRecordList.value];
+
+      requestListParams.value.current!++;
     } catch (error) {
       console.log(error);
-      // eslint-disable-next-line no-empty
     } finally {
       setTimeout(() => {
         // 状态处理
@@ -211,7 +212,6 @@
       // 尝试获取历史数据...
       setTimeout(async () => {
         await requestChatRecord();
-        requestListParams.value.current!++;
 
         // 重新打开阀门
         valveRef.value = true;
@@ -269,7 +269,7 @@
       .self-record {
         display: flex;
         justify-content: flex-end;
-        padding: 8px;
+        padding: 6px;
 
         .user-avatar {
           flex-shrink: 0;
@@ -294,7 +294,7 @@
 
       .other-record {
         display: flex;
-        padding: 8px;
+        padding: 6px;
         .user-avatar {
           flex-shrink: 0;
           display: block;

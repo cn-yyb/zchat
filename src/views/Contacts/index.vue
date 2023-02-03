@@ -47,6 +47,9 @@
   async function requestContactList() {
     try {
       contactRecord.value = await getContacts();
+      contactRecord.value.forEach((v) => {
+        v.contactName = '老八';
+      });
     } catch (error) {
       console.log(error);
     } finally {
