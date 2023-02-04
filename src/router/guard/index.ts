@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2022-10-24 17:40:31
  * @Last Modified by: zq
- * @Last Modified time: 2023-02-04 09:40:40
+ * @Last Modified time: 2023-02-04 11:06:06
  * @Desc： 路由守卫配置文件
  */
 
@@ -12,7 +12,7 @@ import type { Router } from 'vue-router';
 import { useUserStore } from '@/stores/modules/user';
 import { getAppEnvConfig } from '@/utils/env';
 import { WHITE_LIST } from '../constant';
-import { useWebSocketStore } from '@/stores';
+import { useWebSocketStore, useNoticeStore } from '@/stores';
 
 const { VITE_GLOB_APP_TITLE } = getAppEnvConfig();
 
@@ -89,8 +89,8 @@ function createTitleFixGuard(router: Router) {
 function createChatRoomVerifyGuard(router: Router) {
   router.beforeEach((to, from, next) => {
     if (['/home/private', '/home/group'].includes(to.path)) {
-      const websocketStore = useWebSocketStore();
-      if (websocketStore.currentChatRoom.chatId) {
+      const noticeStore = useNoticeStore();
+      if (noticeStore.currentChatRoom.chatId) {
         next();
       } else {
         next(from.path || '/');

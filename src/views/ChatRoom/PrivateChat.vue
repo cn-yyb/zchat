@@ -75,9 +75,9 @@
   import { useWebSocketStore } from '@/stores/modules/websocket';
   import { SERVER_EVENTS, type WSMsgType } from '@/events/ws';
   import dayjs from 'dayjs';
-  import { useUserStore } from '@/stores/modules/user';
   import type { ChatRecordForm, ChatRecordItem } from '@/api/modules/types/chat';
   import { getChatRecord } from '@/api/modules/chat';
+  import { useNoticeStore, useUserStore } from '@/stores';
 
   interface chatRecordResItem {
     chatId: number;
@@ -101,8 +101,9 @@
 
   const websocketStore = useWebSocketStore();
   const userStore = useUserStore();
+  const noticeStore = useNoticeStore();
 
-  websocketStore.chatMsgListener((res: WSMsgType<chatRecordResItem>) => {
+  noticeStore.setMsgListener((res: WSMsgType<chatRecordResItem>) => {
     console.log(res.data);
     const {
       msgId,
@@ -135,7 +136,7 @@
   });
 
   onDeactivated(() => {
-    websocketStore.clearMsgListener();
+    noticeStore.clearMsgListener();
   });
 
   const sendInputRef = ref<FieldInstance | null>(null);
@@ -147,7 +148,7 @@
   const valveRef = ref(true);
 
   const requestListParams = ref<ChatRecordForm>({
-    chatId: websocketStore.currentChatRoom.chatId!,
+    chatId: noticeStore.currentChatRoom.chatId!,
     current: 1,
     pageSize: 20,
   });
@@ -192,7 +193,7 @@
     websocketStore.channel?.sendMsg({
       event: SERVER_EVENTS.SEND_CHAT_MSG,
       data: {
-        contactId: websocketStore.currentChatRoom.contactId,
+        contactId: noticeStore.currentChatRoom.contactId,
         msg: sendMsg.value,
       },
     });
@@ -230,7 +231,7 @@
   });
 
   onBeforeUnmount(() => {
-    websocketStore.clearMsgListener();
+    noticeStore.clearMsgListener();
     chatRef.value?.removeEventListener('scroll', chatRefSrcollEvent);
   });
 </script>

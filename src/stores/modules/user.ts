@@ -10,6 +10,7 @@ interface UserState {
   userInfo: Nullable<UserInfo>;
   token?: string;
   refreshToken?: string;
+  userStatus: number;
 }
 
 export const useUserStore = defineStore({
@@ -18,6 +19,7 @@ export const useUserStore = defineStore({
     userInfo: null,
     token: undefined,
     refreshToken: undefined,
+    userStatus: 0,
   }),
   getters: {
     getUserInfo(): Nullable<UserInfo> {

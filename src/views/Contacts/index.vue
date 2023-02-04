@@ -11,13 +11,13 @@
     <van-pull-refresh v-model="loading" @refresh="onRefresh" style="flex: 1">
       <van-tabs v-model:active="active" :color="PRIMARY_COLOR">
         <van-tab title="好友" name="contact-list">
-          <contact-list />
+          <contact-list ref="contactListRef" />
         </van-tab>
         <van-tab title="分组" name="groupings">
-          <contact-group />
+          <contact-group ref="contactGroupRef" />
         </van-tab>
         <van-tab title="群聊" name="group-chat">
-          <chat-group />
+          <chat-group ref="chatGroupRef" />
         </van-tab>
       </van-tabs>
     </van-pull-refresh>
@@ -26,45 +26,49 @@
 </template>
 
 <script lang="ts" setup name="ContactsPage">
-  import { onActivated, provide, ref } from 'vue';
+  import { onActivated, ref } from 'vue';
   import { PRIMARY_COLOR } from '@/constants/modules/theme';
   import { useEventListener } from '@vant/use';
   import ContactsPageHeader from './components/ContactsPageHeader.vue';
   import ContactList from './components/ContactList.vue';
   import ContactGroup from './components/ContactGroup.vue';
   import ChatGroup from './components/ChatGroup.vue';
-  import { getContacts } from '@/api/modules/chat';
-  import type { ContactItem } from '@/api/modules/types/chat';
   import { showToast } from 'vant';
+
+  const contactListRef = ref<InstanceType<typeof ContactList>>();
+  const contactGroupRef = ref<InstanceType<typeof ContactGroup>>();
+  const chatGroupRef = ref<InstanceType<typeof ChatGroup>>();
 
   const active = ref('contact-list');
   const contactsPageRef = ref<HTMLDivElement | null>(null);
   const scrollTopRef = ref<number>(0);
 
-  const contactRecord = ref<ContactItem[]>([]);
-  provide('contactRecord', contactRecord);
+  const loading = ref(false);
 
-  async function requestContactList() {
+  const onRefresh = async () => {
     try {
-      contactRecord.value = await getContacts();
-      contactRecord.value.forEach((v) => {
-        v.contactName = '老八';
-      });
+      switch (active.value) {
+        case 'contact-list':
+          await contactListRef.value?.refreshRecord();
+          break;
+
+        case 'groupings':
+          break;
+
+        case 'group-chat':
+          break;
+
+        default:
+          break;
+      }
     } catch (error) {
       console.log(error);
     } finally {
-      //
+      setTimeout(() => {
+        showToast('刷新成功');
+        loading.value = false;
+      }, 500);
     }
-  }
-  requestContactList();
-
-  const loading = ref(false);
-
-  const onRefresh = () => {
-    setTimeout(() => {
-      showToast('刷新成功');
-      loading.value = false;
-    }, 1000);
   };
 
   // 容器滚动事件监听, 返回后回到原位

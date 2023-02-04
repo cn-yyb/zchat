@@ -1,7 +1,14 @@
 <template>
   <layout-header>
     <template #left>
-      <user-status @show-setting="showSetting" />
+      <user-status
+        @show-setting="showSetting"
+        :user-status="{
+          nickname: userStore.getUserInfo?.nickName || '',
+          status: UserStatusEnum.ONLINE,
+          avatar: userStore.getUserInfo?.avatar,
+        }"
+      />
     </template>
     <template #right>
       <van-popover
@@ -27,6 +34,10 @@
   import UserStatus from '@/layout/components/header/UserStatus.vue';
   import UserSetting from '@/views/system/User/index.vue';
   import { showToast, type PopoverAction } from 'vant';
+  import { useUserStore } from '@/stores';
+  import { UserStatusEnum } from '@/constants/enums/userEnum';
+
+  const userStore = useUserStore();
 
   const settingCompRef = ref<InstanceType<typeof UserSetting> | null>(null);
 

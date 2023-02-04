@@ -8,8 +8,8 @@
         <van-cell
           border
           clickable
-          v-for="contactItem in item.data"
           :key="contactItem.contactId"
+          v-for="contactItem in item.data"
           @click="handleChat(contactItem)"
         >
           <template #title>
@@ -21,7 +21,7 @@
                 fit="cover"
                 :src="contactItem.user.avatar || AvatarImage"
                 class="user-avatar"
-                :class="{ 'deactive-status': false }"
+                :class="{ 'deactive-status': !contactItem.isOnline }"
               />
               <div class="user-simple-info">
                 <div class="user-nickname"
@@ -29,7 +29,7 @@
                   }}{{ contactItem.remark ? `(${contactItem.remark})` : '' }}</div
                 >
                 <div class="new-msg">{{
-                  `[${true ? '在线' : '离线'}]` + ` ${contactItem.user.sign}`
+                  `[${contactItem.isOnline ? '在线' : '离线'}]` + ` ${contactItem.user.sign}`
                 }}</div>
               </div>
             </div>
@@ -38,31 +38,56 @@
       </template>
     </van-index-bar>
     <!-- </van-pull-refresh> -->
-    <van-empty v-if="false" image-size="70" description="真可怜, 您还没有一个好友" />
+    <van-empty v-if="!contactList?.length" image-size="70" description="真可怜, 您还没有一个好友" />
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { inject, type Ref, computed } from 'vue';
+  import { computed, ref } from 'vue';
   import { useRouter } from 'vue-router';
   import AvatarImage from '@/assets/images/avatar.jpg';
   import type { ContactItem } from '@/api/modules/types/chat';
   import { indexGroup } from '@/utils/indexGroup';
-  import { useWebSocketStore } from '@/stores';
+  import { useNoticeStore } from '@/stores';
+  import { getContacts } from '@/api/modules/chat';
 
   const router = useRouter();
-  const websocketStore = useWebSocketStore();
+  const noticeStore = useNoticeStore();
 
-  const contactList = inject<Ref<ContactItem[]>>('contactRecord');
+  const contactList = ref<ContactItem[]>([]);
   const contectIndexGroupRecord = computed(() =>
     indexGroup(contactList!.value || [], 'contactName'),
   );
   const indexList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split('');
 
-  const handleChat = ({ chatId, type, contactId }: ContactItem) => {
-    websocketStore.setChatRoomParams({ chatId, type, contactId });
+  async function requestContactList() {
+    try {
+      contactList.value = await getContacts();
+      contactList.value.forEach((v) => {
+        v.contactName = v.user.nickName || v.user.accountName || '';
+      });
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+  requestContactList();
+
+  const handleChat = ({ chatId, type, contactId, contactName, isOnline }: ContactItem) => {
+    noticeStore.setMsgListenerConfig({
+      chatId,
+      type,
+      contactId,
+      chatRoomName: contactName,
+      userStatus: 0,
+      isOnline,
+    });
     router.push('/home/private');
   };
+
+  defineExpose({
+    refreshRecord: requestContactList,
+  });
 </script>
 
 <style lang="less" scoped>

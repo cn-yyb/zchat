@@ -51,5 +51,6 @@ export declare interface ContactItem {
   remark: string;
   type: number;
   updatedAt: string;
+  isOnline: boolean;
   user: UserInfoResponse;
 }

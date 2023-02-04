@@ -4,7 +4,11 @@
       <van-icon name="arrow-left" class="nav-bar-icon" @click="$router.back()" />
       <user-status
         is-hidden-avatar
-        :user-status="{ nickname: '张三', status: UserStatusEnum.OFFLINE }"
+        :is-show-self="false"
+        :user-status="{
+          nickname: noticeStore.currentChatRoom.chatRoomName || '_',
+          status: noticeStore.currentChatRoom.isOnline ? 0 : 1,
+        }"
       />
     </template>
     <template #right>
@@ -20,23 +24,9 @@
   import LayoutHeader from '@/layout/components/header/index.vue';
   import UserStatus from '@/layout/components/header/UserStatus.vue';
   import UserSetting from '@/views/system/User/index.vue';
-  import { UserStatusEnum } from '@/constants/enums/userEnum';
-  import type { PropType } from 'vue';
+  import { useNoticeStore } from '@/stores';
 
-  type UserStatusInfo = {
-    nickname: string;
-    status: UserStatusEnum;
-  };
-
-  defineProps({
-    userStatus: {
-      type: Object as PropType<UserStatusInfo>,
-      default: () => ({
-        nickname: '一隅北',
-        status: UserStatusEnum.ONLINE,
-      }),
-    },
-  });
+  const noticeStore = useNoticeStore();
 
   const settingCompRef = ref<InstanceType<typeof UserSetting> | null>(null);
 </script>
