@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2022-10-24 17:40:31
  * @Last Modified by: zq
- * @Last Modified time: 2023-01-15 11:40:50
+ * @Last Modified time: 2023-02-04 09:40:40
  * @Desc： 路由守卫配置文件
  */
 
@@ -19,6 +19,7 @@ const { VITE_GLOB_APP_TITLE } = getAppEnvConfig();
 // 挂载路由守卫函数
 export function setupRouterGuard(router: Router) {
   createHttpGuard(router);
+  createChatRoomVerifyGuard(router);
   createPermissionGuard(router);
   createTitleFixGuard(router);
 }
@@ -70,6 +71,7 @@ function createPermissionGuard(router: Router) {
     }
   });
 }
+
 /**
  * 修改页面标题
  * @param router
@@ -77,5 +79,24 @@ function createPermissionGuard(router: Router) {
 function createTitleFixGuard(router: Router) {
   router.afterEach((to) => {
     document.title = VITE_GLOB_APP_TITLE + (to.meta.title ? `-${to.meta.title}` : '');
+  });
+}
+
+/**
+ * 修改页面标题
+ * @param router
+ */
+function createChatRoomVerifyGuard(router: Router) {
+  router.beforeEach((to, from, next) => {
+    if (['/home/private', '/home/group'].includes(to.path)) {
+      const websocketStore = useWebSocketStore();
+      if (websocketStore.currentChatRoom.chatId) {
+        next();
+      } else {
+        next(from.path || '/');
+      }
+    } else {
+      next();
+    }
   });
 }
