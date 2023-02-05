@@ -77,4 +77,10 @@ module.exports = {
     'vue/multi-word-component-names': 'off',
     'no-useless-escape': 'off',
   },
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx', '*.vue'],
+      rules: { 'no-undef': 'off' },
+    },
+  ],
 };
