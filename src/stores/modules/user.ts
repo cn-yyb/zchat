@@ -51,9 +51,9 @@ export const useUserStore = defineStore({
 
     logout() {
       // 清除用户信息和token, 并重新返回登录页面
+      router.push('/login');
       this.setToken('');
       this.userInfo = null;
-      router.push('/login');
     },
 
     async afterLoginAction() {

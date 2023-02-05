@@ -54,3 +54,15 @@ export declare interface ContactItem {
   isOnline: boolean;
   user: UserInfoResponse;
 }
+
+export declare interface ContactGroupItem {
+  groupId: number;
+  uid: string;
+  groupName: string;
+  groupOrder: number;
+  type: number;
+  createdAt: string;
+  updatedAt: string;
+  onlineTotal: number;
+  contacts: ContactItem[];
+}

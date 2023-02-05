@@ -1,11 +1,22 @@
 <template>
   <div class="contact-group">
     <van-cell :border="false" clickable is-link icon="setting-o" title="分组管理" />
-    <van-collapse v-model="activeNames">
-      <van-collapse-item name="1" icon="friends-o">
-        <template #title>我的好友</template>
-        <template #value>12/32</template>
-        <van-cell border clickable v-for="item in 8" :key="item">
+    <van-collapse v-model="activeItems">
+      <van-collapse-item
+        v-for="item of contactGroups"
+        :key="item.groupId"
+        :name="item.groupId"
+        icon="friends-o"
+      >
+        <template #title>{{ item.groupName }}</template>
+        <template #value>{{ `${item.onlineTotal}/${item.contacts.length}` }}</template>
+        <van-cell
+          border
+          clickable
+          v-for="contact of item.contacts"
+          :key="contact.chatId"
+          @click="handleChat(contact)"
+        >
           <template #title>
             <div class="left-container">
               <van-image
@@ -13,19 +24,22 @@
                 width="1.2rem"
                 height="1.2rem"
                 fit="cover"
-                src="https://unpkg.com/@vant/assets/ipad.jpeg"
+                :src="contact.user.avatar"
                 class="user-avatar"
+                :class="{ 'deactive-status': !contact.isOnline }"
               />
               <div class="user-simple-info">
-                <div class="user-nickname">{{ '一只细狗' }}</div>
-                <div class="new-msg">{{ '[在线] 长路漫漫, 唯剑作伴' }}</div>
+                <div class="user-nickname">{{ contact.user.nickName }}</div>
+                <div class="new-msg">{{
+                  `[${contact.isOnline ? '在线' : '离线'}]` + ` ${contact.user.sign}`
+                }}</div>
               </div>
             </div>
           </template>
-          <!-- <template #value> 离线 </template> -->
+          <!-- <template #value> VIP3 </template> -->
         </van-cell>
       </van-collapse-item>
-      <van-collapse-item name="2" icon="friends-o">
+      <!-- <van-collapse-item name="2" icon="friends-o">
         <template #title>朋友</template>
         <template #value>4/18</template>
         <van-cell border clickable v-for="item in 2" :key="item">
@@ -45,23 +59,58 @@
               </div>
             </div>
           </template>
-          <!-- <template #value> 离线 </template> -->
+          <template #value> 离线 </template>
         </van-cell>
       </van-collapse-item>
       <van-collapse-item name="3" icon="friends-o">
         <template #title>家人</template>
         <template #value>6/8</template>
         <van-empty image-size="70" description="该分组为空" />
-      </van-collapse-item>
+      </van-collapse-item> -->
     </van-collapse>
   </div>
 </template>
 
 <script lang="ts" setup>
   import { ref } from 'vue';
-  import AvatarImage from '@/assets/images/avatar.jpg';
+  // import AvatarImage from '@/assets/images/avatar.jpg';
+  import { getContactGroups } from '@/api/modules/chat';
+  import type { ContactGroupItem, ContactItem } from '@/api/modules/types/chat';
+  import { useNoticeStore } from '@/stores';
+  import { useRouter } from 'vue-router';
 
-  const activeNames = ref(['1']);
+  const noticeStore = useNoticeStore();
+  const router = useRouter();
+
+  const activeItems = ref([]);
+  const contactGroups = ref<ContactGroupItem[]>([]);
+
+  async function requestContactGroups() {
+    try {
+      const res = await getContactGroups();
+      contactGroups.value = res;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+  requestContactGroups();
+
+  const handleChat = ({ chatId, type, contactId, isOnline, user }: ContactItem) => {
+    noticeStore.setMsgListenerConfig({
+      chatId,
+      type,
+      contactId,
+      chatRoomName: user.nickName || user.accountName || '',
+      userStatus: 0,
+      isOnline,
+    });
+    router.push('/home/private');
+  };
+
+  defineExpose({
+    refreshRecord: requestContactGroups,
+  });
 </script>
 
 <style lang="less" scoped>

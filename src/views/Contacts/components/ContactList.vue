@@ -38,27 +38,28 @@
       </template>
     </van-index-bar>
     <!-- </van-pull-refresh> -->
-    <van-empty v-if="!contactList?.length" image-size="70" description="真可怜, 您还没有一个好友" />
+    <van-empty v-if="isNoContact" image-size="70" description="真可怜, 您还没有一个好友" />
   </div>
 </template>
 
 <script lang="ts" setup>
   import { computed, ref } from 'vue';
-  import { useRouter } from 'vue-router';
   import AvatarImage from '@/assets/images/avatar.jpg';
   import type { ContactItem } from '@/api/modules/types/chat';
   import { indexGroup } from '@/utils/indexGroup';
-  import { useNoticeStore } from '@/stores';
   import { getContacts } from '@/api/modules/chat';
+  import { useNoticeStore } from '@/stores';
+  import { useRouter } from 'vue-router';
 
-  const router = useRouter();
   const noticeStore = useNoticeStore();
+  const router = useRouter();
 
   const contactList = ref<ContactItem[]>([]);
   const contectIndexGroupRecord = computed(() =>
     indexGroup(contactList!.value || [], 'contactName'),
   );
   const indexList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split('');
+  const isNoContact = ref(false);
 
   async function requestContactList() {
     try {
@@ -66,6 +67,7 @@
       contactList.value.forEach((v) => {
         v.contactName = v.user.nickName || v.user.accountName || '';
       });
+      isNoContact.value = !contactList.value.length;
     } catch (error) {
       console.log(error);
       throw error;

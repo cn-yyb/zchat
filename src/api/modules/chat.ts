@@ -2,18 +2,25 @@
  * @Author: zq
  * @Date: 2023-01-12 16:15:33
  * @Last Modified by: zq
- * @Last Modified time: 2023-01-31 15:17:06
+ * @Last Modified time: 2023-02-04 17:51:26
  */
 
 import type { ErrorMessageMode } from '#/axios';
 import { http } from '../config';
-import type { ApplyForm, ChatRecordForm, ChatRecordResponse, ContactItem } from './types/chat';
+import type {
+  ApplyForm,
+  ChatRecordForm,
+  ChatRecordResponse,
+  ContactGroupItem,
+  ContactItem,
+} from './types/chat';
 
 enum Api {
   APPLY = '/chat/apply',
   APPLY_PASS = '/chat/apply/pass',
   CONTACTS = '/chat/contacts',
   RECORD = '/chat/record',
+  CONTACT_GROUPS = '/chat/contact-groups',
 }
 
 /**
@@ -69,6 +76,21 @@ export function getChatRecord(data: ChatRecordForm, mode: ErrorMessageMode = 'no
     {
       url: Api.RECORD,
       data,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+}
+
+/**
+ * @description: get contact groups
+ */
+export function getContactGroups(params = {}, mode: ErrorMessageMode = 'notify') {
+  return http.get<ContactGroupItem[]>(
+    {
+      url: Api.CONTACT_GROUPS,
+      params,
     },
     {
       errorMessageMode: mode,

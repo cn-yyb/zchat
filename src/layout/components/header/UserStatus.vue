@@ -13,15 +13,13 @@
       />
     </div>
     <div class="user-status-info" @click="$emit('setOnlineStatus')">
-      <div class="user-nickname">{{
-        autoFix((isShowSelf ? userStore.getUserInfo?.nickName : userStatus.nickname) || '_')
-      }}</div>
+      <div class="user-nickname">{{ autoFix(userStatusInfo.nickname || '_') }}</div>
       <div class="user-online-status"
         ><div
           class="status-dot"
-          :style="{ backgroundColor: UserStatusText[userStatus.status]['color'] }"
+          :style="{ backgroundColor: UserStatusText[userStatusInfo.status]['color'] }"
         ></div>
-        {{ UserStatusText[isShowSelf ? userStore.userStatus : userStatus.status]['text'] }}</div
+        {{ UserStatusText[userStatusInfo.status]['text'] }}</div
       >
     </div>
   </div>
@@ -36,11 +34,17 @@
 
   const userStore = useUserStore();
 
+  type UserStatusInfo = {
+    nickname: string;
+    status: UserStatusEnum;
+    avatar?: string;
+  };
+
   const userStatusInfo = computed(() => {
     if (props.isShowSelf) {
       const { userStatus } = userStore.$state;
       return {
-        nickName: userStore.getUserInfo?.nickName || '_',
+        nickname: userStore.getUserInfo?.nickName,
         avatar: userStore.getUserInfo?.avatar,
         status: userStatus,
       };
@@ -48,12 +52,6 @@
       return props.userStatus;
     }
   });
-
-  type UserStatusInfo = {
-    nickname: string;
-    status: UserStatusEnum;
-    avatar?: string;
-  };
 
   const props = defineProps({
     hasDot: {

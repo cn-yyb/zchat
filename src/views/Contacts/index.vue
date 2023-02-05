@@ -47,20 +47,7 @@
 
   const onRefresh = async () => {
     try {
-      switch (active.value) {
-        case 'contact-list':
-          await contactListRef.value?.refreshRecord();
-          break;
-
-        case 'groupings':
-          break;
-
-        case 'group-chat':
-          break;
-
-        default:
-          break;
-      }
+      await refreshTabRecord();
     } catch (error) {
       console.log(error);
     } finally {
@@ -70,6 +57,24 @@
       }, 500);
     }
   };
+
+  async function refreshTabRecord() {
+    switch (active.value) {
+      case 'contact-list':
+        await contactListRef.value?.refreshRecord();
+        break;
+
+      case 'groupings':
+        await contactGroupRef.value?.refreshRecord();
+        break;
+
+      case 'group-chat':
+        break;
+
+      default:
+        break;
+    }
+  }
 
   // 容器滚动事件监听, 返回后回到原位
   useEventListener(
@@ -84,6 +89,7 @@
 
   onActivated(() => {
     contactsPageRef.value!.scrollTop = scrollTopRef.value;
+    refreshTabRecord();
   });
 </script>
 
