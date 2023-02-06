@@ -75,7 +75,6 @@
   import { ref } from 'vue';
   // import AvatarImage from '@/assets/images/avatar.jpg';
   import { getContactGroups } from '@/api/modules/chat';
-  import type { ContactGroupItem, ContactItem } from '@/api/modules/types/chat';
   import { useNoticeStore } from '@/stores';
   import { useRouter } from 'vue-router';
 

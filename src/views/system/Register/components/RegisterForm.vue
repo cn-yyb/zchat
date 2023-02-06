@@ -145,7 +145,6 @@
 
 <script lang="ts" setup>
   import { sendEmailCode } from '@/api/modules/email';
-  import type { UserRegisterForm } from '@/api/modules/types/user';
   import { userRegister } from '@/api/modules/user';
   import { useUserStore } from '@/stores/modules/user';
   import dayjs from 'dayjs';

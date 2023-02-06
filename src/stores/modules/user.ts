@@ -3,7 +3,6 @@ import { defineStore } from 'pinia';
 import { router } from '@/router';
 import { getCacheToken, setCacheToken } from '../auth';
 import { PageEnum } from '@/constants/enums/pageEnum';
-import type { UserLoginForm } from '@/api/modules/types/user';
 import { useWebSocketStore } from './websocket';
 
 interface UserState {

@@ -2,18 +2,12 @@
  * @Author: zq
  * @Date: 2023-01-12 14:42:26
  * @Last Modified by: zq
- * @Last Modified time: 2023-01-15 11:27:47
+ * @Last Modified time: 2023-02-06 09:24:53
  * @Dest: 用户相关接口
  */
 
 import type { ErrorMessageMode } from '#/axios';
 import { http } from '../config';
-import type {
-  UserLoginForm,
-  UserLoginResponse,
-  UserRegisterForm,
-  UserInfoResponse,
-} from './types/user';
 
 enum Api {
   LOGIN = '/user/login',

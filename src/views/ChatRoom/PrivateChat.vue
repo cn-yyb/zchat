@@ -75,7 +75,6 @@
   import { useWebSocketStore } from '@/stores/modules/websocket';
   import { SERVER_EVENTS, type WSMsgType } from '@/events/ws';
   import dayjs from 'dayjs';
-  import type { ChatRecordForm, ChatRecordItem } from '@/api/modules/types/chat';
   import { getChatRecord } from '@/api/modules/chat';
   import { useNoticeStore, useUserStore } from '@/stores';
 

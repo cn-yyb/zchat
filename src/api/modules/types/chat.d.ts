@@ -1,17 +1,15 @@
-import type { UserInfoResponse } from './user';
-
-export declare interface ApplyForm {
+declare interface ApplyForm {
   friendUid: string;
   verifyMsg: string;
 }
 
-export declare interface ChatRecordForm {
+declare interface ChatRecordForm {
   chatId: number;
   current?: number;
   pageSize?: number;
 }
 
-export declare interface ChatRecordItem {
+declare interface ChatRecordItem {
   msgId: number;
   senderId: string;
   receiverId: string;
@@ -32,7 +30,7 @@ export declare interface ChatRecordItem {
   [x: string]: any;
 }
 
-export declare interface ChatRecordResponse {
+declare interface ChatRecordResponse {
   current: number;
   pageSize: number;
   pages: number;
@@ -41,7 +39,7 @@ export declare interface ChatRecordResponse {
   data: ChatRecordItem[];
 }
 
-export declare interface ContactItem {
+declare interface ContactItem {
   chatId: number;
   contactId: number;
   contactName: string;
@@ -55,7 +53,7 @@ export declare interface ContactItem {
   user: UserInfoResponse;
 }
 
-export declare interface ContactGroupItem {
+declare interface ContactGroupItem {
   groupId: number;
   uid: string;
   groupName: string;

@@ -61,7 +61,6 @@
   import { showNotify } from 'vant';
   import { useUserStore } from '@/stores/modules/user';
   import copyright from '@/layout/components/copyright/index.vue';
-  import type { UserLoginForm } from '@/api/modules/types/user';
   import { PRIMARY_COLOR } from '@/constants/modules/theme';
   import { CACHE_KEYS } from '@/constants/enums/cacheKeysEnum';
   import { createLocalStorage } from '@/utils/cache';

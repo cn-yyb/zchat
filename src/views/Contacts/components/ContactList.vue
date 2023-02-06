@@ -45,7 +45,6 @@
 <script lang="ts" setup>
   import { computed, ref } from 'vue';
   import AvatarImage from '@/assets/images/avatar.jpg';
-  import type { ContactItem } from '@/api/modules/types/chat';
   import { indexGroup } from '@/utils/indexGroup';
   import { getContacts } from '@/api/modules/chat';
   import { useNoticeStore } from '@/stores';

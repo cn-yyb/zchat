@@ -1,13 +1,13 @@
-export declare interface UserLoginForm {
+declare interface UserLoginForm {
   username: string;
   password: string;
 }
 
-export declare interface UserLoginResponse {
+declare interface UserLoginResponse {
   token: string;
 }
 
-export declare interface UserRegisterForm {
+declare interface UserRegisterForm {
   accountName: string;
   password: string;
   repassword: string;
@@ -17,7 +17,7 @@ export declare interface UserRegisterForm {
   emailCode: string;
 }
 
-export declare interface UserInfoResponse {
+declare interface UserInfoResponse {
   userId: number;
   uid: string;
   accountName: string;
@@ -39,7 +39,7 @@ export declare interface UserInfoResponse {
   updatedAt: string;
 }
 
-// export declare interface GetUserInfoForm {
+//  declare interface GetUserInfoForm {
 //   username?: string;
 //   uid?: string;
 //   usreId?: number;

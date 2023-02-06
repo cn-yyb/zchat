@@ -22,5 +22,7 @@ declare interface UserInfo {
 
 declare type UserStatusInfo = {
   nickname: string;
-  status: UserStatusEnum;
+  status: number;
+  avatar?: string;
+  [x: string]: any;
 };
