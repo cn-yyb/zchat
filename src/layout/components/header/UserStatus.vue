@@ -34,12 +34,6 @@
 
   const userStore = useUserStore();
 
-  type UserStatusInfo = {
-    nickname: string;
-    status: UserStatusEnum;
-    avatar?: string;
-  };
-
   const userStatusInfo = computed(() => {
     if (props.isShowSelf) {
       const { userStatus } = userStore.$state;
