@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2023-01-10 17:00:14
  * @Last Modified by: zq
- * @Last Modified time: 2023-01-11 15:42:56
+ * @Last Modified time: 2023-02-06 09:19:21
  */
 import { cdn } from 'vite-plugin-cdn2';
 
@@ -46,14 +46,14 @@ export function cdnImportPlugin(isBuild: boolean) {
         global: 'crypto-js',
         spare: [createCdnUrl('crypto-js@4.1.1/index.min.js')],
       },
-      {
-        name: 'vant',
-        global: 'vant',
-        spare: [
-          createCdnUrl('vant@3.6.4/lib/vant.min.js'),
-          createCdnUrl('vant@3.6.4/lib/index.css'),
-        ],
-      },
+      // {
+      //   name: 'vant',
+      //   global: 'vant',
+      //   spare: [
+      //     createCdnUrl('vant@4.0.8/lib/vant.min.js'),
+      //     createCdnUrl('vant@4.0.8/lib/index.css'),
+      //   ],
+      // },
       {
         name: 'axios',
         global: 'axios',
