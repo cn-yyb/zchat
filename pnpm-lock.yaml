@@ -54,7 +54,7 @@ specifiers:
   unplugin-icons: ^0.14.12
   unplugin-vue-components: ^0.22.8
   vant: ^4.0.8
-  vconsole: ^3.15.0
+  vconsole: 3.14.6
   vite: ^3.0.9
   vite-plugin-cdn2: ^0.3.3
   vite-plugin-html: ^3.2.0
@@ -64,6 +64,7 @@ specifiers:
   vue-eslint-parser: ^9.1.0
   vue-router: ^4.1.5
   vue-tsc: ^0.40.7
+  vue-vconsole-devtools: ^1.0.5
 
 dependencies:
   '@vant/touch-emulator': 1.4.0
@@ -77,9 +78,10 @@ dependencies:
   pinyin-pro: registry.npmmirror.com/pinyin-pro/3.13.0
   qs: 6.11.0
   vant: registry.npmmirror.com/vant/4.0.9_vue@3.2.41
-  vconsole: registry.npmmirror.com/vconsole/3.15.0
+  vconsole: registry.npmmirror.com/vconsole/3.14.6
   vue: 3.2.41
   vue-router: 4.1.5_vue@3.2.41
+  vue-vconsole-devtools: registry.npmmirror.com/vue-vconsole-devtools/1.0.5
 
 devDependencies:
   '@commitlint/cli': 17.1.2
@@ -6278,10 +6280,10 @@ packages:
       vue: 3.2.41
     dev: false
 
-  registry.npmmirror.com/vconsole/3.15.0:
-    resolution: {integrity: sha512-8hq7wabPcRucSWQyN7/1tthMawP9JPvM95zgtMHpPknMMMCKj+abpoK7P7oKK4B0qw58C24Mdvo9+raUdpHyVQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vconsole/-/vconsole-3.15.0.tgz}
+  registry.npmmirror.com/vconsole/3.14.6:
+    resolution: {integrity: sha512-8Ffk2SfNe6EzKqZ0aNnNjpAVBVT7zgJo81lYEJdKySYLVYBeSawdSkWi9fSjDg3WsQhgS1vNPmRqJDTuwdVbnQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vconsole/-/vconsole-3.14.6.tgz}
     name: vconsole
-    version: 3.15.0
+    version: 3.14.6
     dependencies:
       '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.20.13
       copy-text-to-clipboard: registry.npmmirror.com/copy-text-to-clipboard/3.0.1
@@ -6303,6 +6305,12 @@ packages:
     transitivePeerDependencies:
       - encoding
     dev: true
+
+  registry.npmmirror.com/vue-vconsole-devtools/1.0.5:
+    resolution: {integrity: sha512-yY8Vg+LROhRfgASTi0zofd+182eaU0M5HyV9/KBQ1MbLB3/MeM91eZIsAFliZVYWZJGSwZ3iyGmyfRTxxKQY2w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vue-vconsole-devtools/-/vue-vconsole-devtools-1.0.5.tgz}
+    name: vue-vconsole-devtools
+    version: 1.0.5
+    dev: false
 
   registry.npmmirror.com/webidl-conversions/3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/webidl-conversions/-/webidl-conversions-3.0.1.tgz}
