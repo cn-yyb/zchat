@@ -14,6 +14,7 @@ enum Api {
   CONTACTS = '/chat/contacts',
   RECORD = '/chat/record',
   CONTACT_GROUPS = '/chat/contact-groups',
+  UNREAD_RECORD = '/chat/unread-record',
 }
 
 /**
@@ -83,6 +84,21 @@ export function getContactGroups(params = {}, mode: ErrorMessageMode = 'notify')
   return http.get<ContactGroupItem[]>(
     {
       url: Api.CONTACT_GROUPS,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+}
+
+/**
+ * @description: get unread chat record
+ */
+export function getUnreadChatReocrd(params = {}, mode: ErrorMessageMode = 'notify') {
+  return http.get<UnreadChatRecordItem[]>(
+    {
+      url: Api.UNREAD_RECORD,
       params,
     },
     {

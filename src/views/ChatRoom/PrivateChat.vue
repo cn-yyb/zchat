@@ -10,6 +10,9 @@
       <template v-for="chatRecord of chatRecordList" :key="chatRecord.created_date">
         <div class="chat-record-item">
           <template v-if="chatRecord.isSelf">
+            <template v-if="chatRecord.isEndTime">
+              <div class="chat-date-divider">{{ getChatCalendarDate(chatRecord.createdAt) }}</div>
+            </template>
             <div class="self-record">
               <div class="chat-record-content"><span v-html="chatRecord.content"></span></div>
               <van-image
@@ -21,11 +24,11 @@
                 class="user-avatar"
               />
             </div>
-            <!-- <template v-if="chatRecord.isEndTime">
-              <div class="chat-date-divider">{{ chatRecord.createdAt }}</div>
-            </template> -->
           </template>
           <template v-else>
+            <template v-if="chatRecord.isEndTime">
+              <div class="chat-date-divider">{{ getChatCalendarDate(chatRecord.createdAt) }}</div>
+            </template>
             <div class="other-record">
               <van-image
                 round
@@ -37,10 +40,6 @@
               />
               <div class="chat-record-content"><span v-html="chatRecord.content"></span></div>
             </div>
-
-            <!-- <template v-if="chatRecord.isEndTime">
-              <div class="chat-date-divider">{{ chatRecord.createdAt }}</div>
-            </template> -->
           </template>
         </div>
       </template>
@@ -77,26 +76,7 @@
   import dayjs from 'dayjs';
   import { getChatRecord } from '@/api/modules/chat';
   import { useNoticeStore, useUserStore } from '@/stores';
-
-  interface chatRecordResItem {
-    chatId: number;
-    contactId: number;
-    msgType: number;
-    status: number;
-    msgId: number;
-    senderId: string;
-    receiverId: string;
-    content: string;
-    updatedAt: string;
-    createdAt: string;
-    user: {
-      avatar: string;
-      uid: string;
-      nickName: string;
-      gender: number;
-      accountName: string;
-    };
-  }
+  import { getChatCalendarDate } from '@/utils/calendarDate';
 
   const websocketStore = useWebSocketStore();
   const userStore = useUserStore();
@@ -128,7 +108,10 @@
       updatedAt: dayjs(updatedAt).format('YYYY-MM-DD HH:mm:ss'),
       isSelf: senderId === userStore.getUserInfo?.uid,
       user,
+      isEndTime: false,
     });
+
+    setChatRecordDateDivider();
     nextTick(() => {
       chatRef.value!.scrollTop = chatRef.value!.scrollHeight;
     });
@@ -167,6 +150,7 @@
       );
       chatRecordList.value = [...data, ...chatRecordList.value];
 
+      setChatRecordDateDivider();
       requestListParams.value.current!++;
     } catch (error) {
       console.log(error);
@@ -182,6 +166,8 @@
     await requestChatRecord();
     await nextTick();
     chatRef.value!.scrollTop = chatRef.value!.scrollHeight;
+    // 追加丝滑滚动样式
+    chatRef.value!.style.scrollBehavior = 'smooth';
   }
   initChatRecord();
 
@@ -223,6 +209,14 @@
     }
   }
 
+  function setChatRecordDateDivider() {
+    chatRecordList.value.forEach((item, index) => {
+      item.isEndTime =
+        dayjs(chatRecordList.value[index + 1]?.createdAt).diff(dayjs(item?.createdAt), 'seconds') >
+        5 * 60;
+    });
+  }
+
   onMounted(() => {
     chatRef.value!.scrollTop = chatRef.value!.scrollHeight;
     // 监听消息区域滚动事件
@@ -246,7 +240,6 @@
     display: flex;
     flex-direction: column;
     padding-bottom: 1.3333rem;
-
     background-color: @default-bgc;
     // background-image: url(http://192.168.1.3/openfs/2022/picture/t9cP2em1AM7hpFjXU2sNs.jpg);
     // background-repeat: no-repeat;
@@ -257,7 +250,7 @@
     .chat-record {
       flex: 1;
       overflow-y: auto;
-
+      // scroll-behavior: smooth;
       .history-loading {
         margin: 8px 0;
         text-align: center;
@@ -281,7 +274,7 @@
         .chat-record-content {
           display: flex;
           align-items: center;
-          padding: 6px;
+          padding: 6px 10px;
           margin-left: 1.4133rem;
           border-radius: 4px;
           background-color: #7978ff;
@@ -305,7 +298,7 @@
         .chat-record-content {
           display: flex;
           align-items: center;
-          padding: 6px;
+          padding: 6px 10px;
           margin-right: 1.4133rem;
           border-radius: 4px;
           background-color: #fff;
@@ -317,7 +310,7 @@
       }
 
       .chat-date-divider {
-        padding: 4px 0;
+        padding: 12px 0 6px;
         text-align: center;
         color: #999;
         font-size: var(--van-font-size-sm);

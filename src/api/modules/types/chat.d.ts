@@ -20,6 +20,7 @@ declare interface ChatRecordItem {
   createdAt: string;
   updatedAt: string;
   isSelf: boolean;
+  isEndTime: boolean;
   user: {
     avatar: string;
     uid: string;
@@ -63,4 +64,24 @@ declare interface ContactGroupItem {
   updatedAt: string;
   onlineTotal: number;
   contacts: ContactItem[];
+}
+
+declare interface UnreadChatRecordItem {
+  accountName: string;
+  nickName: string;
+  gender: number;
+  avatar: string;
+  uid: string;
+  unreadCount: number;
+  lastMsg: {
+    msgId: number;
+    senderId: string;
+    receiverId: string;
+    chatId: number;
+    msgType: number;
+    content: string;
+    status: number;
+    createdAt: string;
+    updatedAt: string;
+  };
 }
