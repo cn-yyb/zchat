@@ -19,7 +19,7 @@ export function checkStatus(
     case 401:
       showDialog({
         title: '登录过期',
-        message: `抱歉，您的登录身份已过期，请重新登录。`,
+        message: `抱歉，您的登录验证已过期，请重新登录。`,
         theme: 'round-button',
       }).then(() => {
         const usrStore = useUserStore();

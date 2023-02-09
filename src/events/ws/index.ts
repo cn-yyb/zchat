@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2022-12-02 09:56:06
  * @Last Modified by: zq
- * @Last Modified time: 2023-01-31 09:16:00
+ * @Last Modified time: 2023-02-09 15:53:38
  * 创建 websocket服务
  */
 
@@ -79,13 +79,13 @@ export class WebSocketChannel {
       };
 
       this.client.onclose = (e) => {
-        reject(e);
         this.onWebSocketClose(e);
+        reject(e);
       };
 
       this.client.onerror = (e) => {
-        reject(e);
         this.onWebSocketError(e);
+        reject(e);
       };
     });
   }
@@ -118,14 +118,14 @@ export class WebSocketChannel {
             this.toast = showLoadingToast({
               duration: 0,
               forbidClick: true,
-              message: '',
+              message: '服务重连中...',
             });
           }
-          this.toast.message = `服务重连中...${this.reconnectCount + 1}`;
+          this.reconnectCount++;
+          this.toast.message = `服务重连中...${this.reconnectCount}`;
 
           this.initWebSocket();
-          this.reconnectCount++;
-        }, 3000);
+        }, 2000);
       } else {
         // closeToast();
         this.toast?.close();

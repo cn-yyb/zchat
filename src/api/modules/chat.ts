@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2023-01-12 16:15:33
  * @Last Modified by: zq
- * @Last Modified time: 2023-02-06 09:24:25
+ * @Last Modified time: 2023-02-09 13:59:33
  */
 
 import type { ErrorMessageMode } from '#/axios';
@@ -96,7 +96,7 @@ export function getContactGroups(params = {}, mode: ErrorMessageMode = 'notify')
  * @description: get unread chat record
  */
 export function getUnreadChatReocrd(params = {}, mode: ErrorMessageMode = 'notify') {
-  return http.get<UnreadChatRecordItem[]>(
+  return http.get<UnreadChatReocordRes>(
     {
       url: Api.UNREAD_RECORD,
       params,

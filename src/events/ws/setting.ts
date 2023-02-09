@@ -2,13 +2,13 @@
  * @Author: zq
  * @Date: 2022-12-02 09:59:08
  * @Last Modified by: zq
- * @Last Modified time: 2023-01-31 18:51:58
+ * @Last Modified time: 2023-02-09 15:50:21
  */
 
 export class WS_CONFIG {
   static readonly URL = 'ws://127.0.0.1:8001';
   static readonly PING_TIME = 30 * 1000;
-  static readonly RECONNECT_COUNT = 5;
+  static readonly RECONNECT_COUNT = 1;
 }
 
 // export const SERVER_EVENTS = {

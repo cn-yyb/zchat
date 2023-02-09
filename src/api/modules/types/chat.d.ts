@@ -85,3 +85,8 @@ declare interface UnreadChatRecordItem {
     updatedAt: string;
   };
 }
+
+declare interface UnreadChatReocordRes {
+  total: number;
+  record: UnreadChatRecordItem[];
+}

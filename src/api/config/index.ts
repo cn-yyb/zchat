@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2022-10-22 11:25:32
  * @Last Modified by: zq
- * @Last Modified time: 2022-10-24 13:40:24
+ * @Last Modified time: 2023-02-09 09:57:04
  * @desc: 请求实例配置文件
  */
 import type { AxiosTransform, CreateAxiosOptions } from './axiosConfig';
