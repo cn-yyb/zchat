@@ -4,6 +4,7 @@ import { router } from '@/router';
 import { getCacheToken, setCacheToken } from '../auth';
 import { PageEnum } from '@/constants/enums/pageEnum';
 import { useWebSocketStore } from './websocket';
+import { useNoticeStore } from './notice';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -34,11 +35,15 @@ export const useUserStore = defineStore({
   actions: {
     async login(submitForm: UserLoginForm): Promise<UserInfo | null> {
       try {
+        const noticeStore = useNoticeStore();
         const { token } = await userLogin(submitForm);
         this.setToken(token);
         // 初始化websocket
         const websocketStore = useWebSocketStore();
         websocketStore.connectWebSocketService();
+        // 同步离线消息
+        noticeStore.syncUnreadChatRecord();
+
         setTimeout(() => {
           router.push('/');
         }, 600);

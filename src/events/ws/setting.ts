@@ -8,7 +8,7 @@
 export class WS_CONFIG {
   static readonly URL = 'ws://127.0.0.1:8001';
   static readonly PING_TIME = 30 * 1000;
-  static readonly RECONNECT_COUNT = 1;
+  static readonly RECONNECT_COUNT = 5;
 }
 
 // export const SERVER_EVENTS = {

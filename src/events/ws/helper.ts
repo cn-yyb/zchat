@@ -2,9 +2,10 @@
  * @Author: zq
  * @Date: 2022-12-02 10:31:22
  * @Last Modified by: zq
- * @Last Modified time: 2023-02-09 15:13:54
+ * @Last Modified time: 2023-02-11 11:34:02
  */
 
+import dayjs from 'dayjs';
 import { SERVER_EVENTS, WS_CONFIG } from './setting';
 
 export class HeartCheck {
@@ -15,7 +16,7 @@ export class HeartCheck {
     return JSON.stringify({
       event: SERVER_EVENTS.PING,
       data: 'heart check',
-      time: new Date().toLocaleString(),
+      time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
     });
   }
 

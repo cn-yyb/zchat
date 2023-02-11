@@ -21,13 +21,7 @@ declare interface ChatRecordItem {
   updatedAt: string;
   isSelf: boolean;
   isEndTime: boolean;
-  user: {
-    avatar: string;
-    uid: string;
-    nickName: string;
-    gender: number;
-    accountName: string;
-  };
+  user: UserSimpleInfo;
   [x: string]: any;
 }
 
@@ -67,26 +61,36 @@ declare interface ContactGroupItem {
 }
 
 declare interface UnreadChatRecordItem {
-  accountName: string;
-  nickName: string;
-  gender: number;
-  avatar: string;
-  uid: string;
   unreadCount: number;
-  lastMsg: {
-    msgId: number;
-    senderId: string;
-    receiverId: string;
-    chatId: number;
-    msgType: number;
-    content: string;
-    status: number;
-    createdAt: string;
-    updatedAt: string;
-  };
+  user: UserSimpleInfo;
+  lastMsg: LastChatRecord;
 }
 
 declare interface UnreadChatReocordRes {
   total: number;
   record: UnreadChatRecordItem[];
+}
+
+declare interface ContactInfo {
+  contactId: number;
+  uid: string;
+  friendUid: string;
+  groupId: number;
+  chatId: number;
+  remark: string;
+  type: number;
+  createdAt: string;
+  updatedAt: string;
+  user: UserSimpleInfo;
+  chatRoom: ChatRoomType;
+}
+
+declare interface ChatRoomType {
+  chatId: number;
+  chatName: string;
+  chatAvatar: string;
+  owner: string;
+  status: number;
+  createdAt: string;
+  updatedAt: string;
 }

@@ -11,8 +11,7 @@ import { CACHE_KEYS } from '@/constants/enums/cacheKeysEnum';
 import { createLocalStorage } from '@/utils/cache';
 import type { WSMsgType } from '@/events/ws';
 import { useUserStore } from './user';
-import { getCalendarDate } from '@/utils/calendarDate';
-import { getUnreadChatReocrd } from '@/api/modules/chat';
+import { getChatRoomInfo, getUnreadChatReocrd } from '@/api/modules/chat';
 
 const chatCacheStorage = createLocalStorage({});
 
@@ -77,25 +76,28 @@ export const useNoticeStore = defineStore({
       this.currentChatRoom = chatRoomInfo;
       chatCacheStorage.set(CACHE_KEYS.CHAT_ROOM, chatRoomInfo);
     },
-    createChatListItem(chatRecord: chatRecordResItem) {
-      const { senderId, createdAt, user, chatId, content } = chatRecord;
-      const record = this.chatRecordList.find((v) => v.senderId === senderId);
+    async createChatListItem(chatRecord: chatRecordResItem) {
+      const { createdAt, user, chatId, content, type } = chatRecord;
+      const record = this.chatRecordList.find((v) => v.chatId === chatId);
       const isRead = chatId === this.currentChatRoom.chatId;
 
       if (record) {
-        record.content = content;
         record.total++;
-        record.time = getCalendarDate(createdAt);
+        record.time = createdAt;
         record.isRead = isRead;
+        record.user = user;
+        record.lastMsg = content;
       } else {
+        const chatRoom = await getChatRoomInfo({ chatId });
         this.chatRecordList.push({
-          senderId,
           chatId,
-          content,
+          lastMsg: content,
           total: 1,
           time: createdAt,
           isRead,
           user,
+          type,
+          chatRoom,
         });
       }
       console.log(this.chatRecordList);
@@ -107,37 +109,31 @@ export const useNoticeStore = defineStore({
         const { record, total } = await getUnreadChatReocrd();
         console.log(record, total);
 
-        record.forEach((item) => {
+        record.forEach(async (item) => {
           const {
             unreadCount,
-            uid,
-            avatar,
-            accountName,
-            nickName,
-            gender,
-            lastMsg: { content, createdAt, chatId, senderId },
+            user,
+            lastMsg: { content, createdAt, chatId, receiverId },
           } = item;
-          const _chatRecord = this.chatRecordList.find((v) => v.senderId === uid);
+          const _chatRecord = this.chatRecordList.find((v) => v.chatId === chatId);
+          const type = receiverId ? 0 : 1;
           if (_chatRecord) {
-            _chatRecord.content = content;
+            _chatRecord.lastMsg = content;
             _chatRecord.total = unreadCount;
             _chatRecord.time = createdAt;
             _chatRecord.isRead = false;
+            _chatRecord.user = user;
           } else {
+            const chatRoom = await getChatRoomInfo({ chatId });
             this.chatRecordList.push({
-              senderId,
               chatId,
-              content,
+              lastMsg: content,
               total: unreadCount,
               time: createdAt,
               isRead: false,
-              user: {
-                avatar,
-                uid,
-                nickName,
-                gender,
-                accountName,
-              },
+              user,
+              type,
+              chatRoom,
             });
           }
         });

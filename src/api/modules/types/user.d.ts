@@ -44,3 +44,11 @@ declare interface UserInfoResponse {
 //   uid?: string;
 //   usreId?: number;
 // }
+
+declare interface UserSimpleInfo {
+  avatar: string;
+  uid: string;
+  nickName: string;
+  gender: number;
+  accountName: string;
+}

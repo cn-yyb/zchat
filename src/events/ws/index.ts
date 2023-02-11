@@ -31,7 +31,7 @@ export class WebSocketChannel {
     url: WS_CONFIG.URL,
   };
   isConnected = false;
-  reconnectCount = 0;
+  private reconnectCount = 0;
 
   toast: ToastWrapperInstance | null = null;
 

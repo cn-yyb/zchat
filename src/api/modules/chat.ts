@@ -15,6 +15,8 @@ enum Api {
   RECORD = '/chat/record',
   CONTACT_GROUPS = '/chat/contact-groups',
   UNREAD_RECORD = '/chat/unread-record',
+  CONTACT_INFO = '/chat/contact-info',
+  CHAT_ROOM_INFO = '/chat/chat-room',
 }
 
 /**
@@ -100,6 +102,36 @@ export function getUnreadChatReocrd(params = {}, mode: ErrorMessageMode = 'notif
     {
       url: Api.UNREAD_RECORD,
       params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+}
+
+/**
+ * @description: get unread chat record
+ */
+export function getContactInfo(data: { contactId: number }, mode: ErrorMessageMode = 'notify') {
+  return http.post<ContactInfo>(
+    {
+      url: Api.CONTACT_INFO,
+      data,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+}
+
+/**
+ * @description: get unread chat record
+ */
+export function getChatRoomInfo(data: { chatId: number }, mode: ErrorMessageMode = 'notify') {
+  return http.post<any>(
+    {
+      url: Api.CHAT_ROOM_INFO,
+      data,
     },
     {
       errorMessageMode: mode,

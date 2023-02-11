@@ -7,15 +7,10 @@ declare interface chatRecordResItem {
   senderId: string;
   receiverId: string;
   content: string;
+  type: number;
   updatedAt: string;
   createdAt: string;
-  user: {
-    avatar: string;
-    uid: string;
-    nickName: string;
-    gender: number;
-    accountName: string;
-  };
+  user: UserSimpleInfo;
 }
 
 declare interface ChatRoomTypes {
@@ -28,14 +23,30 @@ declare interface ChatRoomTypes {
   [x: string]: any;
 }
 
-declare interface ChatRecordListItem {
+declare interface LastChatRecord {
+  msgId: number;
   senderId: string;
+  receiverId: string;
   chatId: number;
+  msgType: number;
   content: string;
+  status: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+declare interface ChatRecordListItem {
   total: number;
   time: string;
   isRead: boolean;
-  user: chatRecordResItem['user'];
+  // isOnline: boolean;
+  chatId: number;
+  // contact: ContactItem;
+  type: number;
+  chatRoom: ChatRoomType | {};
+  user: UserSimpleInfo;
+  // lastMsg: LastChatRecord;
+  lastMsg: string;
 }
 
 declare type listenerCb<T = any> = (res?: WSMsgType<T>) => void;
