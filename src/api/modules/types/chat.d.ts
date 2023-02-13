@@ -64,6 +64,18 @@ declare interface UnreadChatRecordItem {
   unreadCount: number;
   user: UserSimpleInfo;
   lastMsg: LastChatRecord;
+  contact: {
+    contactId: number;
+    uid: string;
+    friendUid: string;
+    groupId: number;
+    chatId: number;
+    remark: string;
+    type: number;
+    createdAt: string;
+    updatedAt: string;
+    isOnline: boolean;
+  };
 }
 
 declare interface UnreadChatReocordRes {

@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2023-02-04 09:50:13
  * @Last Modified by: zq
- * @Last Modified time: 2023-02-09 14:32:35
+ * @Last Modified time: 2023-02-11 17:29:18
  * @Desc: 接收并处理实时消息 & 未读 & 通知消息
  */
 import { defineStore } from 'pinia';
@@ -77,27 +77,52 @@ export const useNoticeStore = defineStore({
       chatCacheStorage.set(CACHE_KEYS.CHAT_ROOM, chatRoomInfo);
     },
     async createChatListItem(chatRecord: chatRecordResItem) {
-      const { createdAt, user, chatId, content, type } = chatRecord;
+      const {
+        chatId,
+        msgType,
+        msgId,
+        senderId,
+        receiverId,
+        content,
+        status,
+        updatedAt,
+        createdAt,
+        type,
+        user,
+      } = chatRecord;
       const record = this.chatRecordList.find((v) => v.chatId === chatId);
       const isRead = chatId === this.currentChatRoom.chatId;
+      const lastMsg = {
+        msgId,
+        senderId,
+        receiverId,
+        chatId,
+        msgType,
+        content,
+        status,
+        createdAt,
+        updatedAt,
+      };
 
       if (record) {
         record.total++;
         record.time = createdAt;
         record.isRead = isRead;
         record.user = user;
-        record.lastMsg = content;
+        record.lastMsg = lastMsg;
+        record.isOnline = true;
       } else {
         const chatRoom = await getChatRoomInfo({ chatId });
         this.chatRecordList.push({
           chatId,
-          lastMsg: content,
+          lastMsg,
           total: 1,
           time: createdAt,
           isRead,
           user,
           type,
           chatRoom,
+          isOnline: true,
         });
       }
       console.log(this.chatRecordList);
@@ -113,32 +138,36 @@ export const useNoticeStore = defineStore({
           const {
             unreadCount,
             user,
-            lastMsg: { content, createdAt, chatId, receiverId },
+            lastMsg,
+            contact: { isOnline },
           } = item;
+          const { createdAt, chatId, receiverId } = lastMsg;
           const _chatRecord = this.chatRecordList.find((v) => v.chatId === chatId);
           const type = receiverId ? 0 : 1;
           if (_chatRecord) {
-            _chatRecord.lastMsg = content;
+            _chatRecord.lastMsg = lastMsg;
             _chatRecord.total = unreadCount;
             _chatRecord.time = createdAt;
             _chatRecord.isRead = false;
             _chatRecord.user = user;
+            _chatRecord.isOnline = isOnline;
           } else {
             const chatRoom = await getChatRoomInfo({ chatId });
             this.chatRecordList.push({
               chatId,
-              lastMsg: content,
+              lastMsg,
               total: unreadCount,
               time: createdAt,
               isRead: false,
               user,
               type,
               chatRoom,
+              isOnline,
             });
           }
         });
 
-        console.log(this.chatRecordList);
+        console.log('chatRecordList', this.chatRecordList);
         //save
         this.syncChatRecordCache();
       } catch (error) {

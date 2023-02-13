@@ -17,7 +17,7 @@ declare interface ChatRoomTypes {
   chatId: number;
   type: number;
   chatRoomName?: string;
-  contactId: number;
+  contactId?: number;
   userStatus: number;
   isOnline: boolean;
   [x: string]: any;
@@ -39,14 +39,13 @@ declare interface ChatRecordListItem {
   total: number;
   time: string;
   isRead: boolean;
-  // isOnline: boolean;
+  isOnline: boolean;
   chatId: number;
-  // contact: ContactItem;
+  // contact?: UnreadChatRecordItem['contact'];
   type: number;
-  chatRoom: ChatRoomType | {};
+  chatRoom: ChatRoomType;
   user: UserSimpleInfo;
-  // lastMsg: LastChatRecord;
-  lastMsg: string;
+  lastMsg: LastChatRecord;
 }
 
 declare type listenerCb<T = any> = (res?: WSMsgType<T>) => void;
