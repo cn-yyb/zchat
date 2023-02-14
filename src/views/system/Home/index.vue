@@ -15,10 +15,27 @@
     <!-- down refresh with chatlist-->
     <van-pull-refresh v-model="refreshing" success-text="刷新成功" @refresh="onRefresh">
       <!-- <template #loosing> </template> -->
-      <van-swipe-cell v-for="item in chatRecordList" :key="item.chatId" :name="item.chatId">
+      <van-swipe-cell
+        v-for="item in chatRecordList"
+        v-show="!item.isHidden"
+        :key="item.chatId"
+        :name="item.chatId"
+      >
         <template #right>
-          <van-button class="right-actions-btn" square type="warning" text="置顶" />
-          <van-button class="right-actions-btn" square type="danger" text="删除" />
+          <van-button
+            class="right-actions-btn"
+            square
+            type="warning"
+            :text="item.isSetTop ? '取消置顶' : '置顶'"
+            @click="handleSetTop(item)"
+          />
+          <van-button
+            class="right-actions-btn"
+            square
+            type="danger"
+            text="删除"
+            @click="handleRemoveReocord(item.contactId)"
+          />
         </template>
         <van-cell border clickable size="large" @click="handleChat(item)">
           <template #title>
@@ -41,14 +58,14 @@
                     {{ `[${item.isOnline ? '在线' : '离线'}]` }}
                   </span>
                   <span v-if="item.type === 1"> [{{ item.user.nickName }}] </span>
-                  {{ item.lastMsg.content }}</div
+                  {{ item.lastMsg?.content || '' }}</div
                 >
               </div>
             </div>
           </template>
           <template #value>
             <span class="date-info">
-              {{ getCalendarDate(item.lastMsg.createdAt) }}
+              {{ item.lastMsg?.createdAt ? getCalendarDate(item.lastMsg?.createdAt) : '' }}
             </span>
           </template>
         </van-cell>
@@ -64,42 +81,57 @@
   import { useRouter } from 'vue-router';
   import { getCalendarDate } from '@/utils/calendarDate';
   import HomePageHeader from './components/HomePageHeader.vue';
-  import { useNoticeStore } from '@/stores';
+  import { useNoticeStore, useContactStore } from '@/stores';
 
   const noticeStore = useNoticeStore();
+  const contactStore = useContactStore();
   const router = useRouter();
 
+  const chatRecordList = computed(() => contactStore.contactList);
   // const isError = ref(false);
-  const isEmpty = ref(false);
+  const isEmpty = computed(() => !chatRecordList.value.filter((v) => !v.isHidden).length);
   const refreshing = ref(false);
 
-  const chatRecordList = computed(() => noticeStore.chatRecordList);
-
-  const onRefresh = () => {
+  const onRefresh = async () => {
     // 重新加载数据
-    // 将 loading 设置为 true，表示处于加载状态
-    refreshing.value = true;
+    try {
+      refreshing.value = true;
 
-    setTimeout(() => {
+      await contactStore.syncContactListFromServer();
+    } catch (error) {
+      console.log(error);
+    } finally {
       refreshing.value = false;
-    }, 2000);
+    }
   };
 
   const handleChat = ({
     chatId,
     type,
+    contactId,
     user: { nickName },
     chatRoom: { chatName },
     isOnline,
-  }: ChatRecordListItem) => {
+  }: ContactListItem) => {
     noticeStore.setMsgListenerConfig({
       chatId,
       type,
       chatRoomName: type === 0 ? nickName : chatName,
       userStatus: 0,
       isOnline,
+      contactId,
     });
     router.push('/home/private');
+  };
+
+  const handleSetTop = (item: ContactListItem) => {
+    contactStore.setContactTop(item.contactId, !item.isSetTop);
+    return false;
+  };
+
+  const handleRemoveReocord = (contactId: number) => {
+    contactStore.updateContactHiddenStatus(contactId, true);
+    return false;
   };
 </script>
 

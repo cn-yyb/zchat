@@ -4,9 +4,9 @@ import { router } from '@/router';
 import { getCacheToken, setCacheToken } from '../auth';
 import { PageEnum } from '@/constants/enums/pageEnum';
 import { useWebSocketStore } from './websocket';
-import { useNoticeStore } from './notice';
+import { useContactStore } from './contact';
 
-interface UserState {
+export interface UserState {
   userInfo: Nullable<UserInfo>;
   token?: string;
   refreshToken?: string;
@@ -35,14 +35,15 @@ export const useUserStore = defineStore({
   actions: {
     async login(submitForm: UserLoginForm): Promise<UserInfo | null> {
       try {
-        const noticeStore = useNoticeStore();
+        const contactStore = useContactStore();
+        const websocketStore = useWebSocketStore();
+
         const { token } = await userLogin(submitForm);
         this.setToken(token);
         // 初始化websocket
-        const websocketStore = useWebSocketStore();
         websocketStore.connectWebSocketService();
-        // 同步离线消息
-        noticeStore.syncUnreadChatRecord();
+        // 同步联系人列表
+        contactStore.syncContactListFromServer();
 
         setTimeout(() => {
           router.push('/');
@@ -54,10 +55,14 @@ export const useUserStore = defineStore({
     },
 
     logout() {
+      const contactStore = useContactStore();
       // 清除用户信息和token, 并重新返回登录页面
-      router.push('/login');
       this.setToken('');
       this.userInfo = null;
+      // 移除联系人列表数据
+      contactStore.removeAllContacts();
+
+      router.push('/login');
     },
 
     async afterLoginAction() {

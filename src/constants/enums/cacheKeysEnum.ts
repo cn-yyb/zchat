@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2022-10-24 16:10:12
  * @Last Modified by: zq
- * @Last Modified time: 2023-02-09 11:24:58
+ * @Last Modified time: 2023-02-13 15:12:18
  * @desc: 定义本地缓存KEY
  */
 
@@ -12,4 +12,5 @@ export enum CACHE_KEYS {
   SAVE_PW = 'SAVE_PW',
   CHAT_ROOM = 'CHAT_ROOM',
   CHAT_RECORD_LIST = 'CHAT_RECORD_LIST',
+  CONTACT_LIST = 'CONTACT_LIST',
 }

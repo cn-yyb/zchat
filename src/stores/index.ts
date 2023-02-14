@@ -7,6 +7,7 @@ export * from './modules/routeCache';
 export * from './modules/websocket';
 export * from './modules/user';
 export * from './modules/notice';
+export * from './modules/contact';
 
 const store = createPinia();
 

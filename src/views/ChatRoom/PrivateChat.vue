@@ -175,6 +175,8 @@
     if (!sendMsg.value) {
       return;
     }
+
+    console.log(noticeStore.currentChatRoom.contactId);
     websocketStore.channel?.sendMsg({
       event: SERVER_EVENTS.SEND_CHAT_MSG,
       data: {

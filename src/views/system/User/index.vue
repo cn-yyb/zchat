@@ -89,6 +89,7 @@
       beforeClose: (action) =>
         new Promise((resolve) => {
           if (action === 'confirm') {
+            isShow.value = false;
             setTimeout(() => {
               useStore.logout();
               webSocketStore.closeWebSocketService();

@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2023-02-04 09:50:13
  * @Last Modified by: zq
- * @Last Modified time: 2023-02-11 17:29:18
+ * @Last Modified time: 2023-02-14 09:23:21
  * @Desc: 接收并处理实时消息 & 未读 & 通知消息
  */
 import { defineStore } from 'pinia';
@@ -11,7 +11,8 @@ import { CACHE_KEYS } from '@/constants/enums/cacheKeysEnum';
 import { createLocalStorage } from '@/utils/cache';
 import type { WSMsgType } from '@/events/ws';
 import { useUserStore } from './user';
-import { getChatRoomInfo, getUnreadChatReocrd } from '@/api/modules/chat';
+import { useContactStore } from './contact';
+import { pickPropsFormObject } from '@/utils/picker';
 
 const chatCacheStorage = createLocalStorage({});
 
@@ -19,7 +20,6 @@ export interface NoticeState {
   currentChatRoom: ChatRoomTypes;
   onMsgCallback: listenerCb;
   unreadChatReordCache: any[];
-  chatRecordList: ChatRecordListItem[];
 }
 
 export const useNoticeStore = defineStore({
@@ -33,7 +33,6 @@ export const useNoticeStore = defineStore({
     },
     onMsgCallback: () => {},
     unreadChatReordCache: [],
-    chatRecordList: chatCacheStorage.get(CACHE_KEYS.CHAT_RECORD_LIST) || [],
   }),
   getters: {
     unreadRocordTotal(): number {
@@ -46,15 +45,30 @@ export const useNoticeStore = defineStore({
     },
     handleOnlineChatRecord(res: WSMsgType<chatRecordResItem>) {
       const userStore = useUserStore();
+      const contactStore = useContactStore();
+
+      const chatRecordData = pickPropsFormObject(res.data, [
+        'msgId',
+        'senderId',
+        'receiverId',
+        'chatId',
+        'msgType',
+        'content',
+        'status',
+        'createdAt',
+        'updatedAt',
+      ]);
+
       if (res.data?.chatId === this.currentChatRoom.chatId) {
+        contactStore.updateChatRecord(res.data.chatId, chatRecordData, false);
         this.onMsgCallback(res);
       } else {
         // 非当前房间的实时消息会收录到未读消息仓库中
         this.unreadChatReordCache.push(res.data);
-      }
-      // 生成会话记录
-      if (userStore.getUserInfo?.uid !== res.data?.senderId) {
-        this.createChatListItem(res.data);
+        // 生成会话记录
+        if (userStore.getUserInfo?.uid !== res.data?.senderId) {
+          contactStore.updateChatRecord(res.data.chatId, chatRecordData, true);
+        }
       }
     },
     clearMsgListener() {
@@ -73,127 +87,10 @@ export const useNoticeStore = defineStore({
       });
     },
     setMsgListenerConfig(chatRoomInfo: ChatRoomTypes) {
+      const contactStore = useContactStore();
       this.currentChatRoom = chatRoomInfo;
+      contactStore.updateContactHiddenStatus(chatRoomInfo.contactId, false);
       chatCacheStorage.set(CACHE_KEYS.CHAT_ROOM, chatRoomInfo);
-    },
-    async createChatListItem(chatRecord: chatRecordResItem) {
-      const {
-        chatId,
-        msgType,
-        msgId,
-        senderId,
-        receiverId,
-        content,
-        status,
-        updatedAt,
-        createdAt,
-        type,
-        user,
-      } = chatRecord;
-      const record = this.chatRecordList.find((v) => v.chatId === chatId);
-      const isRead = chatId === this.currentChatRoom.chatId;
-      const lastMsg = {
-        msgId,
-        senderId,
-        receiverId,
-        chatId,
-        msgType,
-        content,
-        status,
-        createdAt,
-        updatedAt,
-      };
-
-      if (record) {
-        record.total++;
-        record.time = createdAt;
-        record.isRead = isRead;
-        record.user = user;
-        record.lastMsg = lastMsg;
-        record.isOnline = true;
-      } else {
-        const chatRoom = await getChatRoomInfo({ chatId });
-        this.chatRecordList.push({
-          chatId,
-          lastMsg,
-          total: 1,
-          time: createdAt,
-          isRead,
-          user,
-          type,
-          chatRoom,
-          isOnline: true,
-        });
-      }
-      console.log(this.chatRecordList);
-      this.syncChatRecordCache();
-    },
-    // 首次登录成功后，同步离线未读消息
-    async syncUnreadChatRecord() {
-      try {
-        const { record, total } = await getUnreadChatReocrd();
-        console.log(record, total);
-
-        record.forEach(async (item) => {
-          const {
-            unreadCount,
-            user,
-            lastMsg,
-            contact: { isOnline },
-          } = item;
-          const { createdAt, chatId, receiverId } = lastMsg;
-          const _chatRecord = this.chatRecordList.find((v) => v.chatId === chatId);
-          const type = receiverId ? 0 : 1;
-          if (_chatRecord) {
-            _chatRecord.lastMsg = lastMsg;
-            _chatRecord.total = unreadCount;
-            _chatRecord.time = createdAt;
-            _chatRecord.isRead = false;
-            _chatRecord.user = user;
-            _chatRecord.isOnline = isOnline;
-          } else {
-            const chatRoom = await getChatRoomInfo({ chatId });
-            this.chatRecordList.push({
-              chatId,
-              lastMsg,
-              total: unreadCount,
-              time: createdAt,
-              isRead: false,
-              user,
-              type,
-              chatRoom,
-              isOnline,
-            });
-          }
-        });
-
-        console.log('chatRecordList', this.chatRecordList);
-        //save
-        this.syncChatRecordCache();
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    // 移除某一联系人的未读记录和状态
-    removeUnreadStatus(chatId: number) {
-      const removeItem = this.chatRecordList.find((item) => (item.chatId = chatId));
-      if (removeItem) {
-        removeItem.isRead = true;
-        removeItem.total = 0;
-      }
-      this.syncChatRecordCache();
-    },
-    // 用户手动移除某个记录
-    removeOneChatRecord(chatId: number) {
-      const index = this.chatRecordList.findIndex((v) => v.chatId === chatId);
-      if (index > -1) {
-        this.chatRecordList.splice(index, 1);
-      }
-      this.syncChatRecordCache();
-    },
-    syncChatRecordCache() {
-      //save
-      chatCacheStorage.set(CACHE_KEYS.CHAT_RECORD_LIST, this.chatRecordList);
     },
   },
 });

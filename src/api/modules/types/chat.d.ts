@@ -106,3 +106,18 @@ declare interface ChatRoomType {
   createdAt: string;
   updatedAt: string;
 }
+
+declare interface ContactListItemRes {
+  contactId: number;
+  uid: string;
+  friendUid: string;
+  groupId: number;
+  chatId: number;
+  remark: string;
+  type: number;
+  createdAt: string;
+  updatedAt: string;
+  chatRoom: ChatRoomType;
+  user: UserSimpleInfo;
+  isOnline: boolean;
+}

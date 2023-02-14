@@ -2,7 +2,7 @@
  * @Author: zq
  * @Date: 2023-01-12 16:15:33
  * @Last Modified by: zq
- * @Last Modified time: 2023-02-09 13:59:33
+ * @Last Modified time: 2023-02-13 16:28:02
  */
 
 import type { ErrorMessageMode } from '#/axios';
@@ -17,6 +17,8 @@ enum Api {
   UNREAD_RECORD = '/chat/unread-record',
   CONTACT_INFO = '/chat/contact-info',
   CHAT_ROOM_INFO = '/chat/chat-room',
+  ALL_CONTACTS = '/chat/contact/list',
+  ONLINE_CONTACT = '/chat/contact/online',
 }
 
 /**
@@ -132,6 +134,36 @@ export function getChatRoomInfo(data: { chatId: number }, mode: ErrorMessageMode
     {
       url: Api.CHAT_ROOM_INFO,
       data,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+}
+
+/**
+ * @description: get all contacts
+ */
+export function getAllContacts(params = {}, mode: ErrorMessageMode = 'notify') {
+  return http.get<ContactListItemRes[]>(
+    {
+      url: Api.ALL_CONTACTS,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+}
+
+/**
+ * @description: get all online  contacts
+ */
+export function getOnlineContact(params = {}, mode: ErrorMessageMode = 'notify') {
+  return http.get<number[]>(
+    {
+      url: Api.ONLINE_CONTACT,
+      params,
     },
     {
       errorMessageMode: mode,
